@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/bottomNavHome"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="@string/bottomNavHome" />
+
+    <item
+        android:id="@+id/bottomNavHome2"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="@string/bottomNavHome" />
+
+    <item
+        android:id="@+id/bottomNavTasks"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_article_24"
+        android:title="@string/bottomNavPendingTasks" />
+
+    <item
+        android:id="@+id/bottomNavNotifications"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_notifications_24"
+        android:title="@string/bottomNavNotifications" />
+
+    <item
+        android:id="@+id/bottomNavProfile"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_person_24"
+        android:title="@string/bottomNavProfile" />
+
+</menu>

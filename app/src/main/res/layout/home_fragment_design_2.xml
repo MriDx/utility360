@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/utility_logo"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:srcCompat="@drawable/utlity_logo" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/userInfoCard"
+                style="?attr/materialCardViewElevatedStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="2dp"
+                app:contentPadding="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/utility_logo"
+                app:layout_constraintVertical_bias="0">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/avatar"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.5"
+                        app:shapeAppearanceOverlay="@style/CircleImageView"
+                        app:srcCompat="@drawable/avatar" />
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/pbg_logo"
+                        android:layout_width="60dp"
+                        android:layout_height="30dp"
+                        android:scaleType="fitCenter"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0"
+                        app:srcCompat="@drawable/pbg_text" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/welcomeText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@string/welcome"
+                        android:textColor="@color/headingTextColor"
+                        android:textSize="12sp"
+                        android:textStyle="normal"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/pbg_logo"
+                        app:layout_constraintStart_toEndOf="@id/avatar"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0" />
+
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/userNameView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="Tony Stark"
+                        android:textColor="@color/headingTextColor"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/pbg_logo"
+                        app:layout_constraintStart_toEndOf="@id/avatar"
+                        app:layout_constraintTop_toBottomOf="@id/welcomeText"
+                        app:layout_constraintVertical_bias="0" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/designationView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="Inventor"
+                        android:textColor="@color/secondaryTextColor"
+                        android:textSize="12sp"
+                        android:textStyle="normal"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/pbg_logo"
+                        app:layout_constraintStart_toEndOf="@id/avatar"
+                        app:layout_constraintTop_toBottomOf="@id/userNameView"
+                        app:layout_constraintVertical_bias="0" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <com.mridx.premaderecyclerview.PremadeRecyclerView
+                android:id="@+id/homeActionHolder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="10dp"
+                android:overScrollMode="never"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/userInfoCard"
+                app:layout_constraintVertical_bias="0"
+                app:spanCount="2"
+                tools:itemCount="2"
+                tools:listitem="@layout/home_action_item_view" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingBottom="24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/homeActionHolder"
+                app:layout_constraintVertical_bias="0">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/articleReadAllBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="Read all"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/articlesHeading"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="Instructions and articles"
+                    android:textColor="@color/headingTextColor"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/articleReadAllBtn"
+                    app:layout_constraintHorizontal_bias="1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/articleReadAllBtn"
+                    app:layout_constraintVertical_bias="0" />
+
+
+                <com.mridx.premaderecyclerview.PremadeRecyclerView
+                    android:id="@+id/articleHolder"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/articlesHeading"
+                    app:layout_constraintVertical_bias="0" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <!--<com.google.android.material.textview.MaterialTextView
+                android:id="@+id/otherArticleLink"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:gravity="end"
+                android:onClick="openInstruction"
+                android:text="@string/read_other_articles"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:drawableEndCompat="@drawable/ic_arrow_right_small"
+                app:fontFamily="@font/roboto_medium"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/homeCardsHolder"
+                app:layout_constraintVertical_bias="0" />-->
+
+
+            <!--<HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:scrollIndicators="none"
+                android:scrollbarAlwaysDrawHorizontalTrack="false"
+                android:scrollbars="none"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/otherArticleLink"
+                app:layout_constraintVertical_bias="0"
+                tools:targetApi="m">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    &lt;!&ndash; installation instruction&ndash;&gt;
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/insCard1"
+                        android:layout_width="@dimen/_120sdp"
+                        android:layout_height="@dimen/_170sdp"
+                        android:layout_marginStart="10dp"
+                        app:cardBackgroundColor="@color/installation_instruction_bg"
+                        app:cardCornerRadius="20dp">
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_120sdp"
+                                android:scaleType="fitXY"
+                                app:srcCompat="@drawable/installation_instruction" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center"
+                                android:text="@string/installation_instruction"
+                                android:textColor="@color/white"
+                                android:textSize="18sp" />
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    &lt;!&ndash; reading instruction&ndash;&gt;
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/insCard2"
+                        android:layout_width="@dimen/_120sdp"
+                        android:layout_height="@dimen/_170sdp"
+                        android:layout_marginStart="10dp"
+                        app:cardBackgroundColor="@color/installation_instruction_bg"
+                        app:cardCornerRadius="20dp">
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_120sdp"
+                                android:scaleType="fitXY"
+                                app:srcCompat="@drawable/meter_reading_instruction" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center"
+                                android:text="@string/meter_reading_instruction"
+                                android:textColor="@color/white"
+                                android:textSize="18sp" />
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    &lt;!&ndash; fire safety instruction&ndash;&gt;
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/insCard3"
+                        android:layout_width="@dimen/_120sdp"
+                        android:layout_height="@dimen/_170sdp"
+                        android:layout_marginStart="10dp"
+                        app:cardBackgroundColor="@color/fire_safety_instruction_bg"
+                        app:cardCornerRadius="20dp">
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_120sdp"
+                                android:scaleType="fitXY"
+                                app:srcCompat="@drawable/fire_safety_instruction" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:gravity="center"
+                                android:text="@string/fire_safety_instruction"
+                                android:textColor="@color/white"
+                                android:textSize="18sp" />
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    &lt;!&ndash; pipeline service instruction&ndash;&gt;
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/insCard4"
+                        android:layout_width="@dimen/_120sdp"
+                        android:layout_height="@dimen/_170sdp"
+                        android:layout_marginStart="10dp"
+                        app:cardBackgroundColor="@color/fire_safety_instruction_bg"
+                        app:cardCornerRadius="20dp">
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_120sdp"
+                                android:scaleType="fitXY"
+                                app:srcCompat="@drawable/pipeline_service_instruction" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center"
+                                android:text="@string/pipeline_service_instruction"
+                                android:textColor="@color/white"
+                                android:textSize="18sp" />
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+                    </com.google.android.material.card.MaterialCardView>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </HorizontalScrollView>-->
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+</layout>

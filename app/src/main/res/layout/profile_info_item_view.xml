@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        >
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/headingView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="12sp"
+            tools:text="Email" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/valueView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:textColor="@color/headingTextColor"
+            tools:text="mridx@mail.com" />
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>
