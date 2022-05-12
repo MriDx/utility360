@@ -1,5 +1,6 @@
 package tech.sumato.utility360.presentation.fragments.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,8 @@ import tech.sumato.utility360.data.utils.HomeFragmentActionData
 import tech.sumato.utility360.databinding.ArticleItemCardBinding
 import tech.sumato.utility360.databinding.HomeActionItemViewBinding
 import tech.sumato.utility360.databinding.HomeFragmentDesign2Binding
+import tech.sumato.utility360.presentation.activity.meter.reading.MeterReadingActivity
+import tech.sumato.utility360.utils.startActivity
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -64,6 +67,9 @@ class HomeFragmentDesign2 : Fragment() {
                 val actionData = homeFragmentActions[index]
                 DataBindingUtil.bind<HomeActionItemViewBinding>(holder.itemView)?.apply {
                     data = actionData
+                    onClick = { data ->
+                        handleHomeActionClick(actionData = data as? HomeFragmentActionData)
+                    }
                 }?.executePendingBindings()
             }
 
@@ -97,6 +103,16 @@ class HomeFragmentDesign2 : Fragment() {
 
 
     }
+
+    private fun handleHomeActionClick(actionData: HomeFragmentActionData?) {
+        actionData ?: return
+        when (actionData.actionIdentifier) {
+            "meter_reading" -> {
+                startActivity(MeterReadingActivity::class.java)
+            }
+        }
+    }
+
 
     override fun onDestroyView() {
         binding_ = null

@@ -38,13 +38,11 @@ abstract class FragmentHolderActivity : BaseActivity() {
             currentFragment?.let { onFragmentChanged(fragment = it) }
         }
 
-        binding.bottomNavigation.inflateMenu(inflateBottomMenu())
+        /*binding.bottomNavigation.inflateMenu(inflateBottomMenu())
 
-        binding.bottomNavigation.setOnItemSelectedListener { onNavigationItemSelected(it) }
+        binding.bottomNavigation.setOnItemSelectedListener { onNavigationItemSelected(it) }*/
     }
 
-    @MenuRes
-    abstract fun inflateBottomMenu(): Int
 
 
     open fun onNavigationItemSelected(menuItem: MenuItem): Boolean {

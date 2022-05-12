@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 
 
 fun Context.startActivity(activity: Class<*>, bundle: (() -> Bundle)? = null) {
@@ -13,3 +14,7 @@ fun Context.startActivity(activity: Class<*>, bundle: (() -> Bundle)? = null) {
     })
 }
 
+
+fun Fragment.startActivity(activity: Class<*>, bundle: (() -> Bundle)? = null) {
+    requireContext().startActivity(activity = activity, bundle = bundle)
+}

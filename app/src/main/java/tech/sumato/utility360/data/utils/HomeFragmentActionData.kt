@@ -17,32 +17,32 @@ fun getHomeFragmentActions(): List<HomeFragmentActionData> {
         HomeFragmentActionData(
             icon = R.drawable.site_verification,
             heading = R.string.siteVerification,
-            actionIdentifier = ""
+            actionIdentifier = "site_verification"
         ),
         HomeFragmentActionData(
             icon = R.drawable.meter_installation,
             heading = R.string.meterInstallation,
-            actionIdentifier = ""
+            actionIdentifier = "meter_installation"
         ),
         HomeFragmentActionData(
             icon = R.drawable.pile_service,
             heading = R.string.pipelineService,
-            actionIdentifier = ""
+            actionIdentifier = "pipe_service"
         ),
         HomeFragmentActionData(
             icon = R.drawable.meter_reading,
             heading = R.string.meterReading,
-            actionIdentifier = ""
+            actionIdentifier = "meter_reading"
         ),
         HomeFragmentActionData(
             icon = R.drawable.ic_baseline_repeat_24,
             heading = R.string.meterReplacement,
-            actionIdentifier = ""
+            actionIdentifier = "meter_replacement"
         ),
         HomeFragmentActionData(
             icon = R.drawable.site_service,
             heading = R.string.siteService,
-            actionIdentifier = ""
+            actionIdentifier = "site_service"
         ),
 
 

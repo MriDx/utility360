@@ -30,7 +30,7 @@ class SplashActivity : BaseActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.splash_activity)
 
 
-        lifecycleScope.launch {
+        lifecycleScope.launch(Dispatchers.Default) {
             delay(SPLASH_DURATION)
             withContext(Dispatchers.Main) {
                 startActivity(LoginActivity::class.java)

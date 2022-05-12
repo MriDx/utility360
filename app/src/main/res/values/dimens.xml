@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <dimen name="avatarSize">50dp</dimen>
+
+    <dimen name="smallBtnMinWidth">120dp</dimen>
+
+</resources>

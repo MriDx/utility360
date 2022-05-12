@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.sumato.etrack_agri.ui.utils.PlaceHolderDrawableHelper
 import dagger.hilt.android.AndroidEntryPoint
 import tech.sumato.utility360.R
 import tech.sumato.utility360.data.utils.ProfileActionData
@@ -58,6 +59,7 @@ class ProfileFragment : Fragment() {
             Glide.with(this@ProfileFragment)
                 .asBitmap()
                 .load("https://avatarfiles.alphacoders.com/839/83919.jpg")
+                .placeholder(PlaceHolderDrawableHelper.getAvatar(requireContext(), "Tony Stark", 0))
                 .into(avatarView)
 
 

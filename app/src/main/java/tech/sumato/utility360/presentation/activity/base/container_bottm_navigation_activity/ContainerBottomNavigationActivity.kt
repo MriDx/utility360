@@ -35,6 +35,7 @@ abstract class ContainerBottomNavigationActivity : BaseActivity() {
         binding.contentHolder.apply {
             adapter = getContentAdapter()
             isUserInputEnabled = false
+            offscreenPageLimit = 5
         }
 
 
@@ -42,7 +43,8 @@ abstract class ContainerBottomNavigationActivity : BaseActivity() {
 
 
     open fun changePage(index: Int) {
-        binding.contentHolder.currentItem = index
+        //binding.contentHolder.currentItem = index
+        binding.contentHolder.setCurrentItem(index, false)
     }
 
     abstract fun getContentAdapter(): FragmentStateAdapter

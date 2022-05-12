@@ -31,8 +31,11 @@
             android:name=".presentation.activity.login.LoginActivity"
             android:theme="@style/Theme.AppTemplate.NoActionBar" />
 
-        <activity android:name=".presentation.activity.home.HomeActivity"
+        <activity
+            android:name=".presentation.activity.home.HomeActivity"
             android:theme="@style/Theme.AppTemplate.NoActionBar" />
+
+        <activity android:name=".presentation.activity.meter.reading.MeterReadingActivity" />
 
     </application>
 
