@@ -32,7 +32,7 @@ class HomeActivity : ContainerBottomNavigationActivity() {
 
     override fun getContentAdapter(): FragmentStateAdapter {
         return homePagesAdapter.apply {
-            addFragment(fragment = HomeFragment())
+            //addFragment(fragment = HomeFragment())
             addFragment(fragment = HomeFragmentDesign2())
             addFragment(fragment = TasksFragment())
             addFragment(fragment = NotificationsFragment())
@@ -42,7 +42,7 @@ class HomeActivity : ContainerBottomNavigationActivity() {
 
 
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
-        /*when (menuItem.itemId) {
+        when (menuItem.itemId) {
             R.id.bottomNavTasks -> {
                 changePage(1)
             }
@@ -55,8 +55,8 @@ class HomeActivity : ContainerBottomNavigationActivity() {
             else -> {
                 changePage(0)
             }
-        }*/
-        when (menuItem.itemId) {
+        }
+        /*when (menuItem.itemId) {
             R.id.bottomNavHome2 -> {
                 changePage(1)
             }
@@ -72,7 +72,7 @@ class HomeActivity : ContainerBottomNavigationActivity() {
             else -> {
                 changePage(0)
             }
-        }
+        }*/
         return true
     }
 

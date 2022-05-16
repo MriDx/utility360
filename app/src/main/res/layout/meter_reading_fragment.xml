@@ -10,8 +10,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:overScrollMode="never"
-        >
+        android:overScrollMode="never">
 
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -114,18 +113,18 @@
                         android:id="@+id/meterImageView"
                         android:layout_width="match_parent"
                         android:layout_height="194dp"
-                        android:scaleType="fitXY" />
+                        android:background="@color/slate_50"
+                        android:scaleType="centerInside" />
 
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:id="@+id/customerInfoHolder"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
-                        android:orientation="vertical"
                         android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
                         android:layout_marginEnd="16dp"
-                        />
+                        android:orientation="vertical" />
 
 
                     <com.google.android.material.textview.MaterialTextView
@@ -152,14 +151,18 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/meterReadingSubmitBtn"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
                         android:layout_marginTop="32dp"
                         android:layout_marginEnd="16dp"
+                        android:layout_marginStart="16dp"
                         android:minWidth="150dp"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
                         android:text="Submit"
-                        android:textAllCaps="false" />
+                        app:cornerRadius="5dp"
+                        android:textAllCaps="true" />
 
 
                 </androidx.appcompat.widget.LinearLayoutCompat>

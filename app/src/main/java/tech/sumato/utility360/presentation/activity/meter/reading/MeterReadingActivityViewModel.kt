@@ -1,33 +1,88 @@
 package tech.sumato.utility360.presentation.activity.meter.reading
 
+import android.location.Location
+import android.location.LocationRequest
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import tech.sumato.utility360.data.utils.FragmentNavigation
+import tech.sumato.utility360.domain.use_case.location.EnableGpsUseCase
+import tech.sumato.utility360.domain.use_case.location.GnssStatusListenerUseCase
+import tech.sumato.utility360.domain.use_case.location.GpsResult
+import tech.sumato.utility360.domain.use_case.location.LocationUpdatesUseCase
 import tech.sumato.utility360.presentation.fragments.customer.find.FindCustomerFragment
 import tech.sumato.utility360.presentation.fragments.meter.image.MeterImageFragment
+import tech.sumato.utility360.utils.NotInUse
+import tech.sumato.utility360.utils.NotWorking
 import javax.inject.Inject
 
 @HiltViewModel
-class MeterReadingActivityViewModel @Inject constructor() : ViewModel() {
+class MeterReadingActivityViewModel @Inject constructor(
 
-    data class FragmentNavigation(
-        val fragment: Fragment,
-        val args: Bundle? = null
-    )
+    private val locationUpdatesUseCase: LocationUpdatesUseCase,
+    private val enableGpsUseCase: EnableGpsUseCase,
+    private val gnssStatusListenerUseCase: GnssStatusListenerUseCase,
+
+    ) : ViewModel() {
+
 
     private var navigation_ = MutableSharedFlow<FragmentNavigation>()
     val navigation: SharedFlow<FragmentNavigation> = navigation_
 
+    val gpsResultFlow = MutableSharedFlow<GpsResult>()
 
     init {
-        //addCustomerFinderFragment()
+        //enableGps()
     }
 
+
+    /**
+     * checks if gps enable and if not
+     * return its exception for resolution
+     *
+     */
+    fun enableGps() {
+        viewModelScope.launch {
+            enableGpsUseCase()
+                .collect { gpsResult ->
+
+                    if (gpsResult.enabled) {
+                        //
+                        locationUpdates()
+                        return@collect
+                    }
+                    gpsResultFlow.emit(gpsResult)
+                }
+        }
+    }
+
+    /**
+     * Listens for location changes
+     *
+     */
+    fun locationUpdates() {
+        viewModelScope.launch {
+            locationUpdatesUseCase
+                .fetchUpdates()
+                .collectLatest {
+                    Log.d("mridx", "locationUpdates: ${it.latitude} - ${it.longitude}")
+                }
+
+        }
+    }
+
+
+    @NotInUse
     private fun addCustomerFinderFragment() {
         viewModelScope.launch {
             val fragment = FindCustomerFragment::class.java
@@ -40,10 +95,6 @@ class MeterReadingActivityViewModel @Inject constructor() : ViewModel() {
     }
 
     fun navigate(fragment: Class<*>) {
-        /*if (!fragment.isInstance(Fragment::class.java)) {
-            throw IllegalArgumentException("Pass a fragment instance to navigate")
-        }*/
-
         val tmpFragment = (fragment.newInstance() as? Fragment)
             ?: throw IllegalArgumentException("Pass a fragment instance to navigate")
 
@@ -59,10 +110,6 @@ class MeterReadingActivityViewModel @Inject constructor() : ViewModel() {
     }
 
     fun navigate(fragment: Class<*>, args: Bundle) {
-        /*if (!fragment.isInstance(Fragment::class.java)) {
-            throw IllegalArgumentException("Pass a fragment instance to navigate")
-        }*/
-
         val tmpFragment = (fragment.newInstance() as? Fragment)
             ?: throw IllegalArgumentException("Pass a fragment instance to navigate")
 
@@ -77,5 +124,36 @@ class MeterReadingActivityViewModel @Inject constructor() : ViewModel() {
 
     }
 
+
+    //region gnss status callback
+
+    @NotWorking(reason = "Gnss status callback not working")
+    @Deprecated("")
+    private fun gpsListener() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            gnssListener()
+            return
+        }
+        enableGps()
+    }
+
+    @NotWorking(reason = "Gnss status callback not working")
+    @Deprecated("")
+    private fun gnssListener() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            viewModelScope.launch {
+                gnssStatusListenerUseCase()
+                    .collectLatest { enabled ->
+                        if (!enabled) {
+                            enableGps()
+                            return@collectLatest
+                        }
+                    }
+            }
+        }
+
+    }
+
+    //endregion
 
 }

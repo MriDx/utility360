@@ -75,9 +75,10 @@ class FindCustomerFragment : Fragment() {
     }
 
     private fun emulateUserFinder(typedId: String) {
-        if (typedId.isEmpty()) return
+        // TODO: uncomment
+        //if (typedId.isEmpty()) return
         viewLifecycleOwner.lifecycleScope.launch {
-            delay(1000)
+            //delay(1000)
             emulateDataReceived(customerId = typedId)
         }
     }
@@ -101,7 +102,8 @@ class FindCustomerFragment : Fragment() {
         binding.customerNameView.text = customerName
         binding.customerIdView.text = customerId
 
-        binding.continueBtn.isEnabled = listOf(true, false).shuffled().first()
+        //binding.continueBtn.isEnabled = listOf(true, false).shuffled().first()
+        binding.continueBtn.isEnabled = true
 
         binding.continueBtn.setOnClickListener {
             viewModel.navigate(

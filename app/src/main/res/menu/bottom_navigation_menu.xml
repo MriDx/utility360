@@ -7,11 +7,11 @@
         android:icon="@drawable/ic_baseline_home_24"
         android:title="@string/bottomNavHome" />
 
-    <item
+    <!--<item
         android:id="@+id/bottomNavHome2"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_home_24"
-        android:title="@string/bottomNavHome" />
+        android:title="@string/bottomNavHome" />-->
 
     <item
         android:id="@+id/bottomNavTasks"
