@@ -22,6 +22,7 @@ import tech.sumato.utility360.domain.use_case.location.GpsResult
 import tech.sumato.utility360.domain.use_case.location.LocationUpdatesUseCase
 import tech.sumato.utility360.presentation.fragments.customer.find.FindCustomerFragment
 import tech.sumato.utility360.presentation.fragments.meter.image.MeterImageFragment
+import tech.sumato.utility360.presentation.utils.Navigation
 import tech.sumato.utility360.utils.NotInUse
 import tech.sumato.utility360.utils.NotWorking
 import javax.inject.Inject
@@ -33,7 +34,7 @@ class MeterReadingActivityViewModel @Inject constructor(
     private val enableGpsUseCase: EnableGpsUseCase,
     private val gnssStatusListenerUseCase: GnssStatusListenerUseCase,
 
-    ) : ViewModel() {
+    ) : ViewModel(), Navigation {
 
 
     private var navigation_ = MutableSharedFlow<FragmentNavigation>()
@@ -41,10 +42,7 @@ class MeterReadingActivityViewModel @Inject constructor(
 
     val gpsResultFlow = MutableSharedFlow<GpsResult>()
 
-    init {
-        //enableGps()
-    }
-
+    private var currentLocation: Location? = null
 
     /**
      * checks if gps enable and if not
@@ -75,6 +73,7 @@ class MeterReadingActivityViewModel @Inject constructor(
             locationUpdatesUseCase
                 .fetchUpdates()
                 .collectLatest {
+                    currentLocation = it
                     Log.d("mridx", "locationUpdates: ${it.latitude} - ${it.longitude}")
                 }
 
@@ -94,7 +93,7 @@ class MeterReadingActivityViewModel @Inject constructor(
         }
     }
 
-    fun navigate(fragment: Class<*>) {
+    override fun navigate(fragment: Class<*>) {
         val tmpFragment = (fragment.newInstance() as? Fragment)
             ?: throw IllegalArgumentException("Pass a fragment instance to navigate")
 
@@ -109,7 +108,7 @@ class MeterReadingActivityViewModel @Inject constructor(
 
     }
 
-    fun navigate(fragment: Class<*>, args: Bundle) {
+    override fun navigate(fragment: Class<*>, args: Bundle) {
         val tmpFragment = (fragment.newInstance() as? Fragment)
             ?: throw IllegalArgumentException("Pass a fragment instance to navigate")
 
@@ -152,6 +151,14 @@ class MeterReadingActivityViewModel @Inject constructor(
             }
         }
 
+    }
+
+    fun submitMeterReading() {
+        viewModelScope.launch {
+            val tmpCurrentLocation = currentLocation
+            val latitude = tmpCurrentLocation?.latitude
+            val longitude = tmpCurrentLocation?.longitude
+        }
     }
 
     //endregion

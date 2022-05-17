@@ -60,6 +60,8 @@ class CustomCamera : BaseActivity() {
 
     var currentJob: Job? = null
 
+    var flashOn = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,7 +88,26 @@ class CustomCamera : BaseActivity() {
             finish()
         }
 
+        binding.flashBtn.setOnClickListener {
+            camera ?: return@setOnClickListener
+            if (flashOn) {
+                //
+                binding.flashBtn.setImageResource(R.drawable.ic_baseline_flash_on_24)
+                flashOn = false
+            } else {
+                binding.flashBtn.setImageResource(R.drawable.ic_baseline_flash_off_24)
+                flashOn = true
+            }
+            controlFlash()
 
+        }
+
+
+    }
+
+    private fun controlFlash(enable: Boolean = flashOn) {
+        camera ?: return
+        camera!!.cameraControl.enableTorch(enable)
     }
 
     /*private fun checkCameraPermission() {
@@ -266,7 +287,7 @@ class CustomCamera : BaseActivity() {
      */
     private fun capturedHandler() {
 
-        imageCapture?.takePicture(
+        imageCapture!!.takePicture(
             ContextCompat.getMainExecutor(this),
             object : ImageCapture.OnImageCapturedCallback() {
 
@@ -296,6 +317,8 @@ class CustomCamera : BaseActivity() {
 
             //convert image proxy to bitmap
             val capturedBitmap = imageProxy.toBitmap()
+
+            imageProxy.close()
 
             var height = 2100
             var width = 1080
@@ -327,6 +350,8 @@ class CustomCamera : BaseActivity() {
             binding.previewView.isVisible = true
             binding.captureView.isVisible = false
 
+            controlFlash(enable = false)
+
             binding.done.setOnClickListener {
                 //save the image and go back
                 binding.progressBar.isVisible = true
@@ -336,8 +361,8 @@ class CustomCamera : BaseActivity() {
 
             binding.retake.setOnClickListener {
                 //prepare for retake
-
                 prepareRetake()
+                controlFlash()
             }
 
         }

@@ -281,4 +281,14 @@ class MeterReadingFragment : Fragment() {
         return (requireActivity() as MeterReadingActivity) as T
     }
 
+
+    /**
+     * submit meter submit action handler
+     * sends event to viewModel
+     * viewmodel prepares required information and handles further
+     */
+    private fun submitMeterReading() {
+        viewModel.submitMeterReading()
+    }
+
 }

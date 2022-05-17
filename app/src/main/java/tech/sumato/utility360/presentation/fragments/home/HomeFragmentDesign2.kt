@@ -16,6 +16,7 @@ import tech.sumato.utility360.data.utils.HomeFragmentActionData
 import tech.sumato.utility360.databinding.ArticleItemCardBinding
 import tech.sumato.utility360.databinding.HomeActionItemViewBinding
 import tech.sumato.utility360.databinding.HomeFragmentDesign2Binding
+import tech.sumato.utility360.presentation.activity.meter.installation.MeterInstallationActivity
 import tech.sumato.utility360.presentation.activity.meter.reading.MeterReadingActivity
 import tech.sumato.utility360.utils.startActivity
 import javax.inject.Inject
@@ -109,6 +110,9 @@ class HomeFragmentDesign2 : Fragment() {
         when (actionData.actionIdentifier) {
             "meter_reading" -> {
                 startActivity(MeterReadingActivity::class.java)
+            }
+            "meter_installation" -> {
+                startActivity(MeterInstallationActivity::class.java)
             }
         }
     }
