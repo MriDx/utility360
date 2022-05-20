@@ -3,9 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="tech.sumato.utility360">
 
-
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature android:name="android.hardware.camera.autofocus" />
@@ -14,8 +12,6 @@
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
-
-
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
@@ -30,7 +26,11 @@
         android:theme="@style/Theme.AppTemplate"
         android:usesCleartextTraffic="true"
         tools:ignore="UnusedAttribute">
-
+        <activity
+            android:name=".ScrollingActivity"
+            android:exported="false"
+            android:label="@string/title_activity_scrolling"
+            android:theme="@style/Theme.AppTemplate.NoActionBar" />
         <activity
             android:name=".presentation.activity.splash.SplashActivity"
             android:exported="true"
@@ -41,26 +41,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".presentation.activity.login.LoginActivity"
             android:theme="@style/Theme.AppTemplate.NoActionBar" />
-
         <activity
             android:name=".presentation.activity.home.HomeActivity"
             android:theme="@style/Theme.AppTemplate.NoActionBar" />
-
         <activity android:name=".presentation.activity.meter.reading.MeterReadingActivity" />
-
         <activity
             android:name=".presentation.activity.camera.CustomCamera"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/Theme.AppTemplate.NoActionBar.NoStatusBar" />
-
-        <activity android:name=".presentation.activity.meter.installation.MeterInstallationActivity" />
-
-        <activity android:name=".presentation.activity.TestActivity" />
-
+        <activity android:name=".presentation.activity.meter.installation.MeterInstallationActivity"
+            />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -71,7 +64,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
-
     </application>
 
 </manifest>

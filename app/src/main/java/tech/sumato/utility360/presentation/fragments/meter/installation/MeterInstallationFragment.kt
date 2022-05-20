@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -11,6 +12,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import tech.sumato.utility360.R
 import tech.sumato.utility360.databinding.MeterInstallationFragmentBinding
 import tech.sumato.utility360.databinding.ProfileInfoItemViewBinding
+import tech.sumato.utility360.presentation.activity.camera.CaptureOptions
+import tech.sumato.utility360.presentation.activity.camera.CustomCameraContract
+import tech.sumato.utility360.presentation.activity.meter.installation.MeterInstallationActivity
+import java.io.File
 
 @AndroidEntryPoint
 class MeterInstallationFragment : Fragment() {
@@ -21,6 +26,20 @@ class MeterInstallationFragment : Fragment() {
     val customers =
         listOf("Tony Stark", "Steve Rogers", "Clint Barton", "Thor Odinson", "Bruce Banner")
 
+    val meterImageCaptureLauncher = registerForActivityResult(CustomCameraContract()) { result ->
+        if (result.success) {
+            val capturedImage = File(result.file)
+            binding.meterImageView.setImageURI(capturedImage.toUri())
+        }
+    }
+
+    val siteImageCaptureLauncher = registerForActivityResult(CustomCameraContract()) { result ->
+        if (result.success) {
+            val capturedImage = File(result.file)
+            binding.siteImageView.setImageURI(capturedImage.toUri())
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -29,6 +48,7 @@ class MeterInstallationFragment : Fragment() {
         binding_ = MeterInstallationFragmentBinding.inflate(inflater, container, false).apply {
             setLifecycleOwner { viewLifecycleOwner.lifecycle }
         }
+        //setuptoolbar()
         return binding.root
     }
 
@@ -51,7 +71,23 @@ class MeterInstallationFragment : Fragment() {
             "${it.toInt()} meter"
         }
 
+
+        binding.meterImageView.setOnClickListener {
+            meterImageCaptureLauncher.launch(CaptureOptions())
+        }
+
+        binding.siteImageView.setOnClickListener {
+            siteImageCaptureLauncher.launch(CaptureOptions())
+        }
+
+
     }
+
+    /*private fun setuptoolbar() {
+        with(requireActivity() as MeterInstallationActivity) {
+            setSupportActionBar(binding.toolbar)
+        }
+    }*/
 
     private fun emulateUserDetails() {
 
