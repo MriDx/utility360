@@ -48,7 +48,9 @@
             android:name=".presentation.activity.camera.CustomCamera"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/Theme.AppTemplate.NoActionBar.NoStatusBar" />
-        <activity android:name=".presentation.activity.meter.installation.MeterInstallationActivity" />
+        <activity android:name=".presentation.activity.meter.installation.MeterInstallationActivity"
+            android:windowSoftInputMode="adjustResize|adjustPan"
+            />
 
         <activity android:name=".presentation.activity.customer.verification.CustomerVerificationActivity" />
 

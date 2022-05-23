@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <variable
+            name="viewModel"
+            type="tech.sumato.utility360.presentation.activity.meter.installation.MeterInstallationActivityViewModel" />
+
 
     </data>
 
@@ -153,16 +159,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 app:cardElevation="4dp"
-                app:shapeAppearanceOverlay="@style/TopRoundedView.12"
-                >
+                app:shapeAppearanceOverlay="@style/TopRoundedView.12">
 
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:paddingBottom="32dp"
-                    >
+                    android:paddingBottom="32dp">
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
@@ -177,9 +181,11 @@
                             android:layout_height="wrap_content"
                             android:hint="Meter serial number"
                             android:imeOptions="actionNext"
-                            android:inputType="number" />
+                            android:inputType="text"
+                            android:text="@={viewModel.meterInstallationEntityObserver.meterSerialNumber}" />
 
                     </com.google.android.material.textfield.TextInputLayout>
+
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
@@ -193,8 +199,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Initial meter reading"
-                            android:imeOptions="actionNext"
-                            android:inputType="number" />
+                            android:imeOptions="actionDone"
+                            android:inputType="number"
+                            android:text="@={`` + viewModel.meterInstallationEntityObserver.initialReading}" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -285,36 +292,26 @@
                             android:layout_height="wrap_content"
                             android:text="How much additional pipe added (in meter)" />
 
+                        <!--<com.google.android.material.slider.Slider
+                            android:id="@+id/pipeLengthSlider"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:value="@={viewModel.meterInstallationEntityObserver.extraPipeLength}"
+                            android:valueFrom="0"
+                            android:valueTo="100"
+                            app:labelBehavior="floating" />-->
+
                         <com.google.android.material.slider.Slider
                             android:id="@+id/pipeLengthSlider"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:value="1"
-                            android:valueFrom="1"
+                            android:value="@={viewModel.meterInstallationEntityObserver.extraPipe}"
+                            android:valueFrom="0"
                             android:valueTo="100"
                             app:labelBehavior="floating" />
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:visibility="gone"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/pipeLengthSlider"
-                            app:layout_constraintVertical_bias="0">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/additionalPipeField"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="16dp"
-                                android:hint="Additional pipe (in meter)"
-                                android:imeOptions="actionNext"
-                                android:inputType="number" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
 
 
                         <androidx.constraintlayout.widget.ConstraintLayout
@@ -338,13 +335,14 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:gravity="end"
-                                android:text="1 meter"
+                                pipeLength="@{viewModel.meterInstallationEntityObserver.extraPipe}"
                                 android:textColor="@color/headingTextColor"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toEndOf="@id/vrDiv"
                                 app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0" />
+                                app:layout_constraintVertical_bias="0"
+                                tools:text="1 meter" />
 
 
                             <View
@@ -373,8 +371,7 @@
                         android:insetTop="0dp"
                         android:insetBottom="0dp"
                         android:text="Submit"
-                        app:cornerRadius="5dp"
-                        />
+                        app:cornerRadius="5dp" />
 
 
                 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.annotation.IdRes
 import androidx.annotation.MenuRes
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
@@ -42,7 +45,6 @@ abstract class FragmentHolderActivity : BaseActivity() {
 
         binding.bottomNavigation.setOnItemSelectedListener { onNavigationItemSelected(it) }*/
     }
-
 
 
     open fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
@@ -88,6 +90,23 @@ abstract class FragmentHolderActivity : BaseActivity() {
         }
     }
 
+
+     fun hideSystemUI() {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        WindowInsetsControllerCompat(window, binding.root).let { controller ->
+            controller.hide(WindowInsetsCompat.Type.systemBars())
+            controller.systemBarsBehavior =
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        }
+    }
+
+     fun showSystemUI() {
+        WindowCompat.setDecorFitsSystemWindows(window, true)
+        WindowInsetsControllerCompat(
+            window,
+            binding.root
+        ).show(WindowInsetsCompat.Type.systemBars())
+    }
 
 
 }
