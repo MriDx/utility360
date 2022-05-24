@@ -116,5 +116,21 @@ As it is really important to upload Meter image for Meter Reading, you can allow
     <string name="mrf_submit">Submit</string>
 
 
+    <!-- customer verification activity / site verification activity -->
+    <string name="siteVerificationActivityTitle">Site verification</string>
+
+    <!-- site verification fragment -->
+    <!-- svf => site verification fragment -->
+    <string name="svf_addressVerifiedHeading">Is site address verified ?</string>
+    <string name="svf_siteSuitableForHeading">Site is suitable for -</string>
+    <string name="svf_siteDomesticUseHeading">Domestic usage</string>
+    <string name="svf_siteCommercialUseHeading">Commercial usage</string>
+    <string name="svf_nearestPipeConnectionHeading">How far the nearest pipe connection is ?</string>
+    <string name="svf_connectionFloorHeading">In which floor the connection needed ?</string>
+    <string name="svf_connectionFloorSupporting">*ground floor should be considered as 0</string>
+    <string name="svf_siteImageHeading">Site image</string>
+    <string name="svf_remarksHeading">Remarks</string>
+    <string name="svf_siteRecommendationHeading">I recommend this site for connection.</string>
+    <string name="svf_submit">Submit</string>
 
 </resources>

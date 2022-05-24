@@ -91,7 +91,6 @@
                                         android:layout_height="wrap_content"
                                         android:ellipsize="end"
                                         android:maxLines="1"
-                                        android:text="Robert Downey Jr."
                                         android:textColor="@color/headingTextColor"
                                         android:textSize="14sp" />
 
@@ -102,7 +101,6 @@
                                         android:layout_marginTop="4dp"
                                         android:ellipsize="end"
                                         android:maxLines="1"
-                                        android:text="The most lovable &amp; favorite actor of Marvel Cinematic Universe"
                                         android:textColor="@color/secondaryTextColor"
                                         android:textSize="12sp" />
 
@@ -173,7 +171,7 @@
                         <com.google.android.material.textview.MaterialTextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="Is site address verified ?"
+                            android:text="@string/svf_addressVerifiedHeading"
                             android:textColor="@color/headingTextColor"
                             app:layout_constraintBottom_toBottomOf="@id/addressVerifiedSwitch"
                             app:layout_constraintEnd_toStartOf="@id/addressVerifiedSwitch"
@@ -199,7 +197,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:text="Site is suitable for -"
+                        android:text="@string/svf_siteSuitableForHeading"
                         android:textColor="@color/headingTextColor" />
 
                     <com.google.android.material.checkbox.MaterialCheckBox
@@ -207,7 +205,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
                         android:layoutDirection="rtl"
-                        android:text="Domestic usage"
+                        android:text="@string/svf_siteDomesticUseHeading"
                         android:textColor="@color/secondaryTextColor" />
 
                     <com.google.android.material.checkbox.MaterialCheckBox
@@ -215,7 +213,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
                         android:layoutDirection="rtl"
-                        android:text="Commercial usage"
+                        android:text="@string/svf_siteCommercialUseHeading"
                         android:textColor="@color/secondaryTextColor" />
 
 
@@ -223,7 +221,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:text="How far the nearest pipe connection is ?"
+                        android:text="@string/svf_nearestPipeConnectionHeading"
                         android:textColor="@color/headingTextColor" />
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -244,7 +242,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:text="In which floor the connection needed ?"
+                        android:text="@string/svf_connectionFloorHeading"
                         android:textColor="@color/headingTextColor" />
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -263,7 +261,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="*ground floor should be considered as 0"
+                        android:text="@string/svf_connectionFloorSupporting"
                         android:textColor="@color/secondaryTextColor"
                         android:textSize="12sp" />
 
@@ -274,7 +272,7 @@
                         android:layout_marginStart="0dp"
                         android:layout_marginTop="32dp"
                         android:layout_marginEnd="0dp"
-                        android:text="Site image"
+                        android:text="@string/svf_siteImageHeading"
                         android:textColor="@color/headingTextColor" />
 
                     <com.google.android.material.imageview.ShapeableImageView
@@ -294,7 +292,7 @@
                         android:layout_marginStart="0dp"
                         android:layout_marginTop="32dp"
                         android:layout_marginEnd="0dp"
-                        android:text="Remarks"
+                        android:text="@string/svf_remarksHeading"
                         android:textColor="@color/headingTextColor" />
 
 
@@ -318,7 +316,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="32dp"
-                        android:text="I recommend this site for connection." />
+                        android:text="@string/svf_siteRecommendationHeading" />
 
 
                     <com.google.android.material.button.MaterialButton
@@ -327,7 +325,7 @@
                         android:layout_marginTop="24dp"
                         android:insetTop="0dp"
                         android:insetBottom="0dp"
-                        android:text="Submit" />
+                        android:text="@string/svf_submit" />
 
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
