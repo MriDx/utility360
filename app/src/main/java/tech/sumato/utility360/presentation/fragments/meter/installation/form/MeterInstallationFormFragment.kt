@@ -1,4 +1,4 @@
-package tech.sumato.utility360.presentation.fragments.meter.installation
+package tech.sumato.utility360.presentation.fragments.meter.installation.form
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,17 +8,23 @@ import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
 import tech.sumato.utility360.R
 import tech.sumato.utility360.databinding.MeterInstallationFragmentBinding
 import tech.sumato.utility360.databinding.ProfileInfoItemViewBinding
 import tech.sumato.utility360.presentation.activity.camera.CaptureOptions
 import tech.sumato.utility360.presentation.activity.camera.CustomCameraContract
-import tech.sumato.utility360.presentation.activity.meter.installation.MeterInstallationActivity
+import tech.sumato.utility360.presentation.activity.meter.installation.MeterInstallationActivityViewModel
+import tech.sumato.utility360.presentation.fragments.meter.installation.submission.MeterInstallationSubmissionFragment
+import tech.sumato.utility360.presentation.fragments.progress.post_submit.PostSubmitProgressFragment
 import java.io.File
 
 @AndroidEntryPoint
-class MeterInstallationFragment : Fragment() {
+class MeterInstallationFormFragment : Fragment() {
+
+
+    private val viewModel by activityViewModels<MeterInstallationActivityViewModel>()
 
     private var binding_: MeterInstallationFragmentBinding? = null
     private val binding get() = binding_!!
@@ -47,6 +53,7 @@ class MeterInstallationFragment : Fragment() {
     ): View? {
         binding_ = MeterInstallationFragmentBinding.inflate(inflater, container, false).apply {
             setLifecycleOwner { viewLifecycleOwner.lifecycle }
+            viewModel = this@MeterInstallationFormFragment.viewModel
         }
         //setuptoolbar()
         return binding.root
@@ -63,9 +70,9 @@ class MeterInstallationFragment : Fragment() {
             binding.extraPipeInfoView.isVisible = b
         }
 
-        binding.pipeLengthSlider.addOnChangeListener { slider, value, fromUser ->
+        /*binding.pipeLengthSlider.addOnChangeListener { slider, value, fromUser ->
             binding.totalPipeInvloved.text = "${value.toInt()} meter"
-        }
+        }*/
 
         binding.pipeLengthSlider.setLabelFormatter {
             "${it.toInt()} meter"
@@ -78,6 +85,11 @@ class MeterInstallationFragment : Fragment() {
 
         binding.siteImageView.setOnClickListener {
             siteImageCaptureLauncher.launch(CaptureOptions())
+        }
+
+        binding.submitBtn.setOnClickListener {
+            viewModel.readySubmitJob()
+            viewModel.navigate(fragment = MeterInstallationSubmissionFragment::class.java)
         }
 
 

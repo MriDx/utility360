@@ -26,11 +26,7 @@
         android:theme="@style/Theme.AppTemplate"
         android:usesCleartextTraffic="true"
         tools:ignore="UnusedAttribute">
-        <activity
-            android:name=".ScrollingActivity"
-            android:exported="false"
-            android:label="@string/title_activity_scrolling"
-            android:theme="@style/Theme.AppTemplate.NoActionBar" />
+
         <activity
             android:name=".presentation.activity.splash.SplashActivity"
             android:exported="true"
@@ -53,7 +49,10 @@
             android:screenOrientation="sensorLandscape"
             android:theme="@style/Theme.AppTemplate.NoActionBar.NoStatusBar" />
         <activity android:name=".presentation.activity.meter.installation.MeterInstallationActivity"
+            android:windowSoftInputMode="adjustResize|adjustPan"
             />
+
+        <activity android:name=".presentation.activity.customer.verification.CustomerVerificationActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
