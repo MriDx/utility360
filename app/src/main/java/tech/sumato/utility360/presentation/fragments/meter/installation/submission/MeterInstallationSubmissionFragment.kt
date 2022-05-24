@@ -11,6 +11,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import tech.sumato.utility360.R
 import tech.sumato.utility360.data.remote.utils.Status
 import tech.sumato.utility360.presentation.activity.meter.installation.MeterInstallationActivityViewModel
 import tech.sumato.utility360.presentation.fragments.progress.post_submit.PostSubmitProgressFragment
@@ -33,14 +34,14 @@ class MeterInstallationSubmissionFragment : PostSubmitProgressFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setStatusInfo(infoText = "Your request is being processed")
+        setStatusInfo(infoText = getString(R.string.misf_requestInProcess))
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.postSubmitProcessChannel.collect { postSubmitData ->
                         setStatusInfo(infoText = postSubmitData.message)
-                        Log.d("mridx", "onViewCreated: ${postSubmitData.message}")
+
                         when (postSubmitData.processStatus) {
                             is ProcessStatus.LOADING -> {
                                 //loading
@@ -50,16 +51,20 @@ class MeterInstallationSubmissionFragment : PostSubmitProgressFragment() {
                                 hideProgressbar()
                                 if (postSubmitData.processStatus.status == Status.FAILED) {
                                     //failed
-                                    showPrimaryBtn(label = "Retry", onClick = {
-                                        //handle retry
-                                        viewModel.readySubmitJob()
-                                    })
+                                    showPrimaryBtn(
+                                        label = getString(R.string.misf_postFailureBtn),
+                                        onClick = {
+                                            //handle retry
+                                            viewModel.readySubmitJob()
+                                        })
                                 } else {
                                     //success
-                                    showPrimaryBtn(label = "Got it", onClick = {
-                                        //handle got it
-                                        requireActivity().onBackPressed()
-                                    })
+                                    showPrimaryBtn(
+                                        label = getString(R.string.misf_postSuccessBtn),
+                                        onClick = {
+                                            //handle got it
+                                            requireActivity().onBackPressed()
+                                        })
                                 }
                             }
                             else -> {

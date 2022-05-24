@@ -20,6 +20,7 @@ import com.google.android.gms.location.LocationSettingsStatusCodes
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import tech.sumato.utility360.R
 import tech.sumato.utility360.data.utils.FragmentNavigation
 import tech.sumato.utility360.presentation.activity.base.fragment_holder.FragmentHolderActivity
 import tech.sumato.utility360.presentation.fragments.customer.find.FindCustomerFragment
@@ -55,7 +56,7 @@ class MeterReadingActivity : FragmentHolderActivity() {
 
         addDefaultFragment()
 
-        super.setActionBarTitle("Find customer")
+        super.setActionBarTitle(getString(R.string.meterReadingActivityTitle_FindCustomer))
 
 
         lifecycleScope.launch {
@@ -133,10 +134,10 @@ class MeterReadingActivity : FragmentHolderActivity() {
 
     private fun showLocationPermissionAlreadyAskedDialog() {
         showDialog(
-            title = "Allow use of Location Permission",
-            message = "It seems you have been asked to allow Location permission already and you denied. \nAs it is really important to have Meter reader's current location for Meter Reading, you can allow Location permission from App settings and proceed Meter reading process.",
-            positiveBtn = "App settings",
-            negativeBtn = "Cancel",
+            title = getString(R.string.meterReadingLocationPermissionAlreadyAskedTitle),
+            message = getString(R.string.meterReadingLocationPermissionAlreadyAskedMessage),
+            positiveBtn = getString(R.string.appSettings),
+            negativeBtn = getString(R.string.meterReadingLocationPermissionAlreadyAskedCancelBtn),
             showNegativeBtn = true,
             cancellable = false
         ) { d, i ->
@@ -154,10 +155,10 @@ class MeterReadingActivity : FragmentHolderActivity() {
 
     private fun showLocationServicePermissionDialog() {
         showDialog(
-            title = "Allow use of Location usage ?",
-            message = "Meter reading process needs to access Meter Reader's current location for better tracking and transparency.\nKindly allow use of Location Service.",
-            positiveBtn = "Continue",
-            negativeBtn = "Cancel",
+            title = getString(R.string.meterReadingLocationPermissionTitle),
+            message = getString(R.string.meterReadingLocationPermissionMessage),
+            positiveBtn = getString(R.string.meterReadingLocationPermissionPositiveBtn),
+            negativeBtn = getString(R.string.meterReadingLocationPermissionNegativeBtn),
             showNegativeBtn = true,
             cancellable = false
         ) { d, i ->
@@ -213,10 +214,10 @@ class MeterReadingActivity : FragmentHolderActivity() {
         super.onFragmentChanged(fragment)
         when (fragment) {
             is MeterReadingFragment -> {
-                setActionBarTitle("Meter reading")
+                setActionBarTitle(getString(R.string.meterReadingActivityTitle_MeterReading))
             }
             else -> {
-                setActionBarTitle("Find customer")
+                setActionBarTitle(getString(R.string.meterReadingActivityTitle_FindCustomer))
             }
         }
     }

@@ -18,6 +18,8 @@ import tech.sumato.utility360.presentation.fragments.base.listing.DemoListingFra
 @AndroidEntryPoint
 class NotificationsFragment : DemoListingFragment() {
 
+    // TODO: replace with live
+
     data class PersonData(
         val name: String = "",
         val avatar: String = ""

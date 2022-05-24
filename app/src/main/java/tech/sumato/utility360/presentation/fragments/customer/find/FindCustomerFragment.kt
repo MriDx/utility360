@@ -1,26 +1,21 @@
 package tech.sumato.utility360.presentation.fragments.customer.find
 
 import android.os.Bundle
-import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.FragmentNavigator
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import tech.sumato.utility360.R
 import tech.sumato.utility360.databinding.ProfileInfoItemViewBinding
 import tech.sumato.utility360.databinding.UserFinderFragmentBinding
 import tech.sumato.utility360.presentation.activity.meter.reading.MeterReadingActivityViewModel
-import tech.sumato.utility360.presentation.fragments.meter.image.MeterImageFragment
 import tech.sumato.utility360.presentation.fragments.meter.reading.MeterReadingFragment
 
 @AndroidEntryPoint

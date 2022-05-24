@@ -97,7 +97,6 @@
                                         android:layout_height="wrap_content"
                                         android:ellipsize="end"
                                         android:maxLines="1"
-                                        android:text="Robert Downey Jr."
                                         android:textColor="@color/headingTextColor"
                                         android:textSize="14sp" />
 
@@ -108,7 +107,6 @@
                                         android:layout_marginTop="4dp"
                                         android:ellipsize="end"
                                         android:maxLines="1"
-                                        android:text="The most lovable &amp; favorite actor of Marvel Cinematic Universe"
                                         android:textColor="@color/secondaryTextColor"
                                         android:textSize="12sp" />
 
@@ -179,7 +177,7 @@
                             android:id="@+id/meterSerialField"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Meter serial number"
+                            android:hint="@string/mif_meterSerialNumberHeading"
                             android:imeOptions="actionNext"
                             android:inputType="text"
                             android:text="@={viewModel.meterInstallationEntityObserver.meterSerialNumber}" />
@@ -198,7 +196,7 @@
                             android:id="@+id/initialMeterReadingField"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Initial meter reading"
+                            android:hint="@string/mif_initialMeterReadingHeading"
                             android:imeOptions="actionDone"
                             android:inputType="number"
                             android:text="@={`` + viewModel.meterInstallationEntityObserver.initialReading}" />
@@ -211,7 +209,7 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="32dp"
                         android:layout_marginEnd="10dp"
-                        android:text="Meter photo with clearly visible serial number" />
+                        android:text="" />
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/meterImageView"
@@ -229,7 +227,7 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="24dp"
                         android:layout_marginEnd="10dp"
-                        android:text="Site photo with meter" />
+                        android:text="@string/mif_sitePhotoHeading" />
 
 
                     <com.google.android.material.imageview.ShapeableImageView
@@ -265,7 +263,7 @@
                         <com.google.android.material.textview.MaterialTextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="Extra pipe involved ?"
+                            android:text="@string/mif_extraPipeInvolvedHeading"
                             android:textColor="@color/headingTextColor"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@id/extraPipeSwitch"
@@ -290,17 +288,7 @@
                             android:id="@+id/addedPipeHeading"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="How much additional pipe added (in meter)" />
-
-                        <!--<com.google.android.material.slider.Slider
-                            android:id="@+id/pipeLengthSlider"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:value="@={viewModel.meterInstallationEntityObserver.extraPipeLength}"
-                            android:valueFrom="0"
-                            android:valueTo="100"
-                            app:labelBehavior="floating" />-->
+                            android:text="@string/mif_additionalPipeLengthHeading" />
 
                         <com.google.android.material.slider.Slider
                             android:id="@+id/pipeLengthSlider"
@@ -313,7 +301,6 @@
                             app:labelBehavior="floating" />
 
 
-
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -323,7 +310,7 @@
                                 android:id="@+id/totalPipeInvlovedHeading"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:text="Total pipe involved"
+                                android:text="@string/mif_totalPipeInvolvedHeading"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toStartOf="@id/vrDiv"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -332,17 +319,16 @@
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/totalPipeInvloved"
+                                pipeLength="@{viewModel.meterInstallationEntityObserver.extraPipe}"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:gravity="end"
-                                pipeLength="@{viewModel.meterInstallationEntityObserver.extraPipe}"
                                 android:textColor="@color/headingTextColor"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toEndOf="@id/vrDiv"
                                 app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0"
-                                tools:text="1 meter" />
+                                app:layout_constraintVertical_bias="0" />
 
 
                             <View
@@ -370,7 +356,7 @@
                         android:layout_marginEnd="10dp"
                         android:insetTop="0dp"
                         android:insetBottom="0dp"
-                        android:text="Submit"
+                        android:text="@string/mif_submit"
                         app:cornerRadius="5dp" />
 
 

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -10,8 +9,7 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -40,7 +38,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="Find customer"
+                        android:text="@string/fc_findCustomerHeading"
                         android:textColor="@color/headingTextColor"
                         android:textSize="16sp" />
 
@@ -58,7 +56,7 @@
                             android:id="@+id/customerIdField"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Customer ID"
+                            android:hint="@string/fc_customerId"
                             android:imeOptions="actionGo"
                             android:inputType="text"
                             android:maxLines="1" />
@@ -74,7 +72,7 @@
                         android:layout_marginBottom="10dp"
                         android:insetTop="0dp"
                         android:insetBottom="0dp"
-                        android:text="Find"
+                        android:text="@string/fc_findBtn"
                         android:textSize="14sp"
                         app:cornerRadius="5dp" />
 
@@ -147,8 +145,7 @@
                                 android:ellipsize="end"
                                 android:maxLines="1"
                                 android:textColor="@color/headingTextColor"
-                                android:textStyle="bold"
-                                tools:text="Mridul Baishya" />
+                                android:textStyle="bold" />
 
 
                             <com.google.android.material.textview.MaterialTextView
@@ -160,8 +157,7 @@
                                 android:ellipsize="end"
                                 android:maxLines="1"
                                 android:textColor="@color/secondaryTextColor"
-                                android:textSize="12sp"
-                                tools:text="Ibcb83bh" />
+                                android:textSize="12sp" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -197,7 +193,7 @@
                         android:layout_marginTop="24dp"
                         android:layout_marginBottom="10dp"
                         android:minWidth="@dimen/smallBtnMinWidth"
-                        android:text="Continue"
+                        android:text="@string/fc_continueBtn"
                         android:textAllCaps="false"
                         app:cornerRadius="5dp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -216,7 +212,7 @@
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="10dp"
                         android:minWidth="@dimen/smallBtnMinWidth"
-                        android:text="Find another"
+                        android:text="@string/fc_findAnotherBtn"
                         android:textAllCaps="false"
                         android:textColor="@color/secondaryTextColor"
                         app:cornerRadius="5dp"

@@ -75,7 +75,7 @@ class MeterInstallationFormFragment : Fragment() {
         }*/
 
         binding.pipeLengthSlider.setLabelFormatter {
-            "${it.toInt()} meter"
+            getString(R.string.mif_sliderLabel, it.toInt())
         }
 
 

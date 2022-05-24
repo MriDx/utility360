@@ -75,7 +75,6 @@
                                 android:layout_height="wrap_content"
                                 android:ellipsize="end"
                                 android:maxLines="1"
-                                android:text="Robert Downey Jr."
                                 android:textColor="@color/headingTextColor"
                                 android:textSize="14sp" />
 
@@ -86,7 +85,6 @@
                                 android:layout_marginTop="4dp"
                                 android:ellipsize="end"
                                 android:maxLines="1"
-                                android:text="The most lovable &amp; favorite actor of Marvel Cinematic Universe"
                                 android:textColor="@color/secondaryTextColor"
                                 android:textSize="12sp" />
 
@@ -135,7 +133,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
-                        android:text="Meter readings"
+                        android:text="@string/mrf_meterReadingHeading"
                         android:textColor="@color/headingTextColor" />
 
                     <com.mridx.morse.element.CustomOTPField
@@ -155,16 +153,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
+                        android:layout_marginStart="16dp"
                         android:layout_marginTop="32dp"
                         android:layout_marginEnd="16dp"
-                        android:layout_marginStart="16dp"
-                        android:minWidth="150dp"
                         android:insetTop="0dp"
                         android:insetBottom="0dp"
-                        android:text="Submit"
-                        app:cornerRadius="5dp"
+                        android:minWidth="150dp"
+                        android:text="@string/mrf_submit"
                         android:textAllCaps="true"
-                        />
+                        app:cornerRadius="5dp" />
 
 
                 </androidx.appcompat.widget.LinearLayoutCompat>

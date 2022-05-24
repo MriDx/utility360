@@ -7,7 +7,8 @@ import tech.sumato.utility360.R
 data class ProfileActionData(
     @DrawableRes val icon: Int,
     val heading: String = "",
-    val actionIdentifier: String = ""
+    val actionIdentifier: String = "",
+    val headingRes: Int
 )
 
 
@@ -16,17 +17,20 @@ fun getProfileActions() : List<ProfileActionData> {
         ProfileActionData(
             icon = R.drawable.ic_settings,
             heading = "Settings",
-            actionIdentifier = "settings"
+            actionIdentifier = "settings",
+            headingRes = R.string.settings,
         ),
         ProfileActionData(
             icon = R.drawable.ic_baseline_help_24,
             heading = "Support",
-            actionIdentifier = "support"
+            actionIdentifier = "support",
+            headingRes = R.string.support,
         ),
         ProfileActionData(
             icon = R.drawable.ic_baseline_logout_24,
             heading = "Logout",
-            actionIdentifier = "logout"
+            actionIdentifier = "logout",
+            headingRes = R.string.Logout,
         ),
     )
 }

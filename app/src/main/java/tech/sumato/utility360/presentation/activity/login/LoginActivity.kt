@@ -31,14 +31,16 @@ class LoginActivity : BaseActivity() {
                 }
 
         binding.welcomeText.text = buildSpannedString {
-            append("Welcome \n")
+            append(getString(R.string.welcome))
+            append("\n")
             bold { append(getString(R.string.app_name)) }
         }
 
 
         binding.privacyPolicyLink.text = buildSpannedString {
-            append("Learn more about our ")
-            color(Color.BLUE) { bold { append("privacy policy") } }
+            append(getString(R.string.learnMoreAbout))
+            append(" ")
+            color(Color.BLUE) { bold { append(getString(R.string.privacyPolicy)) } }
         }
 
         binding.loginBtn.setOnClickListener {

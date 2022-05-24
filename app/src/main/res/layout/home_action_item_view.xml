@@ -41,7 +41,7 @@
         app:iconPadding="10dp"
         app:iconSize="24dp"
         tools:icon="@drawable/meter_reading"
-        tools:text="hello \nworldl" />
+        tools:text="Meter \ninstallation" />
 
     <!--<com.google.android.material.card.MaterialCardView
         android:id="@+id/card5"

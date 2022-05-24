@@ -59,3 +59,10 @@ var MaterialTextView.pipeLength
     set(value) {
         text = "${value.toInt()} meter"
     }
+
+@set:BindingAdapter("textResource")
+var MaterialTextView.textResource
+    get() = 0
+    set(value) {
+        text = resources.getString(value)
+    }

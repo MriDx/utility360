@@ -224,11 +224,11 @@ class MeterReadingFragment : Fragment() {
 
     private fun showCameraPermissionRational() {
         showDialog(
-            title = "Allow Camera access ?",
-            message = "Allow Camera permission to access and capture Meter image. To complete meter reading process uploading of meter image is compulsory.",
+            title = getString(R.string.mrf_cameraPermissionTitle),
+            message = getString(R.string.mrf_cameraPermissionMessage),
             showNegativeBtn = true,
-            positiveBtn = "Continue",
-            negativeBtn = "Cancel",
+            positiveBtn = getString(R.string.mrf_cameraPermissionPositiveBtn),
+            negativeBtn = getString(R.string.meterReadingLocationPermissionNegativeBtn),
             cancellable = false
         ) { d, i ->
             d.dismiss()
@@ -246,10 +246,10 @@ class MeterReadingFragment : Fragment() {
 
     private fun showCameraPermissionAlreadyAsked() {
         showDialog(
-            title = "Allow use of Camera Permission",
-            message = "It seems you have been asked to allow Camera permission already and you denied. \nAs it is really important to upload Meter image for Meter Reading, you can allow Camera permission from App settings and proceed Meter reading process.",
-            positiveBtn = "App settings",
-            negativeBtn = "Cancel",
+            title = getString(R.string.mrf_cameraPermissionAlreadyAskedTitle),
+            message = getString(R.string.mrf_cameraPermissionAlreadyAskedMessage),
+            positiveBtn = getString(R.string.appSettings),
+            negativeBtn = getString(R.string.mrf_cameraPermissionAlreadyAskedNegativeBtn),
             showNegativeBtn = true,
             cancellable = false
         ) { d, i ->

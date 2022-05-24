@@ -1,17 +1,12 @@
 package tech.sumato.utility360.presentation.activity.meter.reading
 
 import android.location.Location
-import android.location.LocationRequest
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -22,7 +17,6 @@ import tech.sumato.utility360.domain.use_case.location.GnssStatusListenerUseCase
 import tech.sumato.utility360.domain.use_case.location.GpsResult
 import tech.sumato.utility360.domain.use_case.location.LocationUpdatesUseCase
 import tech.sumato.utility360.presentation.fragments.customer.find.FindCustomerFragment
-import tech.sumato.utility360.presentation.fragments.meter.image.MeterImageFragment
 import tech.sumato.utility360.presentation.utils.Navigation
 import tech.sumato.utility360.utils.NotInUse
 import tech.sumato.utility360.utils.NotWorking
@@ -75,7 +69,6 @@ class MeterReadingActivityViewModel @Inject constructor(
                 .fetchUpdates()
                 .collectLatest {
                     currentLocation = it
-                    Log.d("mridx", "locationUpdates: ${it.latitude} - ${it.longitude}")
                 }
 
         }

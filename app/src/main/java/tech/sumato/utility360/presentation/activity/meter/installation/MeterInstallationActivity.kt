@@ -7,6 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import tech.sumato.utility360.R
 import tech.sumato.utility360.presentation.activity.base.fragment_holder.FragmentHolderActivity
 import tech.sumato.utility360.presentation.fragments.meter.installation.form.MeterInstallationFormFragment
 import tech.sumato.utility360.presentation.fragments.progress.post_submit.PostSubmitProgressFragment
@@ -22,7 +23,7 @@ class MeterInstallationActivity : FragmentHolderActivity() {
 
         addDefaultFragment()
 
-        setActionBarTitle("Meter Installation")
+        setActionBarTitle(getString(R.string.meterInstallationActivityTitle))
 
         lifecycleScope.launch {
             launch {

@@ -49,13 +49,14 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
+        // TODO: transfer all these value assign task to databinding
         binding.apply {
 
-            heading.text = "Profile"
+            heading.text = getString(R.string.profileFragmentTitle)
 
 
-            userNameView.text = "Tony Stark"
-            userInfoView.text = "Inventor"
+            userNameView.text = getString(R.string.currentAppUserName)
+            userInfoView.text = getString(R.string.currentAppUserDesignation)
             Glide.with(this@ProfileFragment)
                 .asBitmap()
                 .load("https://avatarfiles.alphacoders.com/839/83919.jpg")

@@ -32,13 +32,13 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/titleView"
+            textResource="@{data.headingRes}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:text="@{data.heading}"
-            android:textSize="14sp"
             android:textColor="@color/headingTextColor"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/rightIcon"
             app:layout_constraintStart_toEndOf="@id/iconView"
