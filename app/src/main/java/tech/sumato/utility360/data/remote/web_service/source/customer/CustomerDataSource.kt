@@ -38,10 +38,10 @@ class CustomerDataSource(
                     throw Exception(customersResponse.message)
                 }
 
-                Log.d("mridx", "links : ${customersResponse.data?.links}")
-                Log.d("mridx", "errors : ${customersResponse.data?.errors}")
-                Log.d("mridx", "data : ${customersResponse.data?.data}")
-                Log.d("mridx", "meta : ${customersResponse.data?.meta}")
+                customersResponse.data?.data?.forEach {
+                    Log.d("kaku", "load: customer name - ${it.name}")
+                    Log.d("kaku", "load: customer link - ${it.links}")
+                }
 
                 val nextPageNumber = customersResponse.data!!.links?.next?.let {
                     Uri.parse(it.href).getQueryParameter("page[number]")?.toInt()

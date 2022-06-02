@@ -40,4 +40,8 @@ annotation class IzzyInterface
 
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.FUNCTION)
+annotation class MyIzzyInterface
+
+@Retention(AnnotationRetention.RUNTIME)
+@Target(AnnotationTarget.FUNCTION)
 annotation class JSONInterface

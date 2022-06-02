@@ -34,9 +34,9 @@ import tech.sumato.utility360.data.utils.HomeFragmentActionData
 import tech.sumato.utility360.data.utils.ProfileActionData
 import tech.sumato.utility360.data.utils.getHomeFragmentActions
 import tech.sumato.utility360.data.utils.getProfileActions
-import tech.sumato.utility360.utils.AnnotatedConverter
-import tech.sumato.utility360.utils.GsonInterface
-import tech.sumato.utility360.utils.IzzyInterface
+import tech.sumato.utility360.izzy_parser_wrapper.MyIzzy
+import tech.sumato.utility360.izzy_parser_wrapper.MyIzzyConverter
+import tech.sumato.utility360.utils.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -77,21 +77,37 @@ object AppModule {
         return Izzy(izzyJsonParser = gsonParser)
     }
 
+  /*  @Provides
+    @Singleton
+    @MyIzzyQualifier
+    fun provideMyIzzy(gsonParser: GsonParser): MyIzzy {
+        return MyIzzy(izzyJsonParser = gsonParser)
+    }*/
+
     @Provides
     @Singleton
     fun provideIzzyRetrofitConverter(izzy: Izzy): IzzyRetrofitConverter {
         return IzzyRetrofitConverter(izzy = izzy)
     }
 
+/*    @Provides
+    @Singleton
+    @MyIzzyConverterQualifier
+    fun provideMyIzzyRetrofitConverter(myIzzy: MyIzzy): MyIzzyConverter {
+        return MyIzzyConverter(izzy = myIzzy)
+    }*/
+
     @Provides
     @Singleton
     fun provideAnnotatedConverter(
         gson: Gson,
-        izzyRetrofitConverter: IzzyRetrofitConverter
+        izzyRetrofitConverter: IzzyRetrofitConverter,
+        gsonParser: GsonParser,
     ): AnnotatedConverter {
         return AnnotatedConverter(
             factoryMap = mapOf(
                 GsonInterface::class.java to GsonConverterFactory.create(gson),
+                MyIzzyInterface::class.java to MyIzzyConverter(izzy = MyIzzy(izzyJsonParser = gsonParser)),
                 IzzyInterface::class.java to izzyRetrofitConverter
             )
         )
