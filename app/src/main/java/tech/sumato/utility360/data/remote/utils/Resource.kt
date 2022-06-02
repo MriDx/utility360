@@ -18,4 +18,8 @@ data class Resource<out T>(
 
     }
 
+    fun isSuccess() = status == Status.SUCCESS
+
+    fun isFailed() = status == Status.FAILED
+
 }

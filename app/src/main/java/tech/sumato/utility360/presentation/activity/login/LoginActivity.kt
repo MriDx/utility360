@@ -3,12 +3,14 @@ package tech.sumato.utility360.presentation.activity.login
 import android.graphics.Color
 import android.os.Bundle
 import android.text.SpannableStringBuilder
+import android.util.Log
 import androidx.core.os.bundleOf
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import androidx.core.text.color
 import androidx.databinding.DataBindingUtil
 import dagger.hilt.android.AndroidEntryPoint
+import tech.sumato.utility360.BuildConfig
 import tech.sumato.utility360.R
 import tech.sumato.utility360.databinding.LoginActivityBinding
 import tech.sumato.utility360.presentation.activity.base.BaseActivity
@@ -46,6 +48,8 @@ class LoginActivity : BaseActivity() {
         binding.loginBtn.setOnClickListener {
             startActivity(HomeActivity::class.java)
         }
+
+        Log.d("mridx", "onCreate: ${BuildConfig.DEBUG}")
 
     }
 

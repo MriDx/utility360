@@ -1,20 +1,43 @@
-package tech.sumato.utility360.presentation.fragments.tasks
+package tech.sumato.utility360.presentation.fragments.notification
 
 import android.os.Bundle
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.text.HtmlCompat
 import androidx.core.text.HtmlCompat.FROM_HTML_SEPARATOR_LINE_BREAK_PARAGRAPH
-import androidx.core.text.buildSpannedString
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import tech.sumato.utility360.R
 import tech.sumato.utility360.databinding.NotificationItemViewBinding
 import tech.sumato.utility360.presentation.fragments.base.listing.DemoListingFragment
+import tech.sumato.utility360.presentation.fragments.base.listing.ListingFragment
 
+
+@AndroidEntryPoint
+class NotificationsFragment : ListingFragment() {
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        searchIcon(false)
+
+        setTitle("Notifications")
+
+    }
+
+/*
+
+    override fun getTitle(): String {
+        return "Notifications"
+    }
+*/
+
+}
+
+/*
 @AndroidEntryPoint
 class NotificationsFragment : DemoListingFragment() {
 
@@ -127,4 +150,4 @@ class NotificationsFragment : DemoListingFragment() {
     }
 
 
-}
+}*/

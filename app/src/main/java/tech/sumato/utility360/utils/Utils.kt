@@ -18,6 +18,7 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
+import java.net.UnknownHostException
 
 
 fun Context.startActivity(activity: Class<*>, bundle: (() -> Bundle)? = null) {
@@ -112,4 +113,15 @@ fun Activity.appSettings() {
             APP_SETTINGS
         )
     }
+}
+
+
+fun parseException(e: Throwable?): String {
+    return when (e) {
+        is UnknownHostException -> {
+            "No internet available"
+        }
+        else -> e?.message ?: "No internet available"
+    }
+
 }

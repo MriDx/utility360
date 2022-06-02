@@ -132,5 +132,6 @@ As it is really important to upload Meter image for Meter Reading, you can allow
     <string name="svf_remarksHeading">Remarks</string>
     <string name="svf_siteRecommendationHeading">I recommend this site for connection.</string>
     <string name="svf_submit">Submit</string>
+    <string name="retry">Retry</string>
 
 </resources>

@@ -44,6 +44,10 @@ open class ListingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setTitle(getTitle())
+
+        binding.searchIcon.isVisible = showSearch()
+        //binding.filterBtn.isVisible = showFilter()
 
         binding.itemHolder.apply {
             adapter = this@ListingFragment.getAdapter()
@@ -112,6 +116,20 @@ open class ListingFragment : Fragment() {
     open fun hideProgressbar() {
         binding.progressbar.isVisible = false
     }
+
+    fun setTitle(title: String) {
+        binding.heading.text = title
+    }
+
+    open fun getTitle(): String = "Demo Listing"
+
+    open fun searchIcon(show: Boolean = false) {
+        binding.searchIcon.isVisible = false
+    }
+
+    open fun showSearch() = true
+
+    open fun showFilter() = true
 
 
     override fun onDestroyView() {

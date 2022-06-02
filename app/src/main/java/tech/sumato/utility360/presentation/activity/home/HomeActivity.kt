@@ -3,15 +3,12 @@ package tech.sumato.utility360.presentation.activity.home
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import androidx.viewpager2.widget.ViewPager2
 import dagger.hilt.android.AndroidEntryPoint
 import tech.sumato.utility360.R
 import tech.sumato.utility360.presentation.activity.base.container_bottm_navigation_activity.ContainerBottomNavigationActivity
-import tech.sumato.utility360.presentation.activity.base.fragment_holder.FragmentHolderActivity
-import tech.sumato.utility360.presentation.fragments.home.HomeFragment
 import tech.sumato.utility360.presentation.fragments.home.HomeFragmentDesign2
 import tech.sumato.utility360.presentation.fragments.profile.ProfileFragment
-import tech.sumato.utility360.presentation.fragments.tasks.NotificationsFragment
+import tech.sumato.utility360.presentation.fragments.notification.NotificationsFragment
 import tech.sumato.utility360.presentation.fragments.tasks.TasksFragment
 
 @AndroidEntryPoint
