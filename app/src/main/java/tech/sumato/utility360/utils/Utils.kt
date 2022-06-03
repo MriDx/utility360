@@ -18,6 +18,7 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
+import java.lang.Exception
 import java.net.UnknownHostException
 
 
@@ -120,6 +121,14 @@ fun parseException(e: Throwable?): String {
     return when (e) {
         is UnknownHostException -> {
             "No internet available"
+        }
+        is Exception -> {
+            when {
+                e.message?.contains("Unable to resolve host", ignoreCase = true) ?: false -> {
+                    "No internet available"
+                }
+                else -> e.message ?: "No internet available"
+            }
         }
         else -> e?.message ?: "No internet available"
     }

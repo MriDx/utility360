@@ -9,3 +9,8 @@ annotation class MyIzzyQualifier
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class MyIzzyConverterQualifier
+
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class CommonHeadersQualifier

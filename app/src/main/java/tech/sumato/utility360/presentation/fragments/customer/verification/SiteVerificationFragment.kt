@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import dagger.hilt.android.AndroidEntryPoint
 import tech.sumato.utility360.R
+import tech.sumato.utility360.data.remote.model.customer.CustomerResource
 import tech.sumato.utility360.databinding.ProfileInfoItemViewBinding
 import tech.sumato.utility360.databinding.SiteVerificationFragmentBinding
 
@@ -28,12 +29,40 @@ class SiteVerificationFragment : Fragment() {
         return binding.root
     }
 
+    private var customerResource: CustomerResource? = null
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        emulateUserDetails()
+        customerResource =
+            arguments?.getParcelable("data") ?: throw Exception("Customer data invalid")
 
+        //emulateUserDetails()
+
+        renderCustomerDetails()
+
+    }
+
+    private fun renderCustomerDetails() {
+        binding.apply {
+            binding.titleTextView.text = customerResource!!.name
+            binding.secondaryTextView.text = customerResource!!.pbg_id
+
+            customerResource!!.getSecondaryDetailsMap().forEach { item ->
+                val secondaryItemView = DataBindingUtil.inflate<ProfileInfoItemViewBinding>(
+                    LayoutInflater.from(requireContext()),
+                    R.layout.profile_info_item_view,
+                    binding.customerInfoHolder,
+                    false
+                ).apply {
+                    headingView.text = item.key
+                    valueView.text = item.value
+                }.root
+                binding.customerInfoHolder.addView(secondaryItemView)
+            }
+
+        }
     }
 
     private fun emulateUserDetails() {

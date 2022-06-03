@@ -5,6 +5,10 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="tech.sumato.utility360.presentation.activity.login.LoginActivityViewModel" />
+
 
     </data>
 
@@ -104,6 +108,7 @@
                         android:imeOptions="actionNext"
                         android:inputType="text|textEmailAddress"
                         android:maxLines="1"
+                        android:text="@={viewModel.loginRequest.email}"
                         tools:ignore="UnusedAttribute" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -128,12 +133,34 @@
                         android:hint="@string/loginPasswordHeading"
                         android:imeOptions="actionGo"
                         android:inputType="textPassword"
-                        android:maxLines="1" />
+                        android:maxLines="1"
+                        android:text="@={viewModel.loginRequest.password}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
 
-                <com.google.android.material.button.MaterialButton
+                <com.mridx.morse.element.ProgressButton
+                    android:id="@+id/loginBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:padding="0dp"
+                    android:text="@string/loginBtn"
+                    android:textSize="16sp"
+                    app:buttonHeight="48dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/passwordFieldLayout"
+                    app:layout_constraintVertical_bias="0"
+                    app:progressColor="@color/white"
+                    app:showProgressbar="@{viewModel.isLoading}"
+                    app:textAllCaps="false"
+                    android:onClick="@{() -> viewModel.login()}"
+                    />
+
+
+                <!--<com.google.android.material.button.MaterialButton
                     android:id="@+id/loginBtn"
                     style="?attr/colorButtonNormal"
                     android:layout_width="match_parent"
@@ -141,15 +168,16 @@
                     android:layout_marginTop="32dp"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
+                    android:onClick="@{() -> viewModel.login()}"
                     android:text="@string/loginBtn"
-                    android:textStyle="normal"
-                    android:textSize="16sp"
                     android:textAllCaps="false"
+                    android:textSize="16sp"
+                    android:textStyle="normal"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/passwordFieldLayout"
-                    app:layout_constraintVertical_bias="0" />
+                    app:layout_constraintVertical_bias="0" />-->
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/privacyPolicyLink"

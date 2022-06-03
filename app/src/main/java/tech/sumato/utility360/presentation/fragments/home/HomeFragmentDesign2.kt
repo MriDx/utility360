@@ -7,16 +7,25 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import tech.sumato.utility360.R
+import tech.sumato.utility360.data.local.entity.user.UserEntity
 import tech.sumato.utility360.data.utils.HomeFragmentActionData
 import tech.sumato.utility360.databinding.ArticleItemCardBinding
 import tech.sumato.utility360.databinding.HomeActionItemViewBinding
 import tech.sumato.utility360.databinding.HomeFragmentDesign2Binding
 import tech.sumato.utility360.presentation.activity.customer.verification.CustomerVerificationActivity
+import tech.sumato.utility360.presentation.activity.home.HomeActivityViewModel
 import tech.sumato.utility360.presentation.activity.meter.installation.MeterInstallationActivity
 import tech.sumato.utility360.presentation.activity.meter.reading.MeterReadingActivity
 import tech.sumato.utility360.utils.startActivity
@@ -30,6 +39,8 @@ class HomeFragmentDesign2 : Fragment() {
 
     @Inject
     lateinit var homeFragmentActions: List<HomeFragmentActionData>
+
+    private val viewModel by activityViewModels<HomeActivityViewModel>()
 
 
     override fun onCreateView(
@@ -51,6 +62,18 @@ class HomeFragmentDesign2 : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.userData.collectLatest { userData ->
+                        populateUserData(userData)
+                    }
+                }
+            }
+        }
 
 
         binding.homeActionHolder.apply {
@@ -104,6 +127,13 @@ class HomeFragmentDesign2 : Fragment() {
         }.render()
 
 
+    }
+
+    private fun populateUserData(userData: UserEntity) {
+        binding.apply {
+            userNameView.text = userData.name
+            designationView.text = userData.role
+        }
     }
 
     private fun handleHomeActionClick(actionData: HomeFragmentActionData?) {

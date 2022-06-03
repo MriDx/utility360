@@ -3,10 +3,8 @@ package tech.sumato.utility360.di
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
-import android.location.LocationRequest
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.play.core.ktx.BuildConfig
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.undabot.izzy.parser.GsonParser
@@ -26,6 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import tech.sumato.utility360.data.local.AppDao
 import tech.sumato.utility360.data.local.AppDatabase
 import tech.sumato.utility360.data.remote.model.customer.CustomerResource
+import tech.sumato.utility360.data.remote.model.grographical.GeographicalAreaResource
 import tech.sumato.utility360.data.remote.model.site.SiteVerificationResource
 import tech.sumato.utility360.data.remote.web_service.services.ApiHelper
 import tech.sumato.utility360.data.remote.web_service.services.ApiHelperImpl
@@ -65,6 +64,7 @@ object AppModule {
                 resourceTypes = arrayOf(
                     CustomerResource::class.java,
                     SiteVerificationResource::class.java,
+                    GeographicalAreaResource::class.java,
                 )
             ),
             gson = gson
@@ -77,12 +77,12 @@ object AppModule {
         return Izzy(izzyJsonParser = gsonParser)
     }
 
-  /*  @Provides
-    @Singleton
-    @MyIzzyQualifier
-    fun provideMyIzzy(gsonParser: GsonParser): MyIzzy {
-        return MyIzzy(izzyJsonParser = gsonParser)
-    }*/
+    /*  @Provides
+      @Singleton
+      @MyIzzyQualifier
+      fun provideMyIzzy(gsonParser: GsonParser): MyIzzy {
+          return MyIzzy(izzyJsonParser = gsonParser)
+      }*/
 
     @Provides
     @Singleton
@@ -121,13 +121,27 @@ object AppModule {
         }
     }
 
-    @Singleton
     @Provides
-    fun provideAuthInterceptor(): Interceptor {
-        // TODO: build auth request
+    @Singleton
+    @CommonHeadersQualifier
+    fun provideCommonHeadersInterceptor(): Interceptor {
         return Interceptor { chain ->
             val request = chain.request()
+            val newRequest = request.newBuilder()
+                .addHeader("Accept", "application/json")
+                .build()
+            chain.proceed(newRequest)
+        }
+    }
+
+    @Singleton
+    @Provides
+    fun provideAuthInterceptor(sharedPreferences: SharedPreferences): Interceptor {
+        return Interceptor { chain ->
+            val request = chain.request()
+            val token = sharedPreferences.getString(TOKEN, "") ?: ""
             val authRequest = request.newBuilder()
+                .addHeader("Authorization", token)
                 .build()
             chain.proceed(authRequest)
         }
@@ -139,11 +153,14 @@ object AppModule {
     fun provideOkHttpClient(
         loggingInterceptor: HttpLoggingInterceptor,
         authInterceptor: Interceptor,
+        @CommonHeadersQualifier
+        commonHeadersInterceptor: Interceptor
     ): OkHttpClient {
         return OkHttpClient.Builder().apply {
             //   if (BuildConfig.DEBUG)
             addInterceptor(loggingInterceptor)
             addInterceptor(authInterceptor)
+            addInterceptor(commonHeadersInterceptor)
             callTimeout(600, TimeUnit.SECONDS)
             readTimeout(600, TimeUnit.SECONDS)
             connectTimeout(10000, TimeUnit.SECONDS)

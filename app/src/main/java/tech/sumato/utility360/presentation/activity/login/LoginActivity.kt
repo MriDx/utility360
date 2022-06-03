@@ -4,14 +4,21 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.core.os.bundleOf
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import androidx.core.text.color
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import tech.sumato.utility360.BuildConfig
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import tech.sumato.utility360.R
+import tech.sumato.utility360.data.remote.model.user.LoginResponse
+import tech.sumato.utility360.data.remote.model.user.UserResponse
+import tech.sumato.utility360.data.remote.utils.Resource
 import tech.sumato.utility360.databinding.LoginActivityBinding
 import tech.sumato.utility360.presentation.activity.base.BaseActivity
 import tech.sumato.utility360.presentation.activity.home.HomeActivity
@@ -23,6 +30,8 @@ class LoginActivity : BaseActivity() {
 
     private lateinit var binding: LoginActivityBinding
 
+    private val viewModel by viewModels<LoginActivityViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -30,6 +39,7 @@ class LoginActivity : BaseActivity() {
             DataBindingUtil.setContentView<LoginActivityBinding>(this, R.layout.login_activity)
                 .apply {
                     setLifecycleOwner { lifecycle }
+                    viewModel = this@LoginActivity.viewModel
                 }
 
         binding.welcomeText.text = buildSpannedString {
@@ -45,12 +55,40 @@ class LoginActivity : BaseActivity() {
             color(Color.BLUE) { bold { append(getString(R.string.privacyPolicy)) } }
         }
 
-        binding.loginBtn.setOnClickListener {
-            startActivity(HomeActivity::class.java)
+
+        lifecycleScope.launch {
+            launch {
+                viewModel.loginResponse.collectLatest { loginResponse ->
+                    if (loginResponse.isFailed()) {
+                        //show failed
+                        showSnackbar(message = loginResponse.message ?: "Something went wrong !")
+                        return@collectLatest
+                    }
+                    //success
+                    handleLoginSuccess(loginResponse)
+                }
+            }
+            launch {
+                viewModel.isLoggedIn.collectLatest { loggedIn ->
+                    if (loggedIn) navigateToHome()
+                }
+            }
         }
 
-        Log.d("mridx", "onCreate: ${BuildConfig.DEBUG}")
 
+    }
+
+    private fun navigateToHome() {
+        startActivity(HomeActivity::class.java)
+        finish()
+    }
+
+    private fun handleLoginSuccess(loginResponse: Resource<LoginResponse>) {
+        startActivity(HomeActivity::class.java)
+    }
+
+    private fun showSnackbar(message: String) {
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
     }
 
 }

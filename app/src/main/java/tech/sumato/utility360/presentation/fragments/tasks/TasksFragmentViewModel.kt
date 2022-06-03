@@ -33,8 +33,11 @@ class TasksFragmentViewModel @Inject constructor(
 
     fun getCustomers(query: MutableMap<String, String> = mutableMapOf()) = Pager(
         config = PagingConfig(pageSize = 2, prefetchDistance = 2),
-        pagingSourceFactory = { CustomerDataSource(getCustomersWithDocumentUseCase, query = query) }
-    ).flow.cachedIn(viewModelScope)
+        pagingSourceFactory = {
+            CustomerDataSource(getCustomersWithDocumentUseCase, query = query)
+        })
+        .flow
+        .cachedIn(viewModelScope)
 
 
 }

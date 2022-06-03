@@ -60,9 +60,9 @@ class TasksFragment : ListingFragment() {
                         customersAdapter.submitData(pagingData)
                     }
                 }
-                /*launch {
+                launch {
                     customersAdapter.loadStateFlow.collectLatest { loadState ->
-                        if (loadState.source.refresh is LoadState.NotLoading) {
+                        if (loadState.source.refresh is LoadState.NotLoading || loadState.source.refresh is LoadState.Error) {
                             setRefreshing(isRefreshing = false)
                         }
                         if (loadState.source.refresh is LoadState.NotLoading && loadState.append.endOfPaginationReached && customersAdapter.itemCount < 1) {
@@ -83,7 +83,7 @@ class TasksFragment : ListingFragment() {
                             viewModel.setUIError(UIError.hide())
                         }
                     }
-                }*/
+                }
             }
         }
 
@@ -93,6 +93,10 @@ class TasksFragment : ListingFragment() {
     /*override fun getTitle(): String {
         return "Pending Tasks"
     }*/
+
+    override fun onRefreshing() {
+        customersAdapter.refresh()
+    }
 
     override fun <T> getViewModel(): T? {
         return viewModel as T
