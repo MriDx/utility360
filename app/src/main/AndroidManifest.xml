@@ -42,20 +42,24 @@
         <activity
             android:name=".presentation.activity.login.LoginActivity"
             android:theme="@style/Theme.AppTemplate.NoActionBar" />
+
         <activity
             android:name=".presentation.activity.home.HomeActivity"
             android:theme="@style/Theme.AppTemplate.NoActionBar" />
         <activity android:name=".presentation.activity.meter.reading.MeterReadingActivity" />
+
         <activity
             android:name=".presentation.activity.camera.CustomCamera"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/Theme.AppTemplate.NoActionBar.NoStatusBar" />
+
         <activity android:name=".presentation.activity.meter.installation.MeterInstallationActivity"
             android:windowSoftInputMode="adjustResize|adjustPan"
             />
 
         <activity android:name=".presentation.activity.customer.verification.CustomerVerificationActivity"
             android:theme="@style/Theme.AppTemplate"
+            android:windowSoftInputMode="adjustResize"
             />
 
         <provider

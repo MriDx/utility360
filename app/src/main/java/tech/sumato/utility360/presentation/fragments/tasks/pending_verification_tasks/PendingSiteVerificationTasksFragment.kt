@@ -49,6 +49,11 @@ class PendingSiteVerificationTasksFragment : ListingFragment() {
                         pendingVerificationTasksAdapter.submitData(pagingData)
                     }
                 }
+                /*launch {
+                    viewModel.getPendingSiteVerifications().collectLatest { pagingData ->
+                        pendingVerificationTasksAdapter.submitData(pagingData)
+                    }
+                }*/
                 launch {
                     pendingVerificationTasksAdapter.loadStateFlow.collectLatest { loadState ->
                         if (loadState.source.refresh is LoadState.NotLoading || loadState.source.refresh is LoadState.Error) {

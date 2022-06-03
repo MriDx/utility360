@@ -62,7 +62,12 @@ class CustomerVerificationActivity : FragmentHolderActivity() {
     }
 
     override fun onFragmentChanged(fragment: Fragment) {
-        setActionBarTitle(getString(R.string.siteVerificationActivityTitle))
+        when (fragment) {
+            is PendingSiteVerificationTasksFragment -> {
+                //clear site verification task data object
+                //viewModel.clearSiteVerificationObject()
+            }
+        }
     }
 
 

@@ -8,6 +8,7 @@ import tech.sumato.utility360.data.remote.model.user.LoginResponse
 import tech.sumato.utility360.data.remote.model.user.LogoutResponse
 import tech.sumato.utility360.data.remote.model.user.UserResponse
 import tech.sumato.utility360.data.remote.model.utils.ResponseResource
+import tech.sumato.utility360.data.remote.model.utils.SimpleResponse
 import javax.inject.Inject
 
 class ApiHelperImpl @Inject constructor(private val apiService: ApiService) : ApiHelper {
@@ -20,6 +21,15 @@ class ApiHelperImpl @Inject constructor(private val apiService: ApiService) : Ap
         apiService.login(loginRequestBody)
 
     override suspend fun logout(): Response<LogoutResponse> = apiService.logout()
+
+    override suspend fun pendingSiteVerifications(query: Map<String, String>): Response<JsonDocument<List<CustomerResource>>> =
+        apiService.pendingSiteVerifications(query)
+
+    override suspend fun submitSiteVerification(
+        uuid: String,
+        siteVerificationRequestBody: RequestBody
+    ): Response<SimpleResponse> =
+        apiService.submitSiteVerification(uuid, siteVerificationRequestBody)
 
 
 }

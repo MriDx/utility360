@@ -4,12 +4,14 @@ import com.undabot.izzy.models.JsonDocument
 import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.Path
 import retrofit2.http.QueryMap
 import tech.sumato.utility360.data.remote.model.customer.CustomerResource
 import tech.sumato.utility360.data.remote.model.user.LoginResponse
 import tech.sumato.utility360.data.remote.model.user.LogoutResponse
 import tech.sumato.utility360.data.remote.model.user.UserResponse
 import tech.sumato.utility360.data.remote.model.utils.ResponseResource
+import tech.sumato.utility360.data.remote.model.utils.SimpleResponse
 
 interface ApiHelper {
 
@@ -20,5 +22,10 @@ interface ApiHelper {
 
     suspend fun logout(): Response<LogoutResponse>
 
+    suspend fun pendingSiteVerifications(query: Map<String, String>): Response<JsonDocument<List<CustomerResource>>>
+
+    suspend fun submitSiteVerification(
+        uuid: String, siteVerificationRequestBody: RequestBody
+    ): Response<SimpleResponse>
 
 }
