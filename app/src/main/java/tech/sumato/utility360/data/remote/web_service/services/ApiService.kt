@@ -41,7 +41,7 @@ interface ApiService {
     @GsonInterface
     @POST("customers/{uuid}/site-verification")
     suspend fun submitSiteVerification(
-        @Path("uuid") uuid: String,
+        @Path("uuid", encoded = true) uuid: String,
         @Body siteVerificationRequestBody: RequestBody
     ): Response<SimpleResponse>
 

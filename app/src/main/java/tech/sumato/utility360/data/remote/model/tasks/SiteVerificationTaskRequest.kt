@@ -13,17 +13,19 @@ class SiteVerificationTaskRequest(
     var photo: String = "",
     var customer_location: String = "",
     var domestic: Boolean = false,
-    var commercial: Boolean = false
+    var commercial: Boolean = false,
+    var uploadableImagePath: String = "",
+    var customerUuid: String = ""
 ) {
 
     fun validate() =
-        nearest_point.isNotEmpty() && photo.isNotEmpty() && customer_location.isNotEmpty()
+        nearest_point.isNotEmpty() && uploadableImagePath.isNotEmpty()
 
     fun toJson(): JSONObject {
         return JSONObject().apply {
             put("site_address_verified", site_address_verified)
             put("site_feasibility", site_feasibility)
-            put("nearest_point", nearest_point)
+            put("nearest_point", "$nearest_point meter")
             put(
                 "remarks",
                 "${if (domestic) "Site is suitable for Domestic connection" else "Site is not suitable for Domestic connection"} \n ${if (commercial) "Site is suitable for Commercial connection" else "Site is not suitable for commercial connection"} \nRemarks - \n$remarks"

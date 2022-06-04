@@ -74,4 +74,5 @@ open class PostSubmitProgressFragment : Fragment(), ParentActivity {
         binding.primaryBtn.isVisible = false
     }
 
+
 }

@@ -25,6 +25,8 @@ abstract class FragmentHolderActivity : BaseActivity() {
             field = value
         }
 
+    var currentVisibleFragment: Fragment? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -37,6 +39,7 @@ abstract class FragmentHolderActivity : BaseActivity() {
 
         supportFragmentManager.addOnBackStackChangedListener {
             val currentFragment = supportFragmentManager.findFragmentById(binding.fragmentHolder.id)
+            currentVisibleFragment = currentFragment
             onFragmentChanged?.invoke(currentFragment)
             currentFragment?.let { onFragmentChanged(fragment = it) }
         }
@@ -91,7 +94,7 @@ abstract class FragmentHolderActivity : BaseActivity() {
     }
 
 
-     fun hideSystemUI() {
+    fun hideSystemUI() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         WindowInsetsControllerCompat(window, binding.root).let { controller ->
             controller.hide(WindowInsetsCompat.Type.systemBars())
@@ -100,7 +103,7 @@ abstract class FragmentHolderActivity : BaseActivity() {
         }
     }
 
-     fun showSystemUI() {
+    fun showSystemUI() {
         WindowCompat.setDecorFitsSystemWindows(window, true)
         WindowInsetsControllerCompat(
             window,

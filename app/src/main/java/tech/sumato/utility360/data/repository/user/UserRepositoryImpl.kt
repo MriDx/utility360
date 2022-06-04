@@ -49,9 +49,11 @@ class UserRepositoryImpl @Inject constructor(
 
         sharedPreferences.edit {
             putBoolean(LOGGED_IN, true)
+            putString(USER_ID, loginResponse.user!!.id)
+            putString(USER_TYPE, loginResponse.user.type)
             putString(TOKEN, loginResponse.getAccessToken())
-            putString(NAME, loginResponse.user!!.attributes!!.name)
-            putString(EMAIL, loginResponse.user.attributes!!.email)
+            putString(NAME, loginResponse.user.attributes!!.name)
+            putString(EMAIL, loginResponse.user.attributes.email)
             putString(ROLE, loginResponse.user.attributes.role)
             putString(GEO_AREA, loginResponse.user.attributes.geographical_area)
             putString(JOINED_FORMATTED, loginResponse.user.attributes.created?.formatted)

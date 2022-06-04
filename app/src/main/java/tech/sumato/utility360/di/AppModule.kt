@@ -5,6 +5,9 @@ import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ktx.storage
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.undabot.izzy.parser.GsonParser
@@ -222,6 +225,14 @@ object AppModule {
     fun provideFusedLocationProviderClient(@ApplicationContext context: Context): FusedLocationProviderClient {
         return LocationServices.getFusedLocationProviderClient(context)
     }
+
+
+    @Singleton
+    @Provides
+    fun provideFirebaseStorage() : FirebaseStorage {
+        return Firebase.storage
+    }
+
 
 
 }
