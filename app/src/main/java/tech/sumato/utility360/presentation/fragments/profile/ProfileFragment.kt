@@ -183,6 +183,13 @@ class ProfileFragment : Fragment() {
                 profileInfoView.addView(itemView)
             }
 
+            Glide.with(requireContext())
+                .asBitmap()
+                .load(userData.photo)
+                .placeholder(PlaceHolderDrawableHelper.getAvatar(requireContext(), userData.name, 0))
+                .into(binding.avatarView)
+
+
         }
     }
 

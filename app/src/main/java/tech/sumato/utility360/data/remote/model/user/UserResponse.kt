@@ -22,4 +22,5 @@ data class UserAttributesResponse(
     val geographical_area: String? = null,
     val permissions: List<Any> = emptyList(),
     val created: CreatedResource? = null,
+    val photo: String = "",
 )

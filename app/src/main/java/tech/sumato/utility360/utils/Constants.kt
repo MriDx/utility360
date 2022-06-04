@@ -16,6 +16,7 @@ const val GEO_AREA = "geo_area"
 const val PERMISSIONS = "permissions"
 const val JOINED_FORMATTED = "joined_formatted"
 const val JOINED_DATE = "joined_date"
+const val PHOTO = "photo"
 
 
 const val FIREBASE_STORAGE = "https://firebasestorage.googleapis.com"
@@ -25,3 +26,6 @@ const val METER_READING_IMAGE_DIR = "meter_reading_images/"
 const val SITE_IMAGE_DIR = "site_images/"
 const val SERVICE_METER_IMAGE_DIR = "service_meter_images/"
 const val METER_INSTALLATION_IMAGE_DIR = "meter_installation_images/"
+
+const val METER_INSTALLATION_SITE_IMAGE = "${METER_INSTALLATION_IMAGE_DIR}site_image_"
+const val METER_INSTALLATION_METER_IMAGE = "${METER_INSTALLATION_IMAGE_DIR}meter_image_"

@@ -15,6 +15,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.sumato.etrack_agri.ui.utils.PlaceHolderDrawableHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -133,6 +135,13 @@ class HomeFragmentDesign2 : Fragment() {
         binding.apply {
             userNameView.text = userData.name
             designationView.text = userData.role
+
+            Glide.with(requireContext())
+                .asBitmap()
+                .load(userData.photo)
+                .placeholder(PlaceHolderDrawableHelper.getAvatar(requireContext(), userData.name, 0))
+                .into(avatar)
+
         }
     }
 

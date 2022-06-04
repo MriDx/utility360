@@ -17,4 +17,11 @@ interface TasksRepository {
         jsonParams: JSONObject
     ): Resource<SimpleResponse>
 
+    suspend fun submitMeterInstallation(
+        customerUuid: String,
+        jsonParams: JSONObject
+    ): Resource<SimpleResponse>
+
+    suspend fun getPendingMeterInstallations(query: Map<String, String>): Resource<JsonDocument<List<CustomerResource>>>
+
 }

@@ -21,8 +21,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/slate_50"
-        android:fitsSystemWindows="true">
+        android:background="@color/slate_50">
 
 
         <androidx.core.widget.NestedScrollView
@@ -250,7 +249,7 @@
                             android:layout_marginStart="0dp"
                             android:layout_marginTop="12dp"
                             android:layout_marginEnd="0dp"
-                            android:background="@color/slate_50"
+                            android:background="@color/slate_200"
                             app:shapeAppearanceOverlay="@style/RoundedCornerImageView.10" />
 
 

@@ -51,7 +51,7 @@ class TasksFragment : ListingFragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
+                /*launch {
                     viewModel.getCustomers(
                         query = mutableMapOf(
                             "include" to "customerCheck"
@@ -59,7 +59,7 @@ class TasksFragment : ListingFragment() {
                     ).collectLatest { pagingData ->
                         customersAdapter.submitData(pagingData)
                     }
-                }
+                }*/
                 launch {
                     customersAdapter.loadStateFlow.collectLatest { loadState ->
                         if (loadState.source.refresh is LoadState.NotLoading || loadState.source.refresh is LoadState.Error) {

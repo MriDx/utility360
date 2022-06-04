@@ -6,16 +6,22 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import tech.sumato.utility360.data.remote.web_service.source.customer.CustomerDataSource
 import tech.sumato.utility360.data.utils.FragmentNavigation
+import tech.sumato.utility360.domain.use_case.customer.GetCustomersWithDocumentUseCase
 import tech.sumato.utility360.domain.use_case.location.EnableGpsUseCase
 import tech.sumato.utility360.domain.use_case.location.GnssStatusListenerUseCase
 import tech.sumato.utility360.domain.use_case.location.GpsResult
 import tech.sumato.utility360.domain.use_case.location.LocationUpdatesUseCase
+import tech.sumato.utility360.presentation.fragments.base.listing.ListingViewModel
 import tech.sumato.utility360.presentation.fragments.customer.find.FindCustomerFragment
 import tech.sumato.utility360.presentation.utils.Navigation
 import tech.sumato.utility360.utils.NotInUse
@@ -28,8 +34,9 @@ class MeterReadingActivityViewModel @Inject constructor(
     private val locationUpdatesUseCase: LocationUpdatesUseCase,
     private val enableGpsUseCase: EnableGpsUseCase,
     private val gnssStatusListenerUseCase: GnssStatusListenerUseCase,
+    private val getCustomersWithDocumentUseCase: GetCustomersWithDocumentUseCase,
 
-    ) : ViewModel(), Navigation {
+    ) : ListingViewModel(), Navigation {
 
 
     private var navigation_ = MutableSharedFlow<FragmentNavigation>()
@@ -157,5 +164,14 @@ class MeterReadingActivityViewModel @Inject constructor(
 
 
     //endregion
+
+
+    fun getCustomers(query: MutableMap<String, String> = mutableMapOf()) = Pager(
+        config = PagingConfig(pageSize = 2, prefetchDistance = 2),
+        pagingSourceFactory = {
+            CustomerDataSource(getCustomersWithDocumentUseCase, query = query)
+        })
+        .flow
+        .cachedIn(viewModelScope)
 
 }

@@ -10,7 +10,8 @@ data class UserEntity(
     val email: String = "",
     val role: String = "",
     val geoArea: String = "",
-    val joinedOn: String = ""
+    val joinedOn: String = "",
+    val photo: String = "",
 ) {
 
     companion object {
@@ -22,6 +23,7 @@ data class UserEntity(
                 role = map[ROLE].toString(),
                 geoArea = map[GEO_AREA].toString(),
                 joinedOn = map[JOINED_FORMATTED].toString(),
+                photo = map[PHOTO].toString()
             )
         }
     }

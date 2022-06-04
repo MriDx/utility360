@@ -4,21 +4,20 @@ import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import tech.sumato.utility360.BuildConfig
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
-import java.lang.Exception
 import java.net.UnknownHostException
 
 
@@ -133,4 +132,11 @@ fun parseException(e: Throwable?): String {
         else -> e?.message ?: "No internet available"
     }
 
+}
+
+
+fun View.hideKeyboard() {
+    val imm: InputMethodManager =
+        context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.hideSoftInputFromWindow(windowToken, 0)
 }

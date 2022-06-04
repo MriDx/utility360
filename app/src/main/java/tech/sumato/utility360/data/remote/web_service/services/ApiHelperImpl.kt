@@ -31,5 +31,15 @@ class ApiHelperImpl @Inject constructor(private val apiService: ApiService) : Ap
     ): Response<SimpleResponse> =
         apiService.submitSiteVerification(uuid, siteVerificationRequestBody)
 
+    override suspend fun pendingMeterInstallations(query: Map<String, String>): Response<JsonDocument<List<CustomerResource>>> =
+        apiService.pendingMeterInstallations(query)
+
+
+    override suspend fun submitMeterInstallation(
+        uuid: String,
+        requestBody: RequestBody
+    ): Response<SimpleResponse> =
+        apiService.submitMeterInstallation(uuid, requestBody)
+
 
 }

@@ -10,13 +10,18 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import tech.sumato.utility360.R
 import tech.sumato.utility360.databinding.ProfileInfoItemViewBinding
 import tech.sumato.utility360.databinding.UserFinderFragmentBinding
 import tech.sumato.utility360.presentation.activity.meter.reading.MeterReadingActivityViewModel
 import tech.sumato.utility360.presentation.fragments.meter.reading.MeterReadingFragment
+import tech.sumato.utility360.utils.hideKeyboard
 
 @AndroidEntryPoint
 class FindCustomerFragment : Fragment() {
@@ -54,7 +59,15 @@ class FindCustomerFragment : Fragment() {
 
             findUserBtn.setOnClickListener {
                 val typedId = binding.customerIdField.text.toString()
-                emulateUserFinder(typedId)
+                //emulateUserFinder(typedId)
+                it.hideKeyboard()
+                if (typedId == "ttmu") {
+                    emulateDataReceived("ttmu")
+                    return@setOnClickListener
+                }
+                binding.findUserBtn.showProgressbar(true)
+
+                emulateUserNotFound()
             }
 
             findAnotherBtn.setOnClickListener {
@@ -67,6 +80,16 @@ class FindCustomerFragment : Fragment() {
 
         }
 
+    }
+
+    private fun emulateUserNotFound() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            delay(1000 * 2)
+            withContext(Dispatchers.Main) {
+                binding.findUserBtn.showProgressbar(false)
+                Snackbar.make(binding.root, "User not found !", Snackbar.LENGTH_LONG).show()
+            }
+        }
     }
 
     private fun emulateUserFinder(typedId: String) {

@@ -16,7 +16,7 @@ import tech.sumato.utility360.databinding.FragmentHolderActivityBinding
 import tech.sumato.utility360.presentation.activity.base.BaseActivity
 
 @AndroidEntryPoint
-abstract class FragmentHolderActivity : BaseActivity() {
+open class FragmentHolderActivity : BaseActivity() {
 
     private lateinit var binding: FragmentHolderActivityBinding
 

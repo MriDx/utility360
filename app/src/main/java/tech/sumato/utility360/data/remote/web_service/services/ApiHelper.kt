@@ -28,4 +28,10 @@ interface ApiHelper {
         uuid: String, siteVerificationRequestBody: RequestBody
     ): Response<SimpleResponse>
 
+    suspend fun pendingMeterInstallations(query: Map<String, String>): Response<JsonDocument<List<CustomerResource>>>
+
+    suspend fun submitMeterInstallation(
+        uuid: String,
+        requestBody: RequestBody
+    ): Response<SimpleResponse>
 }

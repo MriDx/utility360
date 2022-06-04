@@ -58,6 +58,7 @@ class UserRepositoryImpl @Inject constructor(
             putString(GEO_AREA, loginResponse.user.attributes.geographical_area)
             putString(JOINED_FORMATTED, loginResponse.user.attributes.created?.formatted)
             putString(JOINED_DATE, loginResponse.user.attributes.created?.date)
+            putString(PHOTO, loginResponse.user.attributes.photo)
             //putString(PERMISSIONS, loginResponse.user.attributes.permissions)
         }
 

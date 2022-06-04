@@ -25,6 +25,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import tech.sumato.utility360.R
+import tech.sumato.utility360.data.remote.model.customer.CustomerResource
 import tech.sumato.utility360.databinding.MeterReadingFragmentBinding
 import tech.sumato.utility360.databinding.ProfileInfoItemViewBinding
 import tech.sumato.utility360.presentation.activity.camera.CaptureOptions
@@ -63,6 +64,8 @@ class MeterReadingFragment : Fragment() {
         }
     }
 
+    private var customerResource: CustomerResource? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -79,24 +82,28 @@ class MeterReadingFragment : Fragment() {
         return binding.root
     }
 
-    var primaryDetails = emptyMap<String, String>()
-    var secondaryDetails = emptyMap<String, String>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        primaryDetails =
-            (arguments?.get("primaryDetails") as? Map<String, String>) ?: throw Exception("")
-        secondaryDetails =
-            (arguments?.get("secondaryDetails") as? Map<String, String>) ?: throw Exception("")
+        customerResource =
+            arguments?.getParcelable("data") ?: throw Exception("Customer data invalid")
 
-        binding.titleTextView.text = primaryDetails["name"].toString()
-        binding.secondaryTextView.text = primaryDetails["id"].toString()
+        renderCustomerDetails()
 
-        val allowedParams = arrayOf("Meter Id", "Previous reading", "Previous reading on")
 
-        secondaryDetails.forEach { item ->
-            if (allowedParams.contains(item.key)) {
+        binding.meterImageView.setOnClickListener {
+            openCameraPreview()
+        }
+
+    }
+
+    private fun renderCustomerDetails() {
+        binding.apply {
+            binding.titleTextView.text = customerResource!!.name
+            binding.secondaryTextView.text = customerResource!!.pbg_id
+
+            customerResource!!.getSecondaryDetailsMap().forEach { item ->
                 val secondaryItemView = DataBindingUtil.inflate<ProfileInfoItemViewBinding>(
                     LayoutInflater.from(requireContext()),
                     R.layout.profile_info_item_view,
@@ -108,13 +115,10 @@ class MeterReadingFragment : Fragment() {
                 }.root
                 binding.customerInfoHolder.addView(secondaryItemView)
             }
-        }
 
-        binding.meterImageView.setOnClickListener {
-            openCameraPreview()
         }
-
     }
+
 
     private fun openCameraPreview() {
         //check camera permission
@@ -165,8 +169,8 @@ class MeterReadingFragment : Fragment() {
                 file = file,
                 waterMarkData = Data.WaterMarkData(
                     waterMarks = mapOf(
-                        "Customer Id" to primaryDetails["id"].toString(),
-                        "Meter Id" to secondaryDetails["Meter Id"].toString(),
+                        "Customer name" to customerResource!!.name!!,
+                        //"Meter Id" to secondaryDetails["Meter Id"].toString(),
                         "Uploaded via" to getString(R.string.app_name)
                     ),
                     position = Data.WaterMarkPosition.BOTTOM_LEFT

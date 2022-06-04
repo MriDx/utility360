@@ -67,5 +67,56 @@ class TasksRepositoryImpl @Inject constructor(
     }
 
 
+    override suspend fun submitMeterInstallation(
+        customerUuid: String,
+        jsonParams: JSONObject
+    ): Resource<SimpleResponse> =
+        withContext(Dispatchers.IO) {
+            try {
+
+                val requestBody =
+                    jsonParams.toString().toRequestBody("application/json".toMediaTypeOrNull())
+
+
+                val response = apiHelper.submitMeterInstallation(
+                    uuid = customerUuid,
+                    requestBody = requestBody
+                )
+
+                if (!response.isSuccessful) {
+                    //
+                    throw Exception("api error")
+                }
+
+                Resource.success(data = response.body()!!)
+
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Resource.error(message = e.message)
+            }
+        }
+
+
+    override suspend fun getPendingMeterInstallations(query: Map<String, String>):
+            Resource<JsonDocument<List<CustomerResource>>> =
+        withContext(Dispatchers.IO) {
+            try {
+
+                val response = apiHelper.pendingMeterInstallations(query)
+
+                if (!response.isSuccessful) {
+                    //
+                    throw Exception("Api error")
+                }
+
+                Resource.success(data = response.body()!!)
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Resource.error(message = e.message)
+            }
+        }
+
 }
 
