@@ -25,17 +25,11 @@ open class ListingFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding_ = DataBindingUtil.inflate<ListingFragmnetBinding>(
-            inflater,
-            R.layout.listing_fragmnet,
-            container,
-            false
-        ).apply {
+        binding_ = ListingFragmnetBinding.inflate(inflater, container, false).apply {
             setLifecycleOwner { viewLifecycleOwner.lifecycle }
             this@ListingFragment.getViewModel<ListingViewModel>()?.let {
                 viewModel = it
             }
-
         }
         return binding.root
     }

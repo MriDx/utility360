@@ -58,6 +58,7 @@ class CustomerVerificationActivityViewModel
     private var siteVerificationTaskRequestObject: SiteVerificationTaskRequest? = null
 
     var jobInProgress: Boolean = false
+    var jobSuccess: Boolean = false
 
 
     fun getCustomers(query: MutableMap<String, String> = mutableMapOf()) = Pager(

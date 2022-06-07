@@ -56,10 +56,12 @@ class MeterInstallationActivity : FragmentHolderActivity() {
         when (fragment) {
             is MeterInstallationSubmissionFragment -> {
                 //
-                hideSystemUI()
+                //hideSystemUI()
+                supportActionBar?.hide()
             }
             else -> {
-                showSystemUI()
+                //showSystemUI()
+                supportActionBar?.show()
             }
         }
     }

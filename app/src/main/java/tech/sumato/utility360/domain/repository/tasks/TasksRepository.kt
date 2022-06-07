@@ -24,4 +24,6 @@ interface TasksRepository {
 
     suspend fun getPendingMeterInstallations(query: Map<String, String>): Resource<JsonDocument<List<CustomerResource>>>
 
+    suspend fun submitMeterReading(customerUuid: String, params: JSONObject): Resource<SimpleResponse>
+
 }

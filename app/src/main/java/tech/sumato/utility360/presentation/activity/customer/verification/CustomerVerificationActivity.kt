@@ -120,9 +120,10 @@ class CustomerVerificationActivity : FragmentHolderActivity() {
             if (viewModel.jobInProgress) {
                 return
             }
-            /*while (supportFragmentManager.backStackEntryCount > 0) {
+            if (!viewModel.jobSuccess) {
                 supportFragmentManager.popBackStack()
-            }*/
+                return
+            }
             supportFragmentManager.popBackStackImmediate(
                 null,
                 FragmentManager.POP_BACK_STACK_INCLUSIVE
@@ -259,10 +260,12 @@ class CustomerVerificationActivity : FragmentHolderActivity() {
         when (fragment) {
             is SiteVerificationSubmissionFragment -> {
                 //
-                hideSystemUI()
+                //hideSystemUI()
+                supportActionBar?.hide()
             }
             else -> {
-                showSystemUI()
+                //showSystemUI()
+                supportActionBar?.show()
             }
         }
     }

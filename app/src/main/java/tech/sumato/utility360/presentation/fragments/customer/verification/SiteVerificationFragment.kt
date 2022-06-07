@@ -105,7 +105,10 @@ class SiteVerificationFragment : Fragment() {
 
             getFormData()
 
+            navigateAndSubmit()
 
+
+/*
             siteVerificationTaskObject.uploadableImagePath = rawImageFilePath
 
             if (!siteVerificationTaskObject.validate()) {
@@ -116,7 +119,7 @@ class SiteVerificationFragment : Fragment() {
 
             Log.d("mridx", "onViewCreated: ${siteVerificationTaskObject.toJson()}")
 
-            navigateAndSubmit()
+            navigateAndSubmit()*/
 
 
             /*siteVerificationTaskRequest.get()!!.uploadableImagePath = rawImageFilePath
@@ -137,9 +140,9 @@ class SiteVerificationFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.IO) {
             viewModel.navigate(fragment = SiteVerificationSubmissionFragment::class.java)
 
-            viewModel.submitVerification(
+            /*viewModel.submitVerification(
                 paramsObject = siteVerificationTaskObject
-            )
+            )*/
         }
     }
 

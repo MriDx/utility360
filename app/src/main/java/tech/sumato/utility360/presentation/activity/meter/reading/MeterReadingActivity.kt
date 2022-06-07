@@ -13,6 +13,7 @@ import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
@@ -25,6 +26,7 @@ import tech.sumato.utility360.data.utils.FragmentNavigation
 import tech.sumato.utility360.presentation.activity.base.fragment_holder.FragmentHolderActivity
 import tech.sumato.utility360.presentation.fragments.customer.find.FindCustomerFragment
 import tech.sumato.utility360.presentation.fragments.meter.reading.MeterReadingFragment
+import tech.sumato.utility360.presentation.fragments.meter.reading.submission.MeterReadingSubmissionFragment
 import tech.sumato.utility360.presentation.fragments.tasks.meter_reading_tasks.MeterReadingTasksFragment
 import tech.sumato.utility360.utils.*
 import javax.inject.Inject
@@ -204,8 +206,13 @@ class MeterReadingActivity : FragmentHolderActivity() {
     }
 
     private fun addDefaultFragment() {
-        addFragment(
+        /*addFragment(
             fragment = FindCustomerFragment(),
+            addToBackStack = false,
+            replace = true
+        )*/
+        addFragment(
+            fragment = MeterReadingTasksFragment(),
             addToBackStack = false,
             replace = true
         )
@@ -216,14 +223,33 @@ class MeterReadingActivity : FragmentHolderActivity() {
         when (fragment) {
             is MeterReadingFragment -> {
                 setActionBarTitle(getString(R.string.meterReadingActivityTitle_MeterReading))
+                supportActionBar?.show()
+            }
+            is MeterReadingSubmissionFragment -> {
+                supportActionBar?.hide()
             }
             else -> {
                 setActionBarTitle(getString(R.string.meterReadingActivityTitle_FindCustomer))
+                supportActionBar?.show()
             }
         }
     }
 
     override fun onBackPressed() {
+        if (currentVisibleFragment is MeterReadingSubmissionFragment) {
+            if (viewModel.jobInProgress) {
+                return
+            }
+            if (!viewModel.jobSuccess) {
+                supportFragmentManager.popBackStack()
+                return
+            }
+            supportFragmentManager.popBackStackImmediate(
+                null,
+                FragmentManager.POP_BACK_STACK_INCLUSIVE
+            )
+            return
+        }
         if (supportFragmentManager.backStackEntryCount > 0) {
             supportFragmentManager.popBackStack()
             return
@@ -250,5 +276,6 @@ class MeterReadingActivity : FragmentHolderActivity() {
         }
 
     }
+
 
 }

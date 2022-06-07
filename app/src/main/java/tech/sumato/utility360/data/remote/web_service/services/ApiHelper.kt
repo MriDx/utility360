@@ -34,4 +34,6 @@ interface ApiHelper {
         uuid: String,
         requestBody: RequestBody
     ): Response<SimpleResponse>
+
+    suspend fun submitMeterReading(customerUuid: String, requestBody: RequestBody): Response<SimpleResponse>
 }

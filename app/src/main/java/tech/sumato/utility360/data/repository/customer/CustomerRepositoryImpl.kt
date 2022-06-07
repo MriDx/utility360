@@ -9,9 +9,15 @@ import tech.sumato.utility360.data.remote.web_service.services.ApiHelper
 import tech.sumato.utility360.domain.repository.customer.CustomerRepository
 import javax.inject.Inject
 
+/**
+ * Repository to handle all customer related things
+ */
 class CustomerRepositoryImpl @Inject constructor(private val apiHelper: ApiHelper) :
     CustomerRepository {
 
+    /**
+     * gets customers by provided queries
+     */
     override suspend fun getCustomers(query: Map<String, String>): Resource<List<CustomerResource>> =
         withContext(Dispatchers.IO) {
             try {
@@ -31,6 +37,9 @@ class CustomerRepositoryImpl @Inject constructor(private val apiHelper: ApiHelpe
             }
         }
 
+    /**
+     * gets customers with provided query and return whole json document
+     */
     override suspend fun getCustomersWithDocument(query: Map<String, String>): Resource<JsonDocument<List<CustomerResource>>> =
         withContext(Dispatchers.IO) {
             try {

@@ -18,6 +18,13 @@ class TasksRepositoryImpl @Inject constructor(
 ) : TasksRepository {
 
 
+    /**
+     * fetches pending site verifications tasks for the requested user
+     *
+     * @param   query       Map<String, String> for additional query, page numbers etc
+     *
+     * @return              Resource of type JsonDocument containing List of CustomerResource
+     */
     override suspend fun getPendingSiteVerifications(query: Map<String, String>): Resource<JsonDocument<List<CustomerResource>>> =
         withContext(Dispatchers.IO) {
 
@@ -38,6 +45,17 @@ class TasksRepositoryImpl @Inject constructor(
             }
 
         }
+
+
+    /**
+     * submits site verification details to server
+     *
+     * @param       customerUuid        uuid of the customer, whose site is being verified
+     * @param       jsonParams          JSONObject of all the details of site verification
+     *
+     * @return                          Resource of SimpleResponse
+     *
+     */
 
     override suspend fun submitSiteVerification(
         customerUuid: String,
@@ -67,6 +85,14 @@ class TasksRepositoryImpl @Inject constructor(
     }
 
 
+    /**
+     * submit meter installation details to server
+     *
+     * @param       customerUuid        uuid of the customer whose meter is being installed
+     * @param       jsonParams          JSONObject of all the details of meter installation
+     *
+     * @return                          Resource of SimpleResponse
+     */
     override suspend fun submitMeterInstallation(
         customerUuid: String,
         jsonParams: JSONObject
@@ -98,6 +124,13 @@ class TasksRepositoryImpl @Inject constructor(
         }
 
 
+    /**
+     * fetches pending meter installation tasks for the requested user
+     *
+     * @param       query       Query in Map<String, String>
+     *
+     * @return                  Response of JsonDocument containing List of CustomerResource
+     */
     override suspend fun getPendingMeterInstallations(query: Map<String, String>):
             Resource<JsonDocument<List<CustomerResource>>> =
         withContext(Dispatchers.IO) {
@@ -117,6 +150,38 @@ class TasksRepositoryImpl @Inject constructor(
                 Resource.error(message = e.message)
             }
         }
+
+
+    /**
+     * submit meter reaading details to server
+     *
+     * @param       customerUuid        uuid of the customer whose meter is being read
+     * @param       params          JSONObject of all the details of meter reading
+     *
+     * @return                          Resource of SimpleResponse
+     */
+    override suspend fun submitMeterReading(
+        customerUuid: String,
+        params: JSONObject
+    ): Resource<SimpleResponse> = withContext(Dispatchers.IO) {
+        try {
+
+            val requestBody =
+                params.toString().toRequestBody("application/json".toMediaTypeOrNull())
+            val response = apiHelper.submitMeterReading(customerUuid, requestBody)
+
+            if (!response.isSuccessful) {
+                //
+                throw Exception("Api Error")
+            }
+
+            Resource.success(data = response.body()!!)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Resource.error(message = e.message)
+        }
+    }
 
 }
 

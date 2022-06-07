@@ -50,11 +50,17 @@ interface ApiService {
     suspend fun pendingMeterInstallations(@QueryMap query: Map<String, String>): Response<JsonDocument<List<CustomerResource>>>
 
 
-
     @GsonInterface
     @POST("customers/{uuid}/meter-installation")
     suspend fun submitMeterInstallation(
         @Path("uuid", encoded = true) uuid: String,
+        @Body requestBody: RequestBody
+    ): Response<SimpleResponse>
+
+    @GsonInterface
+    @POST("customers/{uuid}/meter-reading")
+    suspend fun submitMeterReading(
+        @Path(value = "uuid", encoded = true) uuid: String,
         @Body requestBody: RequestBody
     ): Response<SimpleResponse>
 

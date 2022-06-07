@@ -42,4 +42,11 @@ class ApiHelperImpl @Inject constructor(private val apiService: ApiService) : Ap
         apiService.submitMeterInstallation(uuid, requestBody)
 
 
+    override suspend fun submitMeterReading(
+        customerUuid: String,
+        requestBody: RequestBody
+    ): Response<SimpleResponse> =
+        apiService.submitMeterReading(uuid = customerUuid, requestBody = requestBody)
+
+
 }

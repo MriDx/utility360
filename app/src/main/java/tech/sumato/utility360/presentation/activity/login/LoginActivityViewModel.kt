@@ -4,7 +4,6 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.ktx.messaging
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -13,16 +12,15 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 import tech.sumato.utility360.data.remote.model.user.LoginRequest
 import tech.sumato.utility360.data.remote.model.user.LoginResponse
-import tech.sumato.utility360.data.remote.model.user.UserResponse
 import tech.sumato.utility360.data.remote.utils.Resource
-import tech.sumato.utility360.domain.use_case.user.CheckUserUseCase
+import tech.sumato.utility360.domain.use_case.user.CheckLoggedInStatusUseCase
 import tech.sumato.utility360.domain.use_case.user.LoginUserUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginActivityViewModel @Inject constructor(
     private val loginUserUseCase: LoginUserUseCase,
-    private val checkUserUseCase: CheckUserUseCase,
+    private val checkUserUseCase: CheckLoggedInStatusUseCase,
 ) : ViewModel() {
 
     val loginRequest = ObservableField(LoginRequest())

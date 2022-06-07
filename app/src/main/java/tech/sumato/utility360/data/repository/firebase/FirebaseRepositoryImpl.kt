@@ -63,6 +63,13 @@ class FirebaseRepositoryImpl @Inject constructor(
     }
 
 
+    /**
+     * uploads image to firebase storage at provided upload type path
+     *
+     * @param   imagePath       path of the image to be upload
+     * @param   uploadType      upload type
+     * @return                  Returns file path after successful upload otherwise null
+     */
     override suspend fun uploadImage(imagePath: String, uploadType: String): String? {
         return withContext(Dispatchers.IO) {
 

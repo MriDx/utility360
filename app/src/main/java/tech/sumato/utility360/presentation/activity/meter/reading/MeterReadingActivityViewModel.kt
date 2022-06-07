@@ -3,6 +3,7 @@ package tech.sumato.utility360.presentation.activity.meter.reading
 import android.location.Location
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,20 +11,26 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
+import tech.sumato.utility360.data.remote.model.tasks.MeterReadingTaskRequest
+import tech.sumato.utility360.data.remote.utils.Status
 import tech.sumato.utility360.data.remote.web_service.source.customer.CustomerDataSource
 import tech.sumato.utility360.data.utils.FragmentNavigation
 import tech.sumato.utility360.domain.use_case.customer.GetCustomersWithDocumentUseCase
+import tech.sumato.utility360.domain.use_case.firebase.FirebaseImageUploaderUseCase
 import tech.sumato.utility360.domain.use_case.location.EnableGpsUseCase
 import tech.sumato.utility360.domain.use_case.location.GnssStatusListenerUseCase
 import tech.sumato.utility360.domain.use_case.location.GpsResult
 import tech.sumato.utility360.domain.use_case.location.LocationUpdatesUseCase
+import tech.sumato.utility360.domain.use_case.tasks.SubmitMeterReadingUseCase
 import tech.sumato.utility360.presentation.fragments.base.listing.ListingViewModel
 import tech.sumato.utility360.presentation.fragments.customer.find.FindCustomerFragment
 import tech.sumato.utility360.presentation.utils.Navigation
+import tech.sumato.utility360.presentation.utils.PostSubmitProcessViewModel
+import tech.sumato.utility360.utils.METER_READING_METER_IMAGE
 import tech.sumato.utility360.utils.NotInUse
 import tech.sumato.utility360.utils.NotWorking
 import javax.inject.Inject
@@ -35,6 +42,8 @@ class MeterReadingActivityViewModel @Inject constructor(
     private val enableGpsUseCase: EnableGpsUseCase,
     private val gnssStatusListenerUseCase: GnssStatusListenerUseCase,
     private val getCustomersWithDocumentUseCase: GetCustomersWithDocumentUseCase,
+    private val firebaseImageUploaderUseCase: FirebaseImageUploaderUseCase,
+    private val submitMeterReadingUseCase: SubmitMeterReadingUseCase,
 
     ) : ListingViewModel(), Navigation {
 
@@ -45,6 +54,13 @@ class MeterReadingActivityViewModel @Inject constructor(
     val gpsResultFlow = MutableSharedFlow<GpsResult>()
 
     private var currentLocation: Location? = null
+
+
+    var jobInProgress = false
+    var pendingJob: Job? = null
+    var jobSuccess: Boolean = false
+    var meterReadingTaskRequestObject: MeterReadingTaskRequest? = null
+
 
     /**
      * checks if gps enable and if not
@@ -154,14 +170,6 @@ class MeterReadingActivityViewModel @Inject constructor(
 
     }
 
-    fun submitMeterReading() {
-        viewModelScope.launch {
-            val tmpCurrentLocation = currentLocation
-            val latitude = tmpCurrentLocation?.latitude
-            val longitude = tmpCurrentLocation?.longitude
-        }
-    }
-
 
     //endregion
 
@@ -173,5 +181,81 @@ class MeterReadingActivityViewModel @Inject constructor(
         })
         .flow
         .cachedIn(viewModelScope)
+
+
+    fun submitMeterReading(meterReadingTaskRequest: MeterReadingTaskRequest) {
+        pendingJob = viewModelScope.launch(Dispatchers.IO) {
+            val tmpCurrentLocation = currentLocation
+
+            meterReadingTaskRequestObject = meterReadingTaskRequest
+
+            tmpCurrentLocation ?: return@launch
+
+            submission()
+
+        }
+    }
+
+    private fun submission() {
+        pendingJob = viewModelScope.launch(Dispatchers.IO) {
+
+            try {
+                jobInProgress = true
+                jobSuccess = false
+
+                notifyInProgress()
+
+                val tmpData = meterReadingTaskRequestObject!!
+                tmpData.lat_long = "${currentLocation?.latitude},${currentLocation?.longitude}"
+
+                delay(1000 * 3)
+
+                val uploadedMeterImage = firebaseImageUploaderUseCase(
+                    imagePath = tmpData.uploadableImagePath,
+                    uploadType = METER_READING_METER_IMAGE
+                )
+
+                if (uploadedMeterImage.isNullOrEmpty()) throw Exception("image uploading failed")
+
+                tmpData.meter_image = uploadedMeterImage
+
+                //after successfully uploads images
+
+                val params = tmpData.toJson()
+
+                Log.d("mridx", "submission: meter reading submit params - $params")
+
+                /*val response = submitMeterReadingUseCase(
+                    customerUuid = tmpData.customerUuid,
+                    params = params
+                )
+
+                if (response.isFailed()) {
+                    throw Exception("Request failed !")
+                }*/
+
+
+
+                jobInProgress = false
+                jobSuccess = true
+
+                notifyJobComplete(
+                    status = Status.SUCCESS,
+                    message = "Your request has been completed successfully "
+                )
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+                //cancel(e.message.toString())
+                jobInProgress = false
+                jobSuccess = false
+                notifyJobComplete(
+                    status = Status.FAILED,
+                    message = "Your request failed for ${e.message} "
+                )
+            }
+
+        }
+    }
 
 }

@@ -62,6 +62,8 @@ class CustomCamera : BaseActivity() {
 
     var flashOn = false
 
+    var overlay: Int = -1
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,6 +77,12 @@ class CustomCamera : BaseActivity() {
         window.setScreenBright()
 
         outputFile = intent?.getStringExtra("output_file")
+        overlay = intent?.getIntExtra("overlay", -1) ?: -1
+
+        if (overlay != -1) {
+            binding.overlayView.setImageResource(overlay)
+            binding.overlayView.isVisible = true
+        }
 
         startCameraPreview()
 

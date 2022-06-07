@@ -26,6 +26,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import tech.sumato.utility360.R
 import tech.sumato.utility360.data.remote.model.customer.CustomerResource
+import tech.sumato.utility360.data.remote.model.tasks.MeterReadingTaskRequest
 import tech.sumato.utility360.databinding.MeterReadingFragmentBinding
 import tech.sumato.utility360.databinding.ProfileInfoItemViewBinding
 import tech.sumato.utility360.presentation.activity.camera.CaptureOptions
@@ -35,8 +36,10 @@ import tech.sumato.utility360.presentation.activity.camera.CustomCameraContract
 import tech.sumato.utility360.presentation.activity.camera.utils.compressBitmap
 import tech.sumato.utility360.presentation.activity.meter.reading.MeterReadingActivity
 import tech.sumato.utility360.presentation.activity.meter.reading.MeterReadingActivityViewModel
+import tech.sumato.utility360.presentation.fragments.meter.reading.submission.MeterReadingSubmissionFragment
 import tech.sumato.utility360.utils.*
 import java.io.File
+import java.text.DateFormat
 import java.util.*
 
 @AndroidEntryPoint
@@ -46,6 +49,7 @@ class MeterReadingFragment : Fragment() {
     private val binding get() = binding_!!
 
     private val viewModel by activityViewModels<MeterReadingActivityViewModel>()
+
 
     private val cameraPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
@@ -65,6 +69,7 @@ class MeterReadingFragment : Fragment() {
     }
 
     private var customerResource: CustomerResource? = null
+    private var meterReadingTaskRequest = MeterReadingTaskRequest()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -89,12 +94,38 @@ class MeterReadingFragment : Fragment() {
         customerResource =
             arguments?.getParcelable("data") ?: throw Exception("Customer data invalid")
 
+        meterReadingTaskRequest.customerUuid = customerResource!!.id!!
+
         renderCustomerDetails()
+
 
 
         binding.meterImageView.setOnClickListener {
             openCameraPreview()
         }
+
+        binding.meterReadingSubmitBtn.setOnClickListener {
+            getFormData()
+            /*if (!meterReadingTaskRequest.validate()) {
+                //
+                return@setOnClickListener
+            }*/
+            navigateAndSubmit()
+        }
+
+    }
+
+    private fun navigateAndSubmit() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            viewModel.navigate(MeterReadingSubmissionFragment::class.java)
+            viewModel.submitMeterReading(meterReadingTaskRequest = meterReadingTaskRequest)
+        }
+    }
+
+    private fun getFormData() {
+        meterReadingTaskRequest.meter_readings = binding.meterReadingField.getOTP()
+        meterReadingTaskRequest.date_of_billing =
+            DateFormat.getDateInstance(DateFormat.SHORT).format(Date())
 
     }
 
@@ -135,7 +166,7 @@ class MeterReadingFragment : Fragment() {
                 Manifest.permission.CAMERA
             ) == PackageManager.PERMISSION_GRANTED -> {
                 //
-                openCameraCapture.launch(CaptureOptions())
+                openCameraCapture.launch(CaptureOptions(overlay = R.drawable.overlay))
             }
             ActivityCompat.shouldShowRequestPermissionRationale(
                 requireActivity(),
@@ -192,6 +223,7 @@ class MeterReadingFragment : Fragment() {
         withContext(Dispatchers.IO) {
             val savedFile = storeImage(image = bitmap, pictureFile = createPictureFile())
                 ?: throw Exception("could not save file")
+            meterReadingTaskRequest.uploadableImagePath = savedFile.path
             withContext(Dispatchers.Main) {
                 showProcessedImage(savedFile)
             }
@@ -291,8 +323,8 @@ class MeterReadingFragment : Fragment() {
      * sends event to viewModel
      * viewmodel prepares required information and handles further
      */
-    private fun submitMeterReading() {
+    /*private fun submitMeterReading() {
         viewModel.submitMeterReading()
     }
-
+*/
 }
