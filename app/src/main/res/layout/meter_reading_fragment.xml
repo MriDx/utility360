@@ -93,27 +93,31 @@
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <!--<com.google.android.material.textview.MaterialTextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/meterImageHeading"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
                         android:textColor="@color/headingTextColor"
-                        android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0"
-                        tools:text="Meter image" />-->
+                        android:text="Meter image" />
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/meterImageView"
                         android:layout_width="match_parent"
                         android:layout_height="194dp"
-                        android:background="@color/slate_50"
-                        android:scaleType="centerInside" />
+                        android:background="@color/slate_200"
+                        android:scaleType="centerInside"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginTop="8dp"
+                        app:shapeAppearanceOverlay="@style/RoundedCornerImageView.10"
+                        />
 
 
                     <androidx.appcompat.widget.LinearLayoutCompat

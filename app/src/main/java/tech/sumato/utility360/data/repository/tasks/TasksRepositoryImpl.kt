@@ -34,7 +34,7 @@ class TasksRepositoryImpl @Inject constructor(
 
                 if (!response.isSuccessful) {
                     //
-                    throw Exception("Api error")
+                    throw Exception("Something went wrong !")
                 }
 
                 Resource.success(data = response.body()!!)
@@ -140,7 +140,7 @@ class TasksRepositoryImpl @Inject constructor(
 
                 if (!response.isSuccessful) {
                     //
-                    throw Exception("Api error")
+                    throw Exception("Something went wrong !")
                 }
 
                 Resource.success(data = response.body()!!)
@@ -172,7 +172,7 @@ class TasksRepositoryImpl @Inject constructor(
 
             if (!response.isSuccessful) {
                 //
-                throw Exception("Api Error")
+                throw Exception("Something went wrong !")
             }
 
             Resource.success(data = response.body()!!)

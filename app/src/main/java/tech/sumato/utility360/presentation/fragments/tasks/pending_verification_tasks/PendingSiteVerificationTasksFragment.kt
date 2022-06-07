@@ -38,7 +38,7 @@ class PendingSiteVerificationTasksFragment : ListingFragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
+                /*launch {
                     viewModel.getCustomers(
                         query = mutableMapOf(
                             "filter[connection_status]" to "applied",
@@ -48,12 +48,12 @@ class PendingSiteVerificationTasksFragment : ListingFragment() {
                     ).collectLatest { pagingData ->
                         pendingVerificationTasksAdapter.submitData(pagingData)
                     }
-                }
-                /*launch {
+                }*/
+                launch {
                     viewModel.getPendingSiteVerifications().collectLatest { pagingData ->
                         pendingVerificationTasksAdapter.submitData(pagingData)
                     }
-                }*/
+                }
                 launch {
                     pendingVerificationTasksAdapter.loadStateFlow.collectLatest { loadState ->
                         if (loadState.source.refresh is LoadState.NotLoading || loadState.source.refresh is LoadState.Error) {
