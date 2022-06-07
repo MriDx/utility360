@@ -118,7 +118,7 @@
                                     android:adjustViewBounds="true"
                                     android:scaleType="centerCrop"
                                     app:shapeAppearanceOverlay="@style/CircleImageView"
-                                    tools:srcCompat="@drawable/avatar" />
+                                    app:srcCompat="@drawable/avatar" />
 
                             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -132,8 +132,8 @@
                                 android:layout_marginEnd="10dp"
                                 android:ellipsize="end"
                                 android:maxLines="1"
-                                android:textStyle="bold"
                                 android:textColor="@color/headingTextColor"
+                                android:textStyle="bold"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toEndOf="@id/avatarHolder"
@@ -178,10 +178,10 @@
 
                 <com.mridx.premaderecyclerview.PremadeRecyclerView
                     android:id="@+id/accountItemHolder"
-                    android:overScrollMode="never"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
+                    android:overScrollMode="never"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>

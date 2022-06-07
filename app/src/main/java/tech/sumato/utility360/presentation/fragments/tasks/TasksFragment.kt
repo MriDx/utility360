@@ -11,38 +11,115 @@ import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.paging.LoadState
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import tech.sumato.utility360.R
+import tech.sumato.utility360.data.local.entity.utils.UIError
 import tech.sumato.utility360.databinding.DemoTaskViewBinding
+import tech.sumato.utility360.presentation.adapter.LoadingStateAdapter
 import tech.sumato.utility360.presentation.fragments.base.listing.DemoListingFragment
 import tech.sumato.utility360.presentation.fragments.base.listing.ListingFragment
+import tech.sumato.utility360.presentation.fragments.base.listing.ListingViewModel
+import tech.sumato.utility360.presentation.fragments.tasks.adapter.CustomersAdapter
+import tech.sumato.utility360.utils.parseException
+import javax.inject.Inject
 
-/*
 @AndroidEntryPoint
 class TasksFragment : ListingFragment() {
 
 
     private val viewModel by viewModels<TasksFragmentViewModel>()
 
+    @Inject
+    lateinit var customersAdapter: CustomersAdapter
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        searchIcon(false)
 
+        setTitle("Pending Tasks")
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                /*launch {
+                    viewModel.getCustomers(
+                        query = mutableMapOf(
+                            "include" to "customerCheck"
+                        )
+                    ).collectLatest { pagingData ->
+                        customersAdapter.submitData(pagingData)
+                    }
+                }*/
+                launch {
+                    customersAdapter.loadStateFlow.collectLatest { loadState ->
+                        if (loadState.source.refresh is LoadState.NotLoading || loadState.source.refresh is LoadState.Error) {
+                            setRefreshing(isRefreshing = false)
+                        }
+                        if (loadState.source.refresh is LoadState.NotLoading && loadState.append.endOfPaginationReached && customersAdapter.itemCount < 1) {
+                            viewModel.setUIError(
+                                UIError(
+                                    showError = true,
+                                    errorMessage = "No customer found !"
+                                )
+                            )
+                        } else if (loadState.source.refresh is LoadState.Error && customersAdapter.itemCount < 1) {
+                            viewModel.setUIError(
+                                UIError(
+                                    showError = true,
+                                    errorMessage = parseException(e = (loadState.source.refresh as LoadState.Error).error)
+                                )
+                            )
+                        } else {
+                            viewModel.setUIError(UIError.hide())
+                        }
+                    }
+                }
+            }
+        }
+
+
+    }
+
+    /*override fun getTitle(): String {
+        return "Pending Tasks"
+    }*/
+
+    override fun onRefreshing() {
+        customersAdapter.refresh()
     }
 
     override fun <T> getViewModel(): T? {
         return viewModel as T
     }
 
-}*/
+    override fun <T> getAdapter(): T? {
+
+        return customersAdapter.apply {
+            withLoadStateHeaderAndFooter(
+                header = LoadingStateAdapter(retryCallback = { onRetry() }),
+                footer = LoadingStateAdapter(retryCallback = { onRetry() })
+            )
+        } as T
+    }
+
+    private fun onRetry() {
+        customersAdapter.retry()
+    }
+
+}
 
 
+/*
 @AndroidEntryPoint
 class TasksFragment : DemoListingFragment() {
 
@@ -187,4 +264,4 @@ class TasksFragment : DemoListingFragment() {
 
     }
 
-}
+}*/

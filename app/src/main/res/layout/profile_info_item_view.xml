@@ -28,7 +28,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
             android:textColor="@color/headingTextColor"
-            tools:text="mridx@mail.com" />
+            tools:text="mridx@mail.com"
+            android:maxLines="2"
+            android:ellipsize="end"
+            />
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>

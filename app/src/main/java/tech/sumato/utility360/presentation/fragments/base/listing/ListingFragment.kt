@@ -25,17 +25,11 @@ open class ListingFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding_ = DataBindingUtil.inflate<ListingFragmnetBinding>(
-            inflater,
-            R.layout.listing_fragmnet,
-            container,
-            false
-        ).apply {
+        binding_ = ListingFragmnetBinding.inflate(inflater, container, false).apply {
             setLifecycleOwner { viewLifecycleOwner.lifecycle }
             this@ListingFragment.getViewModel<ListingViewModel>()?.let {
                 viewModel = it
             }
-
         }
         return binding.root
     }
@@ -44,6 +38,10 @@ open class ListingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setTitle(getTitle())
+
+        binding.searchIcon.isVisible = showSearch()
+        //binding.filterBtn.isVisible = showFilter()
 
         binding.itemHolder.apply {
             adapter = this@ListingFragment.getAdapter()
@@ -112,6 +110,20 @@ open class ListingFragment : Fragment() {
     open fun hideProgressbar() {
         binding.progressbar.isVisible = false
     }
+
+    fun setTitle(title: String) {
+        binding.heading.text = title
+    }
+
+    open fun getTitle(): String = "Demo Listing"
+
+    open fun searchIcon(show: Boolean = false) {
+        binding.searchIcon.isVisible = false
+    }
+
+    open fun showSearch() = true
+
+    open fun showFilter() = true
 
 
     override fun onDestroyView() {

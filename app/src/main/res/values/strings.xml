@@ -60,7 +60,7 @@
 
     <!-- meter installation form fragment -->
     <!-- mif => meter installation form fragment -->
-    <string name="mif_sliderLabel">%i meter</string> <!-- to show on slider label-->
+    <string name="mif_sliderLabel">%d meter</string> <!-- to show on slider label-->
     <string name="mif_meterSerialNumberHeading">Meter serial number</string>
     <string name="mif_initialMeterReadingHeading">Initial meter reading</string>
     <string name="mif_meterPhotoHeading">Meter photo with clearly visible serial number</string>
@@ -132,5 +132,6 @@ As it is really important to upload Meter image for Meter Reading, you can allow
     <string name="svf_remarksHeading">Remarks</string>
     <string name="svf_siteRecommendationHeading">I recommend this site for connection.</string>
     <string name="svf_submit">Submit</string>
+    <string name="retry">Retry</string>
 
 </resources>

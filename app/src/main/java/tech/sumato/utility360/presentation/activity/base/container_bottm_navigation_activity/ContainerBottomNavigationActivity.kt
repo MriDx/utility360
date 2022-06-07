@@ -5,8 +5,10 @@ import android.view.MenuItem
 import androidx.annotation.MenuRes
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SnapHelper
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import tech.sumato.utility360.R
 import tech.sumato.utility360.databinding.ContainerBottomNavigationActivityBinding
@@ -76,5 +78,10 @@ abstract class ContainerBottomNavigationActivity : BaseActivity() {
             onBackPressed()
         return super.onOptionsItemSelected(item)
     }
+
+    open fun showSnackbar(s: String) {
+        Snackbar.make(binding.root, s, Snackbar.LENGTH_LONG).show()
+    }
+
 
 }

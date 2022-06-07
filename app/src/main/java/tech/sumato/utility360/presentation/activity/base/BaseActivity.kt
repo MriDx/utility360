@@ -17,9 +17,9 @@ open class BaseActivity : AppCompatActivity() {
 
     }
 
-    open fun setTitle(title: String) {
+    /*open fun setTitle(title: String) {
         supportActionBar?.title = title
-    }
+    }*/
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

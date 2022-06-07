@@ -27,3 +27,21 @@ annotation class NotWorking(
     AnnotationTarget.TYPEALIAS
 )
 annotation class NotInUse
+
+
+@Retention(AnnotationRetention.RUNTIME)
+@Target(AnnotationTarget.FUNCTION)
+annotation class GsonInterface
+
+
+@Retention(AnnotationRetention.RUNTIME)
+@Target(AnnotationTarget.FUNCTION)
+annotation class IzzyInterface
+
+@Retention(AnnotationRetention.RUNTIME)
+@Target(AnnotationTarget.FUNCTION)
+annotation class MyIzzyInterface
+
+@Retention(AnnotationRetention.RUNTIME)
+@Target(AnnotationTarget.FUNCTION)
+annotation class JSONInterface

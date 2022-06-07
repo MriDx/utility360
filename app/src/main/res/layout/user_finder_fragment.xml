@@ -64,7 +64,7 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
 
-                    <com.google.android.material.button.MaterialButton
+                    <!--<com.google.android.material.button.MaterialButton
                         android:id="@+id/findUserBtn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -74,7 +74,22 @@
                         android:insetBottom="0dp"
                         android:text="@string/fc_findBtn"
                         android:textSize="14sp"
-                        app:cornerRadius="5dp" />
+                        app:cornerRadius="5dp" />-->
+
+                    <com.mridx.morse.element.ProgressButton
+                        android:id="@+id/findUserBtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginBottom="10dp"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:text="@string/fc_findBtn"
+                        android:textSize="14sp"
+                        app:cornerRadius="5dp"
+                        app:showProgressbar="false"
+                        app:progressColor="@color/white"
+                        />
 
 
                 </androidx.appcompat.widget.LinearLayoutCompat>

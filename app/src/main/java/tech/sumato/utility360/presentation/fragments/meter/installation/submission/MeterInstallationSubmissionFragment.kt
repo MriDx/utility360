@@ -55,7 +55,7 @@ class MeterInstallationSubmissionFragment : PostSubmitProgressFragment() {
                                         label = getString(R.string.misf_postFailureBtn),
                                         onClick = {
                                             //handle retry
-                                            viewModel.readySubmitJob()
+                                            //viewModel.readySubmitJob()
                                         })
                                 } else {
                                     //success
