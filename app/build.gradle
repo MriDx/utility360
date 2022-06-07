@@ -138,4 +138,7 @@ dependencies {
     implementation "androidx.camera:camera-extensions:$camerax_version"
 
 
+    //image cropping library
+    implementation 'com.github.CanHub:Android-Image-Cropper:4.2.1'
+
 }

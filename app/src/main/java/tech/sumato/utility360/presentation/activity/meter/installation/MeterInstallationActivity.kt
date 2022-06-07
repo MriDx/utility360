@@ -1,5 +1,6 @@
 package tech.sumato.utility360.presentation.activity.meter.installation
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
@@ -17,12 +18,15 @@ import tech.sumato.utility360.presentation.fragments.meter.installation.form.Met
 import tech.sumato.utility360.presentation.fragments.meter.installation.submission.MeterInstallationSubmissionFragment
 import tech.sumato.utility360.presentation.fragments.progress.post_submit.PostSubmitProgressFragment
 import tech.sumato.utility360.presentation.fragments.tasks.meter.installation.MeterInstallationTasksFragment
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MeterInstallationActivity : FragmentHolderActivity() {
 
-
     private val viewModel by viewModels<MeterInstallationActivityViewModel>()
+
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

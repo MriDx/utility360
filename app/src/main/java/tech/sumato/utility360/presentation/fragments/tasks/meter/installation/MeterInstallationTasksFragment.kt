@@ -39,8 +39,19 @@ class MeterInstallationTasksFragment : ListingFragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
+               /* launch {
                     viewModel.getPendingMeterInstallations().collectLatest { pagingData ->
+                        meterInstallationTasksAdapter.submitData(pagingData)
+                    }
+                }*/
+                launch {
+                    viewModel.getCustomers(
+                        query = mutableMapOf(
+                            "filter[connection_status]" to "applied",
+                            "include" to "geographicalArea",
+                            "filter[has_no_site_verification]" to "1"
+                        )
+                    ).collectLatest { pagingData ->
                         meterInstallationTasksAdapter.submitData(pagingData)
                     }
                 }

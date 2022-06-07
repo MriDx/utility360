@@ -18,6 +18,10 @@ import androidx.databinding.ObservableField
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import com.canhub.cropper.CropImageContract
+import com.canhub.cropper.CropImageContractOptions
+import com.canhub.cropper.CropImageView
+import com.canhub.cropper.options
 import com.google.android.material.snackbar.Snackbar
 import com.mridx.watermarkdialog.Data
 import com.mridx.watermarkdialog.Processor
@@ -70,6 +74,16 @@ class SiteVerificationFragment : Fragment() {
             //show captured image
             //binding.meterImageView.setImageURI(File(it.file).toUri())
             addWatermarks(capturedResult = it)
+        }
+    }
+
+    private val openImageLauncher = registerForActivityResult(CropImageContract()) { cropResult ->
+        if (cropResult.isSuccessful) {
+            val imagePath = cropResult.getUriFilePath(requireContext())
+            val file = File(imagePath)
+            if (file.exists()) {
+                addWatermarks(filePath = file.path)
+            }
         }
     }
 
@@ -202,7 +216,10 @@ class SiteVerificationFragment : Fragment() {
                 Manifest.permission.CAMERA
             ) == PackageManager.PERMISSION_GRANTED -> {
                 //
-                openCameraCapture.launch(CaptureOptions())
+                //openCameraCapture.launch(CaptureOptions())
+                openImageLauncher.launch(options {
+                    setGuidelines(CropImageView.Guidelines.ON)
+                })
             }
             ActivityCompat.shouldShowRequestPermissionRationale(
                 requireActivity(),
@@ -228,10 +245,9 @@ class SiteVerificationFragment : Fragment() {
         }
     }
 
-
-    private fun addWatermarks(capturedResult: CapturedResult) {
+    private fun addWatermarks(filePath: String) {
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-            val file = File(capturedResult.file)
+            val file = File(filePath)
             val processedBitmap = Processor.process(
                 file = file,
                 waterMarkData = Data.WaterMarkData(
@@ -242,17 +258,44 @@ class SiteVerificationFragment : Fragment() {
                     ),
                     position = Data.WaterMarkPosition.BOTTOM_LEFT
                 ),
-                maxHeight = 1080f,
-                maxWidth = 1080f
+                maxHeight = 980f,
+                maxWidth = 980f
             ) ?: throw Exception("Could not processed image")
 
             val compressedBitmap =
-                compressBitmap(bitmap = processedBitmap, maxHeight = 1080f, maxWidth = 1080f)
+                compressBitmap(bitmap = processedBitmap, maxHeight = 980f, maxWidth = 980f)
                     ?: processedBitmap
 
             saveAndShowProcessedBitmap(bitmap = compressedBitmap)
 
         }
+    }
+
+    private fun addWatermarks(capturedResult: CapturedResult) {
+        addWatermarks(filePath = capturedResult.file)
+        /* viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+             val file = File(capturedResult.file)
+             val processedBitmap = Processor.process(
+                 file = file,
+                 waterMarkData = Data.WaterMarkData(
+                     waterMarks = mapOf(
+                         "Customer name" to customerResource!!.name!!,
+                         "Id" to customerResource!!.pbg_id!!,
+                         "Uploaded via" to getString(R.string.app_name)
+                     ),
+                     position = Data.WaterMarkPosition.BOTTOM_LEFT
+                 ),
+                 maxHeight = 1080f,
+                 maxWidth = 1080f
+             ) ?: throw Exception("Could not processed image")
+
+             val compressedBitmap =
+                 compressBitmap(bitmap = processedBitmap, maxHeight = 1080f, maxWidth = 1080f)
+                     ?: processedBitmap
+
+             saveAndShowProcessedBitmap(bitmap = compressedBitmap)
+
+         }*/
     }
 
     private var rawImageFilePath = ""

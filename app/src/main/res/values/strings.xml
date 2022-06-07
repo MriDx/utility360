@@ -69,6 +69,15 @@
     <string name="mif_additionalPipeLengthHeading">Length of additional pipe added (in meter)</string>
     <string name="mif_totalPipeInvolvedHeading">Total pipe involved</string>
     <string name="mif_submit">Submit</string>
+    <string name="mif_cameraPermissionTitle">Allow Camera access ?</string>
+    <string name="mif_cameraPermissionMessage">Allow Camera permission to access and capture Meter and Site image. To complete meter installation process uploading of meter and site image is compulsory.</string>
+    <string name="mif_cameraPermissionPositiveBtn">Continue</string>
+    <string name="mif_cameraPermissionNegativeBtn">Cancel</string>
+    <string name="mif_cameraPermissionAlreadyAskedTitle">Allow use of Camera Permission</string>
+    <string name="mif_cameraPermissionAlreadyAskedMessage">It seems you have been asked to allow Camera permission already and you denied.
+As it is really important to upload Meter and Site image for Meter Installation, you can allow Camera permission from App settings and proceed.</string>
+    <string name="mif_cameraPermissionAlreadyAskedNegativeBtn">Cancel</string>
+
 
     <!-- meter installation submission fragment -->
     <!--- misf => meter installtion submission fragment -->
@@ -133,5 +142,6 @@ As it is really important to upload Meter image for Meter Reading, you can allow
     <string name="svf_siteRecommendationHeading">I recommend this site for connection.</string>
     <string name="svf_submit">Submit</string>
     <string name="retry">Retry</string>
+
 
 </resources>
