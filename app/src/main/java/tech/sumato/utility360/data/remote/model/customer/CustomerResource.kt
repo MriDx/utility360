@@ -8,6 +8,7 @@ import com.undabot.izzy.models.IzzyResource
 import kotlinx.parcelize.Parcelize
 import tech.sumato.utility360.data.remote.model.grographical.GeographicalAreaResource
 import tech.sumato.utility360.data.remote.model.site.SiteVerificationResource
+import tech.sumato.utility360.data.remote.model.user.UserResource
 import tech.sumato.utility360.data.remote.model.utils.CreatedResource
 
 @Keep
@@ -33,12 +34,24 @@ data class CustomerResource(
     @Relationship("geographicalArea")
     val geographicalArea: GeographicalAreaResource? = null
 
+    @Relationship("users")
+    val user: UserResource? = null
+
 
     fun getSecondaryDetailsMap(): Map<String, String> {
         return mapOf(
             "Connection type" to plan_type!!.replaceFirstChar { it.uppercase() },
             "Phone number" to contact!!,
             "Address" to address!!
+        )
+    }
+
+    fun getSecondaryDetailsForMeterReading(): Map<String, String> {
+        return mapOf(
+            "Connection type" to plan_type!!.replaceFirstChar { it.uppercase() },
+            "Phone number" to contact!!,
+            "Address" to address!!,
+            "Last meter reading" to if (user?.lastMeterReading == null) "Not available" else "${user.lastMeterReading.meter_reading} Unit \n on ${user.lastMeterReading.date_of_billing}",
         )
     }
 

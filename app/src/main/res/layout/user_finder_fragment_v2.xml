@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="tech.sumato.utility360.presentation.activity.meter.reading.MeterReadingActivityViewModel" />
+
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical">
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/customerFinderHolder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:visibility="visible"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="2dp"
+            app:cardMaxElevation="4dp"
+            app:contentPadding="16dp">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Search customer"
+                    android:textColor="@color/headingTextColor" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/searchFieldHolder"
+                        style="?attr/textInputOutlinedStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/searchBtn"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/searchField"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Name or Id"
+                            android:imeOptions="actionGo"
+                            android:inputType="text"
+                            android:maxLines="1" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/searchBtn"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="?attr/colorPrimary"
+                        android:scaleType="center"
+                        app:layout_constraintBottom_toBottomOf="@id/searchFieldHolder"
+                        app:layout_constraintDimensionRatio="1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.5"
+                        app:shapeAppearanceOverlay="@style/RoundedCornerImageView.10"
+                        app:srcCompat="@drawable/ic_baseline_search_24"
+                        app:tint="@color/white" />
+
+                    <!--<com.mridx.morse.element.ProgressButton
+                        android:id="@+id/searchBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginTop="24dp"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:text="Search"
+                        android:textSize="14sp"
+                        app:cornerRadius="5dp"
+                        android:paddingStart="10dp"
+                        app:textAllCaps="false"
+                        app:layout_constraintBottom_toBottomOf="@id/searchFieldHolder"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.5"
+                        app:progressColor="@color/white"
+                        app:showProgressbar="false" />-->
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- <com.google.android.material.textfield.TextInputLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_marginTop="16dp"
+                     app:layout_constraintBottom_toBottomOf="parent"
+                     app:layout_constraintEnd_toEndOf="parent"
+                     app:layout_constraintStart_toStartOf="parent"
+                     app:layout_constraintTop_toTopOf="parent"
+                     app:layout_constraintVertical_bias="0">
+
+                     <com.google.android.material.textfield.TextInputEditText
+                         android:id="@+id/customerIdField"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:hint="Name or Id"
+                         android:imeOptions="actionGo"
+                         android:inputType="text"
+                         android:maxLines="1" />
+
+                 </com.google.android.material.textfield.TextInputLayout>
+
+
+                 <com.mridx.morse.element.ProgressButton
+                     android:id="@+id/findUserBtn"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_marginTop="24dp"
+                     android:insetTop="0dp"
+                     android:insetBottom="0dp"
+                     android:text="@string/fc_findBtn"
+                     android:textSize="14sp"
+                     app:cornerRadius="500dp"
+                     app:progressColor="@color/white"
+                     app:showProgressbar="false"
+                     android:layout_gravity="end"
+                     />-->
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/usersHolder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            visible="@{!viewModel.uiError.showError}"
+            />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            visible="@{viewModel.uiError.showError}"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                app:srcCompat="@drawable/ic_nothing" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="@{viewModel.uiError.errorMessage}"
+                android:textColor="@color/secondaryTextColor"
+                tools:text="No item found !" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

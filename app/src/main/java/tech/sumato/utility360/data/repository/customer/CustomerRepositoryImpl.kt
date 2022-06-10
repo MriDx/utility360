@@ -60,4 +60,25 @@ class CustomerRepositoryImpl @Inject constructor(private val apiHelper: ApiHelpe
         }
 
 
+    override suspend fun getCustomer(
+        uuid: String,
+        query: Map<String, String>
+    ): Resource<JsonDocument<CustomerResource>>  = withContext(Dispatchers.IO) {
+        try {
+
+            val response = apiHelper.getCustomer(uuid, query)
+
+            if (!response.isSuccessful) {
+                //
+                throw Exception("Api Error !")
+            }
+
+            Resource.success(data = response.body()!!)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Resource.error(message = e.message)
+        }
+    }
+
 }
