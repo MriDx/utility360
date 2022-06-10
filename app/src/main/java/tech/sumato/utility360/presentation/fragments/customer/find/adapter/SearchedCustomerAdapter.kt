@@ -41,14 +41,15 @@ class SearchedCustomerAdapter @Inject constructor() :
             with(binding) {
                 uinView.text = customerResource.name
                 //nameView.text = customerResource.address
-                nameView.text = buildSpannedString {
-                    append("Last billed on ")
-                    bold {
-                        append(
-                            customerResource.user?.lastMeterReading?.date_of_billing ?: "n/a"
-                        )
+                nameView.text =
+                    if (customerResource.user?.lastMeterReading == null) "Last bill information not available" else buildSpannedString {
+                        append("Last billed on ")
+                        bold {
+                            append(
+                                customerResource.user.lastMeterReading.date_of_billing ?: "n/a"
+                            )
+                        }
                     }
-                }
                 Glide.with(root.context)
                     .asBitmap()
                     .load(customerResource.photo)

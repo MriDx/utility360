@@ -95,8 +95,8 @@ class MeterInstallationTasksFragment : ListingFragment() {
 
 
     override fun <T> getAdapter(): T? {
-        meterInstallationTasksAdapter.setOnItemClickListener {
-            onItemClicked(data = it)
+        meterInstallationTasksAdapter.setOnItemClickListener { data, position ->
+            onItemClicked(data = data, position = position)
         }
         return meterInstallationTasksAdapter.withLoadStateHeaderAndFooter(
             header = LoadingStateAdapter(retryCallback = { onRetry() }),
@@ -108,10 +108,11 @@ class MeterInstallationTasksFragment : ListingFragment() {
         meterInstallationTasksAdapter.retry()
     }
 
-    private fun onItemClicked(data: CustomerResource) {
+    private fun onItemClicked(data: CustomerResource, position: Int) {
         viewModel.navigate(
             MeterInstallationFormFragment::class.java, args = bundleOf(
-                "data" to data
+                "data" to data,
+                "position" to 0
             )
         )
     }

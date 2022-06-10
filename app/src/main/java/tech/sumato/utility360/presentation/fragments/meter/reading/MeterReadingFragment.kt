@@ -20,9 +20,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.withCreated
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.mridx.watermarkdialog.Data
 import com.mridx.watermarkdialog.Processor
+import com.sumato.etrack_agri.ui.utils.PlaceHolderDrawableHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
@@ -45,6 +47,7 @@ import tech.sumato.utility360.presentation.fragments.meter.reading.submission.Me
 import tech.sumato.utility360.utils.*
 import java.io.File
 import java.text.DateFormat
+import java.time.Instant
 import java.util.*
 
 @AndroidEntryPoint
@@ -75,6 +78,7 @@ class MeterReadingFragment : Fragment() {
 
     private var customerResource: CustomerResource? = null
     private var meterReadingTaskRequest = MeterReadingTaskRequest()
+    private var listingPosition = 0
 
 
     override fun onCreateView(
@@ -99,6 +103,7 @@ class MeterReadingFragment : Fragment() {
 
         customerResource =
             arguments?.getParcelable("data") ?: throw Exception("Customer data invalid")
+        listingPosition = arguments?.getInt("position") ?: 0
 
         meterReadingTaskRequest.customerUuid = customerResource!!.id!!
 
@@ -148,9 +153,9 @@ class MeterReadingFragment : Fragment() {
     }
 
     private fun getFormData() {
-        meterReadingTaskRequest.meter_readings = binding.meterReadingField.getOTP()
-        meterReadingTaskRequest.date_of_billing =
-            DateFormat.getDateInstance(DateFormat.SHORT).format(Date())
+        meterReadingTaskRequest.meter_readings = binding.meterReadingField.getOTP().toMeterReading()
+        meterReadingTaskRequest.date_of_billing = Date().toMeterReadingDate()
+        //DateFormat.getDateInstance(DateFormat.SHORT).format(Date())
 
     }
 
@@ -158,6 +163,20 @@ class MeterReadingFragment : Fragment() {
         binding.apply {
             binding.titleTextView.text = customerResource!!.name
             binding.secondaryTextView.text = customerResource!!.pbg_id
+
+            binding.meterImageView.setImageURI(File(meterReadingTaskRequest.uploadableImagePath).toUri())
+
+            Glide.with(requireContext())
+                .asBitmap()
+                .load(customerResource?.photo)
+                .placeholder(
+                    PlaceHolderDrawableHelper.getAvatar(
+                        requireContext(),
+                        customerResource!!.name,
+                        listingPosition
+                    )
+                )
+                .into(avatarView)
 
             customerResource!!.getSecondaryDetailsForMeterReading().forEach { item ->
                 val secondaryItemView = DataBindingUtil.inflate<ProfileInfoItemViewBinding>(

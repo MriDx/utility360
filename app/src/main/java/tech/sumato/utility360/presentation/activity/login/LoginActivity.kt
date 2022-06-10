@@ -23,6 +23,8 @@ import tech.sumato.utility360.databinding.LoginActivityBinding
 import tech.sumato.utility360.presentation.activity.base.BaseActivity
 import tech.sumato.utility360.presentation.activity.home.HomeActivity
 import tech.sumato.utility360.utils.startActivity
+import tech.sumato.utility360.utils.toMeterReadingDate
+import java.util.*
 
 @AndroidEntryPoint
 class LoginActivity : BaseActivity() {
@@ -54,6 +56,10 @@ class LoginActivity : BaseActivity() {
             append(" ")
             color(Color.BLUE) { bold { append(getString(R.string.privacyPolicy)) } }
         }
+
+        val d = Date().toMeterReadingDate()
+
+        Log.d("mridx", "onCreate: $d")
 
 
         lifecycleScope.launch {

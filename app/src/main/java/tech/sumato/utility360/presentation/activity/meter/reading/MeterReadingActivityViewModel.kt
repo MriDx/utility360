@@ -236,7 +236,7 @@ class MeterReadingActivityViewModel @Inject constructor(
                     uploadType = METER_READING_METER_IMAGE
                 )
 
-                if (uploadedMeterImage.isNullOrEmpty()) throw Exception("image uploading failed")
+                if (uploadedMeterImage.isNullOrEmpty()) throw Exception("meter image uploading failed !")
 
                 tmpData.meter_image = uploadedMeterImage
 
@@ -244,7 +244,7 @@ class MeterReadingActivityViewModel @Inject constructor(
 
                 val params = tmpData.toJson()
 
-                Log.d("mridx", "submission: meter reading submit params - $params")
+                //Log.d("mridx", "submission: meter reading submit params - $params")
 
                 val response = submitMeterReadingUseCase(
                     customerUuid = tmpData.customerUuid,
@@ -252,7 +252,11 @@ class MeterReadingActivityViewModel @Inject constructor(
                 )
 
                 if (response.isFailed()) {
-                    throw Exception("Request failed !")
+                    //
+                    if (response.message != null) {
+                        throw Exception(response.message)
+                    }
+                    throw Exception("request failed !")
                 }
 
 

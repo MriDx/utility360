@@ -114,7 +114,8 @@ class FindCustomerFragmentV2 : Fragment() {
             viewModel.navigate(
                 fragment = MeterReadingFragment::class.java,
                 args = bundleOf(
-                    "data" to data
+                    "data" to data,
+                    "position" to position
                 )
             )
         }
