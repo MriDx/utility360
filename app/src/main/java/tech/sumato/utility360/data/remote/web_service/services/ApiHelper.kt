@@ -35,5 +35,14 @@ interface ApiHelper {
         requestBody: RequestBody
     ): Response<SimpleResponse>
 
-    suspend fun submitMeterReading(customerUuid: String, requestBody: RequestBody): Response<SimpleResponse>
+    suspend fun submitMeterReading(
+        customerUuid: String,
+        requestBody: RequestBody
+    ): Response<SimpleResponse>
+
+    suspend fun getCustomer(
+        uuid: String,
+        query: Map<String, String>
+    ) : Response<JsonDocument<CustomerResource>>
+
 }

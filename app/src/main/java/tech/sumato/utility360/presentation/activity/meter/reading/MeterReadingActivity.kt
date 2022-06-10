@@ -25,6 +25,7 @@ import tech.sumato.utility360.R
 import tech.sumato.utility360.data.utils.FragmentNavigation
 import tech.sumato.utility360.presentation.activity.base.fragment_holder.FragmentHolderActivity
 import tech.sumato.utility360.presentation.fragments.customer.find.FindCustomerFragment
+import tech.sumato.utility360.presentation.fragments.customer.find.FindCustomerFragmentV2
 import tech.sumato.utility360.presentation.fragments.meter.reading.MeterReadingFragment
 import tech.sumato.utility360.presentation.fragments.meter.reading.submission.MeterReadingSubmissionFragment
 import tech.sumato.utility360.presentation.fragments.tasks.meter_reading_tasks.MeterReadingTasksFragment
@@ -206,13 +207,13 @@ class MeterReadingActivity : FragmentHolderActivity() {
     }
 
     private fun addDefaultFragment() {
-        /*addFragment(
-            fragment = FindCustomerFragment(),
-            addToBackStack = false,
-            replace = true
-        )*/
+        /* addFragment(
+             fragment = FindCustomerFragment(),
+             addToBackStack = false,
+             replace = true
+         )*/
         addFragment(
-            fragment = MeterReadingTasksFragment(),
+            fragment = FindCustomerFragmentV2(),
             addToBackStack = false,
             replace = true
         )

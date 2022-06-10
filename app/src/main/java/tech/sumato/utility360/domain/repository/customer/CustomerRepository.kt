@@ -7,9 +7,14 @@ import tech.sumato.utility360.data.remote.utils.Resource
 interface CustomerRepository {
 
 
-    suspend fun getCustomers(query: Map<String, String>) : Resource<List<CustomerResource>>
+    suspend fun getCustomers(query: Map<String, String>): Resource<List<CustomerResource>>
 
 
-    suspend fun getCustomersWithDocument(query: Map<String, String>) : Resource<JsonDocument<List<CustomerResource>>>
+    suspend fun getCustomersWithDocument(query: Map<String, String>): Resource<JsonDocument<List<CustomerResource>>>
+
+    suspend fun getCustomer(
+        uuid: String,
+        query: Map<String, String>
+    ): Resource<JsonDocument<CustomerResource>>
 
 }

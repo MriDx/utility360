@@ -64,4 +64,12 @@ interface ApiService {
         @Body requestBody: RequestBody
     ): Response<SimpleResponse>
 
+
+    @IzzyInterface
+    @GET("customers/{uuid}")
+    suspend fun getCustomer(
+        @Path(value = "uuid", encoded = true) uuid: String,
+        query: Map<String, String>
+    ): Response<JsonDocument<CustomerResource>>
+
 }

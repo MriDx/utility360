@@ -55,8 +55,6 @@ class SiteVerificationFragment : Fragment() {
 
     private val viewModel by activityViewModels<CustomerVerificationActivityViewModel>()
 
-    private val siteVerificationTaskRequest = ObservableField(SiteVerificationTaskRequest())
-
     private val siteVerificationTaskObject = SiteVerificationTaskRequest()
 
 
@@ -119,28 +117,16 @@ class SiteVerificationFragment : Fragment() {
 
             getFormData()
 
-            navigateAndSubmit()
-
-
-/*
             siteVerificationTaskObject.uploadableImagePath = rawImageFilePath
 
             if (!siteVerificationTaskObject.validate()) {
-                //
-                showSnackbar(message = "Fill all the fields and try again !")
+                showSnackbar("Fill all the fields and try again !")
                 return@setOnClickListener
             }
 
-            Log.d("mridx", "onViewCreated: ${siteVerificationTaskObject.toJson()}")
 
-            navigateAndSubmit()*/
+            navigateAndSubmit()
 
-
-            /*siteVerificationTaskRequest.get()!!.uploadableImagePath = rawImageFilePath
-            viewModel.submitVerification(
-                paramsObject = siteVerificationTaskRequest.get()!!
-            )
-            viewModel.navigate(fragment = SiteVerificationSubmissionFragment::class.java)*/
         }
 
         binding.siteImageView.setOnClickListener {
@@ -154,9 +140,9 @@ class SiteVerificationFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.IO) {
             viewModel.navigate(fragment = SiteVerificationSubmissionFragment::class.java)
 
-            /*viewModel.submitVerification(
+            viewModel.submitVerification(
                 paramsObject = siteVerificationTaskObject
-            )*/
+            )
         }
     }
 

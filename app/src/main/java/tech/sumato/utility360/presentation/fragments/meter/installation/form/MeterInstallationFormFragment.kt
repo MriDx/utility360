@@ -20,6 +20,7 @@ import androidx.lifecycle.lifecycleScope
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageView
 import com.canhub.cropper.options
+import com.google.android.material.snackbar.Snackbar
 import com.mridx.watermarkdialog.Data
 import com.mridx.watermarkdialog.Processor
 import dagger.hilt.android.AndroidEntryPoint
@@ -171,6 +172,7 @@ class MeterInstallationFormFragment : Fragment() {
 
             if (!meterInstallationTaskRequest.validate()) {
                 //
+                showSnackbar(message = "Please fill all fields")
                 return@setOnClickListener
             }
 
@@ -178,6 +180,10 @@ class MeterInstallationFormFragment : Fragment() {
         }
 
 
+    }
+
+    private fun showSnackbar(message: String) {
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
     }
 
     private fun navigateAndSubmit() {

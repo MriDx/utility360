@@ -48,5 +48,10 @@ class ApiHelperImpl @Inject constructor(private val apiService: ApiService) : Ap
     ): Response<SimpleResponse> =
         apiService.submitMeterReading(uuid = customerUuid, requestBody = requestBody)
 
+    override suspend fun getCustomer(
+        uuid: String,
+        query: Map<String, String>
+    ): Response<JsonDocument<CustomerResource>> = apiService.getCustomer(uuid, query)
+
 
 }

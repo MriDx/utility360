@@ -9,16 +9,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.*
+import tech.sumato.utility360.data.remote.model.customer.CustomerResource
 import tech.sumato.utility360.data.remote.model.tasks.MeterReadingTaskRequest
 import tech.sumato.utility360.data.remote.utils.Status
 import tech.sumato.utility360.data.remote.web_service.source.customer.CustomerDataSource
 import tech.sumato.utility360.data.utils.FragmentNavigation
+import tech.sumato.utility360.domain.use_case.customer.GetCustomerUseCase
 import tech.sumato.utility360.domain.use_case.customer.GetCustomersWithDocumentUseCase
 import tech.sumato.utility360.domain.use_case.firebase.FirebaseImageUploaderUseCase
 import tech.sumato.utility360.domain.use_case.location.EnableGpsUseCase
@@ -44,6 +45,7 @@ class MeterReadingActivityViewModel @Inject constructor(
     private val getCustomersWithDocumentUseCase: GetCustomersWithDocumentUseCase,
     private val firebaseImageUploaderUseCase: FirebaseImageUploaderUseCase,
     private val submitMeterReadingUseCase: SubmitMeterReadingUseCase,
+    private val getCustomerUseCase: GetCustomerUseCase,
 
     ) : ListingViewModel(), Navigation {
 
@@ -54,6 +56,10 @@ class MeterReadingActivityViewModel @Inject constructor(
     val gpsResultFlow = MutableSharedFlow<GpsResult>()
 
     private var currentLocation: Location? = null
+
+
+    private var lastMeterReadingFlow_ = MutableSharedFlow<CustomerResource>()
+    val lastMeterReadingFlow: SharedFlow<CustomerResource> = lastMeterReadingFlow_
 
 
     var jobInProgress = false
@@ -174,13 +180,28 @@ class MeterReadingActivityViewModel @Inject constructor(
     //endregion
 
 
+    var searchedCustomer: MutableSharedFlow<PagingData<CustomerResource>> = MutableSharedFlow()
+
+    fun doSearchByQuery(searchQuery: String) {
+
+        viewModelScope.launch {
+            val result = getCustomers(
+                query = mutableMapOf(
+                    "filter[search_by]" to searchQuery,
+                    "include" to "user.lastMeterReading",
+                )
+            ).cachedIn(viewModelScope)
+            searchedCustomer.emitAll(result)
+        }
+
+    }
+
     fun getCustomers(query: MutableMap<String, String> = mutableMapOf()) = Pager(
         config = PagingConfig(pageSize = 2, prefetchDistance = 2),
         pagingSourceFactory = {
             CustomerDataSource(getCustomersWithDocumentUseCase, query = query)
         })
         .flow
-        .cachedIn(viewModelScope)
 
 
     fun submitMeterReading(meterReadingTaskRequest: MeterReadingTaskRequest) {
@@ -208,7 +229,7 @@ class MeterReadingActivityViewModel @Inject constructor(
                 val tmpData = meterReadingTaskRequestObject!!
                 tmpData.lat_long = "${currentLocation?.latitude},${currentLocation?.longitude}"
 
-                delay(1000 * 3)
+                //delay(1000 * 3)
 
                 val uploadedMeterImage = firebaseImageUploaderUseCase(
                     imagePath = tmpData.uploadableImagePath,
@@ -225,14 +246,14 @@ class MeterReadingActivityViewModel @Inject constructor(
 
                 Log.d("mridx", "submission: meter reading submit params - $params")
 
-                /*val response = submitMeterReadingUseCase(
+                val response = submitMeterReadingUseCase(
                     customerUuid = tmpData.customerUuid,
                     params = params
                 )
 
                 if (response.isFailed()) {
                     throw Exception("Request failed !")
-                }*/
+                }
 
 
 
@@ -254,6 +275,26 @@ class MeterReadingActivityViewModel @Inject constructor(
                     message = "Your request failed for ${e.message} "
                 )
             }
+
+        }
+    }
+
+    fun fetchLastMeterReading(uuid: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val response = getCustomerUseCase(
+                uuid, mapOf(
+                    "include" to "user.lastMeterReading"
+                )
+            )
+
+            if (response.isFailed()) {
+                //failed to fetch last meter reading
+                return@launch
+            }
+
+            //last meter reading fetched, notify ui
+            lastMeterReadingFlow_.emit(response.data!!.data!!)
+
 
         }
     }

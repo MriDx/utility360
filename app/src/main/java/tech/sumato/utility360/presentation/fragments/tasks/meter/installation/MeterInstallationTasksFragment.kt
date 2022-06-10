@@ -39,12 +39,12 @@ class MeterInstallationTasksFragment : ListingFragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-               /* launch {
+                launch {
                     viewModel.getPendingMeterInstallations().collectLatest { pagingData ->
                         meterInstallationTasksAdapter.submitData(pagingData)
                     }
-                }*/
-                launch {
+                }
+                /*launch {
                     viewModel.getCustomers(
                         query = mutableMapOf(
                             "filter[connection_status]" to "applied",
@@ -54,7 +54,7 @@ class MeterInstallationTasksFragment : ListingFragment() {
                     ).collectLatest { pagingData ->
                         meterInstallationTasksAdapter.submitData(pagingData)
                     }
-                }
+                }*/
                 launch {
                     meterInstallationTasksAdapter.loadStateFlow.collectLatest { loadState ->
                         if (loadState.source.refresh is LoadState.NotLoading || loadState.source.refresh is LoadState.Error) {
