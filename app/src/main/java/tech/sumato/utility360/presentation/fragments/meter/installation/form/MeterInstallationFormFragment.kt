@@ -17,11 +17,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageView
 import com.canhub.cropper.options
+import com.google.android.material.snackbar.Snackbar
 import com.mridx.watermarkdialog.Data
 import com.mridx.watermarkdialog.Processor
+import com.sumato.etrack_agri.ui.utils.PlaceHolderDrawableHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -107,6 +110,7 @@ class MeterInstallationFormFragment : Fragment() {
     private lateinit var customerResource: CustomerResource
 
     private var meterInstallationTaskRequest = MeterInstallationTaskRequest()
+    private var listingPosition: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -127,6 +131,8 @@ class MeterInstallationFormFragment : Fragment() {
 
         customerResource = arguments?.getParcelable<CustomerResource>("data")
             ?: throw Exception("invalid customer data")
+
+        listingPosition = arguments?.getInt("position") ?: 0
 
         meterInstallationTaskRequest.customerUuid = customerResource.id!!
 
@@ -171,6 +177,7 @@ class MeterInstallationFormFragment : Fragment() {
 
             if (!meterInstallationTaskRequest.validate()) {
                 //
+                showSnackbar(message = "Please fill all fields")
                 return@setOnClickListener
             }
 
@@ -178,6 +185,10 @@ class MeterInstallationFormFragment : Fragment() {
         }
 
 
+    }
+
+    private fun showSnackbar(message: String) {
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
     }
 
     private fun navigateAndSubmit() {
@@ -200,6 +211,18 @@ class MeterInstallationFormFragment : Fragment() {
         binding.apply {
             binding.titleTextView.text = customerResource.name
             binding.secondaryTextView.text = customerResource.pbg_id
+
+            Glide.with(requireContext())
+                .asBitmap()
+                .load(customerResource.photo)
+                .placeholder(
+                    PlaceHolderDrawableHelper.getAvatar(
+                        requireContext(),
+                        customerResource.name,
+                        listingPosition
+                    )
+                )
+                .into(avatarView)
 
             customerResource.getSecondaryDetailsMap().forEach { item ->
                 val secondaryItemView = DataBindingUtil.inflate<ProfileInfoItemViewBinding>(
@@ -252,29 +275,6 @@ class MeterInstallationFormFragment : Fragment() {
 
     private fun addWatermarks(capturedResult: CapturedResult, type: String) {
         addWatermarks(capturedResult.file, type)
-        /*viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-            val file = File(capturedResult.file)
-            val processedBitmap = Processor.process(
-                file = file,
-                waterMarkData = Data.WaterMarkData(
-                    waterMarks = mapOf(
-                        "Customer name" to customerResource.name!!,
-                        "Id" to customerResource.pbg_id!!,
-                        "Uploaded via" to getString(R.string.app_name)
-                    ),
-                    position = Data.WaterMarkPosition.BOTTOM_LEFT
-                ),
-                maxHeight = 1080f,
-                maxWidth = 1080f
-            ) ?: throw Exception("Could not processed image")
-
-            val compressedBitmap =
-                compressBitmap(bitmap = processedBitmap, maxHeight = 1080f, maxWidth = 1080f)
-                    ?: processedBitmap
-
-            saveAndShowProcessedBitmap(bitmap = compressedBitmap, type = type)
-
-        }*/
     }
 
     private suspend fun saveAndShowProcessedBitmap(bitmap: Bitmap, type: String) {

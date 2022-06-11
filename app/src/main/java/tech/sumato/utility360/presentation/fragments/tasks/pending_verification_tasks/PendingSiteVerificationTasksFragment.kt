@@ -89,8 +89,8 @@ class PendingSiteVerificationTasksFragment : ListingFragment() {
     }
 
     override fun <T> getAdapter(): T? {
-        pendingVerificationTasksAdapter.setOnItemClickListener {
-            onItemClicked(data = it)
+        pendingVerificationTasksAdapter.setOnItemClickListener { data, position ->
+            onItemClicked(data = data, position = position)
         }
         return pendingVerificationTasksAdapter.withLoadStateHeaderAndFooter(
             header = LoadingStateAdapter(retryCallback = { onRetry() }),
@@ -103,10 +103,11 @@ class PendingSiteVerificationTasksFragment : ListingFragment() {
         pendingVerificationTasksAdapter.retry()
     }
 
-    private fun onItemClicked(data: CustomerResource) {
+    private fun onItemClicked(data: CustomerResource, position: Int) {
         viewModel.navigate(
             SiteVerificationFragment::class.java, args = bundleOf(
-                "data" to data
+                "data" to data,
+                "position" to position
             )
         )
     }

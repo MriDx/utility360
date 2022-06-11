@@ -35,6 +35,8 @@ class FindCustomerFragment : Fragment() {
         listOf("Tony Stark", "Steve Rogers", "Clint Barton", "Thor Odinson", "Bruce Banner")
 
 
+    //http://pbg-test.sumato.tech/api/v1/customers?filter[search_by]=Manoj
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

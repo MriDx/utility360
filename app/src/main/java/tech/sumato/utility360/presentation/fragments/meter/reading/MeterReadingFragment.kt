@@ -16,16 +16,23 @@ import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.withCreated
+import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.mridx.watermarkdialog.Data
 import com.mridx.watermarkdialog.Processor
+import com.sumato.etrack_agri.ui.utils.PlaceHolderDrawableHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import tech.sumato.utility360.R
 import tech.sumato.utility360.data.remote.model.customer.CustomerResource
+import tech.sumato.utility360.data.remote.model.meter.MeterReadingResource
 import tech.sumato.utility360.data.remote.model.tasks.MeterReadingTaskRequest
 import tech.sumato.utility360.databinding.MeterReadingFragmentBinding
 import tech.sumato.utility360.databinding.ProfileInfoItemViewBinding
@@ -40,6 +47,7 @@ import tech.sumato.utility360.presentation.fragments.meter.reading.submission.Me
 import tech.sumato.utility360.utils.*
 import java.io.File
 import java.text.DateFormat
+import java.time.Instant
 import java.util.*
 
 @AndroidEntryPoint
@@ -70,6 +78,8 @@ class MeterReadingFragment : Fragment() {
 
     private var customerResource: CustomerResource? = null
     private var meterReadingTaskRequest = MeterReadingTaskRequest()
+    private var listingPosition = 0
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -93,8 +103,26 @@ class MeterReadingFragment : Fragment() {
 
         customerResource =
             arguments?.getParcelable("data") ?: throw Exception("Customer data invalid")
+        listingPosition = arguments?.getInt("position") ?: 0
 
         meterReadingTaskRequest.customerUuid = customerResource!!.id!!
+
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    /*viewModel.lastMeterReadingFlow.collectLatest { customerResourceResponse ->
+                        //show last meter reading
+                        showLastMeterReading(customerResourceResponse.user!!.lastMeterReading!!)
+                    }*/
+                }
+            }
+        }
+
+
+        //fetch last meter reading
+        //viewModel.fetchLastMeterReading(uuid = customerResource!!.id!!)
+
 
         renderCustomerDetails()
 
@@ -106,14 +134,16 @@ class MeterReadingFragment : Fragment() {
 
         binding.meterReadingSubmitBtn.setOnClickListener {
             getFormData()
-            /*if (!meterReadingTaskRequest.validate()) {
+            if (!meterReadingTaskRequest.validate()) {
                 //
+                showSnackbar("Please fill all the fields")
                 return@setOnClickListener
-            }*/
+            }
             navigateAndSubmit()
         }
 
     }
+
 
     private fun navigateAndSubmit() {
         lifecycleScope.launch(Dispatchers.IO) {
@@ -123,9 +153,9 @@ class MeterReadingFragment : Fragment() {
     }
 
     private fun getFormData() {
-        meterReadingTaskRequest.meter_readings = binding.meterReadingField.getOTP()
-        meterReadingTaskRequest.date_of_billing =
-            DateFormat.getDateInstance(DateFormat.SHORT).format(Date())
+        meterReadingTaskRequest.meter_readings = binding.meterReadingField.getOTP().toMeterReading()
+        meterReadingTaskRequest.date_of_billing = Date().toMeterReadingDate()
+        //DateFormat.getDateInstance(DateFormat.SHORT).format(Date())
 
     }
 
@@ -134,7 +164,21 @@ class MeterReadingFragment : Fragment() {
             binding.titleTextView.text = customerResource!!.name
             binding.secondaryTextView.text = customerResource!!.pbg_id
 
-            customerResource!!.getSecondaryDetailsMap().forEach { item ->
+            binding.meterImageView.setImageURI(File(meterReadingTaskRequest.uploadableImagePath).toUri())
+
+            Glide.with(requireContext())
+                .asBitmap()
+                .load(customerResource?.photo)
+                .placeholder(
+                    PlaceHolderDrawableHelper.getAvatar(
+                        requireContext(),
+                        customerResource!!.name,
+                        listingPosition
+                    )
+                )
+                .into(avatarView)
+
+            customerResource!!.getSecondaryDetailsForMeterReading().forEach { item ->
                 val secondaryItemView = DataBindingUtil.inflate<ProfileInfoItemViewBinding>(
                     LayoutInflater.from(requireContext()),
                     R.layout.profile_info_item_view,
@@ -327,4 +371,9 @@ class MeterReadingFragment : Fragment() {
         viewModel.submitMeterReading()
     }
 */
+
+    private fun showSnackbar(message: String) {
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
+    }
+
 }

@@ -18,6 +18,7 @@ import androidx.databinding.ObservableField
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageContractOptions
 import com.canhub.cropper.CropImageView
@@ -25,6 +26,7 @@ import com.canhub.cropper.options
 import com.google.android.material.snackbar.Snackbar
 import com.mridx.watermarkdialog.Data
 import com.mridx.watermarkdialog.Processor
+import com.sumato.etrack_agri.ui.utils.PlaceHolderDrawableHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -54,8 +56,6 @@ class SiteVerificationFragment : Fragment() {
     private val binding get() = binding_!!
 
     private val viewModel by activityViewModels<CustomerVerificationActivityViewModel>()
-
-    private val siteVerificationTaskRequest = ObservableField(SiteVerificationTaskRequest())
 
     private val siteVerificationTaskObject = SiteVerificationTaskRequest()
 
@@ -102,6 +102,7 @@ class SiteVerificationFragment : Fragment() {
     }
 
     private var customerResource: CustomerResource? = null
+    private var listingPosition: Int = 0
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -109,6 +110,8 @@ class SiteVerificationFragment : Fragment() {
 
         customerResource =
             arguments?.getParcelable("data") ?: throw Exception("Customer data invalid")
+
+        listingPosition = arguments?.getInt("position") ?: 0
 
         //siteVerificationTaskRequest.get()!!.customerUuid = customerResource!!.id!!
         siteVerificationTaskObject.customerUuid = customerResource!!.id!!
@@ -119,28 +122,16 @@ class SiteVerificationFragment : Fragment() {
 
             getFormData()
 
-            navigateAndSubmit()
-
-
-/*
             siteVerificationTaskObject.uploadableImagePath = rawImageFilePath
 
             if (!siteVerificationTaskObject.validate()) {
-                //
-                showSnackbar(message = "Fill all the fields and try again !")
+                showSnackbar("Fill all the fields and try again !")
                 return@setOnClickListener
             }
 
-            Log.d("mridx", "onViewCreated: ${siteVerificationTaskObject.toJson()}")
 
-            navigateAndSubmit()*/
+            navigateAndSubmit()
 
-
-            /*siteVerificationTaskRequest.get()!!.uploadableImagePath = rawImageFilePath
-            viewModel.submitVerification(
-                paramsObject = siteVerificationTaskRequest.get()!!
-            )
-            viewModel.navigate(fragment = SiteVerificationSubmissionFragment::class.java)*/
         }
 
         binding.siteImageView.setOnClickListener {
@@ -154,9 +145,9 @@ class SiteVerificationFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.IO) {
             viewModel.navigate(fragment = SiteVerificationSubmissionFragment::class.java)
 
-            /*viewModel.submitVerification(
+            viewModel.submitVerification(
                 paramsObject = siteVerificationTaskObject
-            )*/
+            )
         }
     }
 
@@ -182,6 +173,20 @@ class SiteVerificationFragment : Fragment() {
         binding.apply {
             binding.titleTextView.text = customerResource!!.name
             binding.secondaryTextView.text = customerResource!!.pbg_id
+
+            binding.siteImageView.setImageURI(File(siteVerificationTaskObject.uploadableImagePath).toUri())
+
+            Glide.with(requireContext())
+                .asBitmap()
+                .load(customerResource?.photo)
+                .placeholder(
+                    PlaceHolderDrawableHelper.getAvatar(
+                        requireContext(),
+                        customerResource!!.name,
+                        listingPosition
+                    )
+                )
+                .into(avatarView)
 
             customerResource!!.getSecondaryDetailsMap().forEach { item ->
                 val secondaryItemView = DataBindingUtil.inflate<ProfileInfoItemViewBinding>(

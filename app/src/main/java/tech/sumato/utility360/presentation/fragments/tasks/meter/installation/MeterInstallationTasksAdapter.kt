@@ -16,12 +16,11 @@ class MeterInstallationTasksAdapter @Inject constructor() :
         CustomerResourceComparator
     ) {
 
-    private var onItemClicked: ((data: CustomerResource) -> Unit)? = null
+    private var onItemClicked: ((data: CustomerResource, position: Int) -> Unit)? = null
 
-    fun setOnItemClickListener(listener: ((data: CustomerResource) -> Unit)) {
+    fun setOnItemClickListener(listener: ((data: CustomerResource, position: Int) -> Unit)) {
         onItemClicked = listener
     }
-
 
 
     override fun onBindViewHolder(holder: MeterInstallationTaskViewHolder, position: Int) {
@@ -58,7 +57,7 @@ class MeterInstallationTasksAdapter @Inject constructor() :
                     bold { append(customerResource.geographicalArea?.name ?: "") }
                 }
                 root.setOnClickListener {
-                    onItemClicked?.invoke(customerResource)
+                    onItemClicked?.invoke(customerResource, bindingAdapterPosition)
                 }
             }
         }

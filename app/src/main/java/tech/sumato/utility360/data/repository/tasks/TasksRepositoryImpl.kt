@@ -172,6 +172,9 @@ class TasksRepositoryImpl @Inject constructor(
 
             if (!response.isSuccessful) {
                 //
+                if (response.code() >= 500) {
+                    throw Exception("Server error !")
+                }
                 throw Exception("Something went wrong !")
             }
 
