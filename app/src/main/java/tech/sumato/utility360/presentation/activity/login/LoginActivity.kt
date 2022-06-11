@@ -57,10 +57,6 @@ class LoginActivity : BaseActivity() {
             color(Color.BLUE) { bold { append(getString(R.string.privacyPolicy)) } }
         }
 
-        val d = Date().toMeterReadingDate()
-
-        Log.d("mridx", "onCreate: $d")
-
 
         lifecycleScope.launch {
             launch {
