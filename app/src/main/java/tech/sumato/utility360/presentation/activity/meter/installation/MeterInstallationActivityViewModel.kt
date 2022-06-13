@@ -12,6 +12,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
+import org.json.JSONObject
 import tech.sumato.utility360.data.local.entity.MeterInstallationEntity
 import tech.sumato.utility360.data.remote.model.tasks.MeterInstallationTaskRequest
 import tech.sumato.utility360.data.remote.utils.Status
@@ -21,6 +22,7 @@ import tech.sumato.utility360.data.utils.FragmentNavigation
 import tech.sumato.utility360.domain.use_case.customer.GetCustomersWithDocumentUseCase
 import tech.sumato.utility360.domain.use_case.firebase.FirebaseImageUploaderUseCase
 import tech.sumato.utility360.domain.use_case.tasks.GetPendingMeterInstallationsUseCase
+import tech.sumato.utility360.domain.use_case.tasks.MeterQRAssociationUseCase
 import tech.sumato.utility360.domain.use_case.tasks.SubmitMeterInstallationUseCase
 import tech.sumato.utility360.presentation.fragments.base.listing.ListingViewModel
 import tech.sumato.utility360.presentation.utils.Navigation
@@ -34,14 +36,11 @@ class MeterInstallationActivityViewModel @Inject constructor(
     private val firebaseImageUploaderUseCase: FirebaseImageUploaderUseCase,
     private val submitMeterInstallationUseCase: SubmitMeterInstallationUseCase,
     private val getPendingMeterInstallationsUseCase: GetPendingMeterInstallationsUseCase,
-) : ListingViewModel(),
-    Navigation {
+    private val meterQRAssociationUseCase: MeterQRAssociationUseCase,
+) : ListingViewModel(), Navigation {
 
     private var navigation_ = MutableSharedFlow<FragmentNavigation>()
     val navigation: SharedFlow<FragmentNavigation> = navigation_
-
-    var meterInstallationEntityObserver: ObservableField<MeterInstallationEntity> =
-        ObservableField(MeterInstallationEntity())
 
 
     private var pendingJob: Job? = null
@@ -140,13 +139,42 @@ class MeterInstallationActivityViewModel @Inject constructor(
                     throw Exception("Request failed !")
                 }
 
-                jobInProgress = false
-                jobSuccess = true
+                /*var qrAssociationRetries = 0
+                while (qrAssociationRetries < 3) {
+                    val qrAssociationResponse = meterQRAssociationUseCase(
+                        customerUuid = meterInstallationTaskRequest.customerUuid,
+                        params = meterInstallationTaskRequest.getScannedQRJson()
+                    )
+                    if (qrAssociationResponse.isFailed()) {
+                        qrAssociationRetries ++
+                    }
+                }*/
 
-                notifyJobComplete(
-                    status = Status.SUCCESS,
-                    message = "Your request has been completed successfully "
+                val qrAssociationResponse = meterQRAssociationUseCase(
+                    customerUuid = meterInstallationTaskRequest.customerUuid,
+                    params = meterInstallationTaskRequest.getScannedQRJson()
                 )
+
+                if (qrAssociationResponse.isFailed()) {
+                    jobInProgress = false
+                    jobSuccess = true
+
+                    notifyJobComplete(
+                        status = Status.SUCCESS,
+                        message = "Your request has been completed successfully but Meter QR Association is failed."
+                    )
+                    return@launch
+                } else {
+
+                    jobInProgress = false
+                    jobSuccess = true
+
+
+                    notifyJobComplete(
+                        status = Status.SUCCESS,
+                        message = "Your request has been completed successfully "
+                    )
+                }
 
 
             } catch (e: Exception) {
@@ -165,7 +193,6 @@ class MeterInstallationActivityViewModel @Inject constructor(
     }
 
 
-
     fun getPendingMeterInstallations() = Pager(
         config = PagingConfig(pageSize = 2, prefetchDistance = 2),
         pagingSourceFactory = {
@@ -181,6 +208,22 @@ class MeterInstallationActivityViewModel @Inject constructor(
         })
         .flow
         .cachedIn(viewModelScope)
+
+
+    /*fun testMeterQr() {
+        viewModelScope.launch(Dispatchers.IO) {
+
+            val qrAssociationResponse = meterQRAssociationUseCase(
+                customerUuid = "9a97b64c-5796-4b12-8c9b-1ff8f941067c",
+                params = JSONObject().apply {
+                    put("qr_code", "UTILITY76535")
+                }
+            )
+
+
+
+        }
+    }*/
 
 
 }

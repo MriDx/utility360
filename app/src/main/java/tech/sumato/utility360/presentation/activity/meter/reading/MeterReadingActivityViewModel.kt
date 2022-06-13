@@ -188,7 +188,9 @@ class MeterReadingActivityViewModel @Inject constructor(
             val result = getCustomers(
                 query = mutableMapOf(
                     "filter[search_by]" to searchQuery,
-                    "include" to "user.lastMeterReading",
+                    //"include" to "user.lastMeterReading",
+                    "filter[connection_status]" to "active",
+                    "include" to "customerCheck,meterInstallation"
                 )
             ).cachedIn(viewModelScope)
             searchedCustomer.emitAll(result)

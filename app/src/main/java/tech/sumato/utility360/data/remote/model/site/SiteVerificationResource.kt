@@ -11,7 +11,7 @@ data class SiteVerificationResource(
     val site_address_verified: String? = null,
     val site_feasibility: Boolean = false,
     val nearest_point: String? = null,
-    val floor: Int = 0,
+    val floor: String = "",
     val remarks: String? = null,
     val photograph_of_site: String? = null,
     val location: String? = null,

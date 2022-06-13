@@ -141,4 +141,8 @@ dependencies {
     //image cropping library
     implementation 'com.github.CanHub:Android-Image-Cropper:4.2.1'
 
+    //zxing qr
+    implementation('com.journeyapps:zxing-android-embedded:4.3.0') { transitive = false }
+    implementation 'com.google.zxing:core:3.3.0' // for backward compatibility
+
 }

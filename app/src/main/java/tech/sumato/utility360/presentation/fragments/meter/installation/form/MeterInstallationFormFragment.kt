@@ -8,6 +8,7 @@ import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -22,6 +23,9 @@ import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageView
 import com.canhub.cropper.options
 import com.google.android.material.snackbar.Snackbar
+import com.journeyapps.barcodescanner.ScanContract
+import com.journeyapps.barcodescanner.ScanIntentResult
+import com.journeyapps.barcodescanner.ScanOptions
 import com.mridx.watermarkdialog.Data
 import com.mridx.watermarkdialog.Processor
 import com.sumato.etrack_agri.ui.utils.PlaceHolderDrawableHelper
@@ -34,19 +38,15 @@ import tech.sumato.utility360.data.remote.model.customer.CustomerResource
 import tech.sumato.utility360.data.remote.model.tasks.MeterInstallationTaskRequest
 import tech.sumato.utility360.databinding.MeterInstallationFragmentBinding
 import tech.sumato.utility360.databinding.ProfileInfoItemViewBinding
-import tech.sumato.utility360.presentation.activity.camera.CaptureOptions
 import tech.sumato.utility360.presentation.activity.camera.CapturedResult
-import tech.sumato.utility360.presentation.activity.camera.CustomCameraContract
 import tech.sumato.utility360.presentation.activity.camera.utils.compressBitmap
-import tech.sumato.utility360.presentation.activity.customer.verification.CustomerVerificationActivity
 import tech.sumato.utility360.presentation.activity.meter.installation.MeterInstallationActivity
 import tech.sumato.utility360.presentation.activity.meter.installation.MeterInstallationActivityViewModel
-import tech.sumato.utility360.presentation.activity.meter.reading.MeterReadingActivity
 import tech.sumato.utility360.presentation.fragments.meter.installation.submission.MeterInstallationSubmissionFragment
-import tech.sumato.utility360.presentation.fragments.progress.post_submit.PostSubmitProgressFragment
 import tech.sumato.utility360.utils.*
 import java.io.File
 import java.util.*
+
 
 @AndroidEntryPoint
 class MeterInstallationFormFragment : Fragment() {
@@ -56,6 +56,23 @@ class MeterInstallationFormFragment : Fragment() {
 
     private var binding_: MeterInstallationFragmentBinding? = null
     private val binding get() = binding_!!
+
+    private val qrScannerOptions
+        get() = ScanOptions()
+            .setPrompt("Scan a Meter QR code")
+            .setBeepEnabled(true)
+
+    private val qrScannerLauncher =
+        registerForActivityResult(ScanContract()) { result: ScanIntentResult ->
+            if (result.contents == null) {
+                //Toast.makeText(this@MyActivity, "Cancelled", Toast.LENGTH_LONG).show()
+            } else {
+                //
+                val qr = result.contents
+                meterInstallationTaskRequest.qrData = qr
+                updateQrScanned()
+            }
+        }
 
 
     private val cameraPermissionLauncher =
@@ -67,25 +84,23 @@ class MeterInstallationFormFragment : Fragment() {
             //granted , open camera
         }
 
+    /*@NotInUse
     private val meterImageCaptureLauncher =
         registerForActivityResult(CustomCameraContract()) { result ->
             if (result.success) {
                 //val capturedImage = File(result.file)
                 addWatermarks(capturedResult = result, type = "meter_image")
-                /*meterInstallationTaskRequest.uploadableMeterPhoto = capturedImage.path
-                binding.meterImageView.setImageURI(capturedImage.toUri())*/
             }
         }
 
+    @NotInUse
     private val siteImageCaptureLauncher =
         registerForActivityResult(CustomCameraContract()) { result ->
             if (result.success) {
                 //val capturedImage = File(result.file)
                 addWatermarks(capturedResult = result, type = "site_image")
-                /*meterInstallationTaskRequest.uploadableSitePhoto = capturedImage.path
-                binding.siteImageView.setImageURI(capturedImage.toUri())*/
             }
-        }
+        }*/
 
     private val meterImageLauncher = registerForActivityResult(CropImageContract()) { cropResult ->
         if (cropResult.isSuccessful) {
@@ -237,6 +252,19 @@ class MeterInstallationFormFragment : Fragment() {
                 binding.customerInfoHolder.addView(secondaryItemView)
             }
 
+            binding.qrScannerBtn.setOnClickListener {
+                qrScannerLauncher.launch(qrScannerOptions)
+            }
+            updateQrScanned()
+
+        }
+    }
+
+    private fun updateQrScanned() {
+        if (meterInstallationTaskRequest.isQrScanned()) {
+            binding.qrScannerBtn.setImageResource(R.drawable.ic_baseline_done_24)
+        } else {
+            binding.qrScannerBtn.setImageResource(R.drawable.ic_baseline_qr_code_24)
         }
     }
 

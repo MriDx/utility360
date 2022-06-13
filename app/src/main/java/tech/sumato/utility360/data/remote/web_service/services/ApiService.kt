@@ -72,4 +72,12 @@ interface ApiService {
         query: Map<String, String>
     ): Response<JsonDocument<CustomerResource>>
 
+
+    @GsonInterface
+    @POST("customers/{uuid}/qrcode")
+    suspend fun qrMeterAssociation(
+        @Path(value = "uuid", encoded = true) uuid: String,
+        @Body requestBody: RequestBody
+    ): Response<SimpleResponse>
+
 }

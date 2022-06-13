@@ -7,6 +7,7 @@ import com.undabot.izzy.annotations.Type
 import com.undabot.izzy.models.IzzyResource
 import kotlinx.parcelize.Parcelize
 import tech.sumato.utility360.data.remote.model.grographical.GeographicalAreaResource
+import tech.sumato.utility360.data.remote.model.meter.MeterInstallationResource
 import tech.sumato.utility360.data.remote.model.site.SiteVerificationResource
 import tech.sumato.utility360.data.remote.model.user.UserResource
 import tech.sumato.utility360.data.remote.model.utils.CreatedResource
@@ -31,6 +32,9 @@ data class CustomerResource(
     @Relationship("siteVerification")
     val siteVerification: SiteVerificationResource? = null
 
+    @Relationship("meterInstallation")
+    val meterInstallation: MeterInstallationResource? = null
+
     @Relationship("geographicalArea")
     val geographicalArea: GeographicalAreaResource? = null
 
@@ -40,6 +44,7 @@ data class CustomerResource(
 
     fun getSecondaryDetailsMap(): Map<String, String> {
         return mapOf(
+            "Customer type" to (type ?: "n/a"),
             "Connection type" to plan_type!!.replaceFirstChar { it.uppercase() },
             "Phone number" to contact!!,
             "Address" to address!!
@@ -51,8 +56,12 @@ data class CustomerResource(
             "Connection type" to plan_type!!.replaceFirstChar { it.uppercase() },
             "Phone number" to contact!!,
             "Address" to address!!,
-            "Last meter reading" to if (user?.lastMeterReading == null) "Not available" else "${user.lastMeterReading.meter_reading} Unit \n on ${user.lastMeterReading.date_of_billing}",
+            //"Last meter reading" to if (user?.lastMeterReading == null) "Not available" else "${user.lastMeterReading.meter_reading} Unit \n on ${user.lastMeterReading.date_of_billing}",
         )
+    }
+
+    fun isReadyToMeterReading(): Boolean {
+        return siteVerification != null && meterInstallation != null
     }
 
 

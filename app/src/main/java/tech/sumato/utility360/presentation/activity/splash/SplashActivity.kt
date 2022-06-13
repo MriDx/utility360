@@ -2,6 +2,7 @@ package tech.sumato.utility360.presentation.activity.splash
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
@@ -9,6 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okio.ByteString.Companion.encode
 import tech.sumato.utility360.R
 import tech.sumato.utility360.databinding.SplashActivityBinding
 import tech.sumato.utility360.presentation.activity.base.BaseActivity
@@ -28,6 +30,13 @@ class SplashActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.splash_activity)
+
+
+        val k = "hello/123"
+
+        Log.d("mridx", "onCreate: ${k.encode(charset = Charsets.UTF_8)}")
+
+        Log.d("mridx", "onCreate: ${k.replace("/", "%2F")}  ")
 
 
         lifecycleScope.launch(Dispatchers.Default) {

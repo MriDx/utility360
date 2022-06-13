@@ -54,4 +54,9 @@ class ApiHelperImpl @Inject constructor(private val apiService: ApiService) : Ap
     ): Response<JsonDocument<CustomerResource>> = apiService.getCustomer(uuid, query)
 
 
+    override suspend fun qrMeterAssociation(
+        uuid: String,
+        requestBody: RequestBody
+    ): Response<SimpleResponse> = apiService.qrMeterAssociation(uuid, requestBody)
+
 }

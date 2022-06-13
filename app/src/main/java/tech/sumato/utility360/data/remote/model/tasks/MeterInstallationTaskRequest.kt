@@ -16,11 +16,12 @@ data class MeterInstallationTaskRequest(
     var uploadableMeterPhoto: String = "",
     var uploadableSitePhoto: String = "",
     var customerUuid: String = "",
+    var qrData: String = "",
 ) {
 
 
     fun validate() =
-        meter_serial_no.isNotEmpty() && uploadableMeterPhoto.isNotEmpty() && uploadableSitePhoto.isNotEmpty()
+        meter_serial_no.isNotEmpty() && uploadableMeterPhoto.isNotEmpty() && uploadableSitePhoto.isNotEmpty() && qrData.isNotEmpty()
 
     fun toJson(): JSONObject {
         return JSONObject().apply {
@@ -33,6 +34,12 @@ data class MeterInstallationTaskRequest(
             put("after_installation_photo", after_installation_photo)
         }
 
+    }
+
+    fun isQrScanned() = qrData.isNotEmpty()
+
+    fun getScannedQRJson() = JSONObject().apply {
+        put("qr_code", qrData.split("/").last())
     }
 
 

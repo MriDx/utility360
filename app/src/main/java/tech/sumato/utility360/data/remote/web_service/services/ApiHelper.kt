@@ -4,6 +4,7 @@ import com.undabot.izzy.models.JsonDocument
 import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.Field
 import retrofit2.http.Path
 import retrofit2.http.QueryMap
 import tech.sumato.utility360.data.remote.model.customer.CustomerResource
@@ -43,6 +44,12 @@ interface ApiHelper {
     suspend fun getCustomer(
         uuid: String,
         query: Map<String, String>
-    ) : Response<JsonDocument<CustomerResource>>
+    ): Response<JsonDocument<CustomerResource>>
+
+
+    suspend fun qrMeterAssociation(
+        uuid: String,
+        requestBody: RequestBody
+    ): Response<SimpleResponse>
 
 }

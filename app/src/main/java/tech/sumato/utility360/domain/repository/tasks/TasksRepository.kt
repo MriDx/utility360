@@ -26,4 +26,6 @@ interface TasksRepository {
 
     suspend fun submitMeterReading(customerUuid: String, params: JSONObject): Resource<SimpleResponse>
 
+    suspend fun meterQrAssociation(customerUuid: String, params: JSONObject) : Resource<SimpleResponse>
+
 }

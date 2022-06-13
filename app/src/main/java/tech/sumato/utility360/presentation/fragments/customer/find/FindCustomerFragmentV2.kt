@@ -14,6 +14,7 @@ import androidx.paging.LoadState
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -111,6 +112,10 @@ class FindCustomerFragmentV2 : Fragment() {
 
     fun getAdapter() = searchedCustomerAdapter.apply {
         setItemClickedListener { data, position ->
+            if (!data.isReadyToMeterReading()) {
+                showSnackbar(message = "Site verification or Meter installation is not completed yet !")
+                return@setItemClickedListener
+            }
             viewModel.navigate(
                 fragment = MeterReadingFragment::class.java,
                 args = bundleOf(
@@ -123,6 +128,10 @@ class FindCustomerFragmentV2 : Fragment() {
         header = LoadingStateAdapter(retryCallback = { onRetry() }),
         footer = LoadingStateAdapter(retryCallback = { onRetry() })
     )
+
+    private fun showSnackbar(message: String) {
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
+    }
 
     fun onRetry() {
         searchedCustomerAdapter.retry()

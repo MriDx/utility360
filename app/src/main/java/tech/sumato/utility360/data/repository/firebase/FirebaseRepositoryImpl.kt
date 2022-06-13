@@ -48,7 +48,10 @@ class FirebaseRepositoryImpl @Inject constructor(
                 }
 
                 val uploadedImagePath =
-                    "$FIREBASE_STORAGE$BUCKET${uploadResponse.metadata?.path}$MEDIA"
+                    "$FIREBASE_STORAGE$BUCKET${uploadResponse.metadata?.path?.replace(
+                        "/",
+                        "%2F"
+                    )}$MEDIA"
 
                 uploadedImagePath
 
@@ -99,7 +102,13 @@ class FirebaseRepositoryImpl @Inject constructor(
                 }
 
                 val uploadedImagePath =
-                    "$FIREBASE_STORAGE$BUCKET${uploadResponse.metadata?.path}$MEDIA"
+                    "$FIREBASE_STORAGE$BUCKET${
+                        uploadResponse.metadata?.path?.replace(
+                            "/",
+                            "%2F"
+                        )
+                    }$MEDIA"
+
 
                 uploadedImagePath
 

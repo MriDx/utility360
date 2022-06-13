@@ -17,7 +17,6 @@
         android:layout_height="match_parent"
         android:background="@color/slate_50">
 
-
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -163,6 +162,7 @@
                             android:layout_marginEnd="10dp"
                             android:text="@string/mif_meterPhotoHeading" />
 
+
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/meterImageView"
                             android:layout_width="match_parent"
@@ -191,6 +191,44 @@
                             android:layout_marginEnd="10dp"
                             android:background="@color/slate_200"
                             app:shapeAppearanceOverlay="@style/RoundedCornerImageView.10" />
+
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="24dp"
+                            android:layout_marginEnd="10dp">
+
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginTop="0dp"
+                                android:layout_marginEnd="10dp"
+                                android:text="@string/mif_meterQrHeading"
+                                android:textColor="@color/headingTextColor"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toStartOf="@id/qrScannerBtn"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintVertical_bias="0.5" />
+
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:id="@+id/qrScannerBtn"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:scaleType="center"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="1"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintVertical_bias="0.5"
+                                app:srcCompat="@drawable/ic_baseline_qr_code_24" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
                         <androidx.constraintlayout.widget.ConstraintLayout
