@@ -47,7 +47,9 @@
         </activity>
         <activity
             android:name=".presentation.activity.login.LoginActivity"
-            android:theme="@style/Theme.AppTemplate.NoActionBar" />
+            android:theme="@style/Theme.AppTemplate.NoActionBar"
+            android:windowSoftInputMode="adjustResize"
+            />
 
         <activity
             android:name=".presentation.activity.home.HomeActivity"
