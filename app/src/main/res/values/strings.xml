@@ -47,6 +47,7 @@
     <string name="siteVerification">Site Verification</string>
     <string name="siteService">Site Service</string>
     <string name="pipelineService">Pipeline Service</string>
+    <string name="meterQrAssociation">Meter QR Association</string>
     <string name="meterReplacement">Meter Replacement</string>
     <string name="instructionsAndArticles">Instructions and articles</string>
 
@@ -65,6 +66,7 @@
     <string name="mif_initialMeterReadingHeading">Initial meter reading</string>
     <string name="mif_meterPhotoHeading">Meter photo with clearly visible serial number</string>
     <string name="mif_sitePhotoHeading">Site photo with meter</string>
+    <string name="mif_meterQrHeading">Scan meter QR</string>
     <string name="mif_extraPipeInvolvedHeading">Extra pipe involved ?</string>
     <string name="mif_additionalPipeLengthHeading">Length of additional pipe added (in meter)</string>
     <string name="mif_totalPipeInvolvedHeading">Total pipe involved</string>

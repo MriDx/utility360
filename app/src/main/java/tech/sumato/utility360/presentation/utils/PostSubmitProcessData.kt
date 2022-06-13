@@ -10,7 +10,7 @@ sealed class ProcessStatus {
 
 data class PostSubmitProcessData(
     val processStatus: ProcessStatus = ProcessStatus.INITIAL,
-    val message: String = ""
+    val message: String = "",
 ) {
 
     fun isLoading(): Boolean = processStatus == ProcessStatus.LOADING

@@ -40,7 +40,7 @@ class SearchedCustomerAdapter @Inject constructor() :
         fun bind(customerResource: CustomerResource) {
             with(binding) {
                 uinView.text = customerResource.name
-                //nameView.text = customerResource.address
+                //nameView.text = "${customerResource.meterInstallation?.meter_serial_no} | ${customerResource.plan_type}"
                 nameView.text =
                     if (customerResource.user?.lastMeterReading == null) "Last bill information not available" else buildSpannedString {
                         append("Last billed on ")

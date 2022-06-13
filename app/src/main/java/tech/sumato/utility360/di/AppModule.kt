@@ -28,6 +28,7 @@ import tech.sumato.utility360.data.local.AppDao
 import tech.sumato.utility360.data.local.AppDatabase
 import tech.sumato.utility360.data.remote.model.customer.CustomerResource
 import tech.sumato.utility360.data.remote.model.grographical.GeographicalAreaResource
+import tech.sumato.utility360.data.remote.model.meter.MeterInstallationResource
 import tech.sumato.utility360.data.remote.model.meter.MeterReadingResource
 import tech.sumato.utility360.data.remote.model.site.SiteVerificationResource
 import tech.sumato.utility360.data.remote.model.user.UserResource
@@ -72,6 +73,7 @@ object AppModule {
                     GeographicalAreaResource::class.java,
                     UserResource::class.java,
                     MeterReadingResource::class.java,
+                    MeterInstallationResource::class.java,
                 )
             ),
             gson = gson

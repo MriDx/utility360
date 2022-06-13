@@ -154,6 +154,7 @@ class MeterReadingFragment : Fragment() {
 
     private fun getFormData() {
         meterReadingTaskRequest.meter_readings = binding.meterReadingField.getOTP().toMeterReading()
+        //meterReadingTaskRequest.date_of_billing = "2022-08-12"
         meterReadingTaskRequest.date_of_billing = Date().toMeterReadingDate()
         //DateFormat.getDateInstance(DateFormat.SHORT).format(Date())
 

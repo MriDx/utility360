@@ -29,6 +29,11 @@ fun getHomeFragmentActions(): List<HomeFragmentActionData> {
             heading = R.string.pipelineService,
             actionIdentifier = "pipe_service"
         ),
+       /* HomeFragmentActionData(
+            icon = R.drawable.meter_installation,
+            heading = R.string.meterQrAssociation,
+            actionIdentifier = "meter_qr"
+        ),*/
         HomeFragmentActionData(
             icon = R.drawable.meter_reading,
             heading = R.string.meterReading,

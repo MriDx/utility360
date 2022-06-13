@@ -3,6 +3,7 @@ package tech.sumato.utility360.data.repository.tasks
 import com.undabot.izzy.models.JsonDocument
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
@@ -179,6 +180,34 @@ class TasksRepositoryImpl @Inject constructor(
             }
 
             Resource.success(data = response.body()!!)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Resource.error(message = e.message)
+        }
+    }
+
+    override suspend fun meterQrAssociation(
+        customerUuid: String,
+        params: JSONObject
+    ): Resource<SimpleResponse> = withContext(Dispatchers.IO) {
+        try {
+
+            val requestBody = params.toString().toRequestBody("application/json".toMediaType())
+
+            val response = apiHelper.qrMeterAssociation(customerUuid, requestBody)
+
+            if (!response.isSuccessful) {
+                if (response.code() >= 500) {
+                    throw Exception("Server Error !")
+                }
+                if (response.code() == 401) {
+                    throw Exception("Please re-login and try again !")
+                }
+                throw Exception("Something went wrong !")
+            }
+            Resource.success(data = response.body()!!)
+
 
         } catch (e: Exception) {
             e.printStackTrace()

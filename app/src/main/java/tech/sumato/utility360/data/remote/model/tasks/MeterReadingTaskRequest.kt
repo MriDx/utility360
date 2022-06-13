@@ -20,7 +20,7 @@ data class MeterReadingTaskRequest(
 
     fun toJson(): JSONObject {
         return JSONObject().apply {
-            put("meter_readings", meter_readings)
+            put("meter_readings", meter_readings.toInt())
             put("date_of_billing", date_of_billing)
             put("meter_image", meter_image)
             put("lat_long", lat_long)
