@@ -77,7 +77,7 @@
     <string name="mif_cameraPermissionNegativeBtn">Cancel</string>
     <string name="mif_cameraPermissionAlreadyAskedTitle">Allow use of Camera Permission</string>
     <string name="mif_cameraPermissionAlreadyAskedMessage">It seems you have been asked to allow Camera permission already and you denied.
-As it is really important to upload Meter and Site image for Meter Installation, you can allow Camera permission from App settings and proceed.</string>
+As it is mandatory to upload Meter and Site image for Meter Installation, you can allow Camera permission from App settings and proceed.</string>
     <string name="mif_cameraPermissionAlreadyAskedNegativeBtn">Cancel</string>
 
 

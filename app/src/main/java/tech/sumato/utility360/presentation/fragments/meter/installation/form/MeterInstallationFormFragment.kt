@@ -84,23 +84,6 @@ class MeterInstallationFormFragment : Fragment() {
             //granted , open camera
         }
 
-    /*@NotInUse
-    private val meterImageCaptureLauncher =
-        registerForActivityResult(CustomCameraContract()) { result ->
-            if (result.success) {
-                //val capturedImage = File(result.file)
-                addWatermarks(capturedResult = result, type = "meter_image")
-            }
-        }
-
-    @NotInUse
-    private val siteImageCaptureLauncher =
-        registerForActivityResult(CustomCameraContract()) { result ->
-            if (result.success) {
-                //val capturedImage = File(result.file)
-                addWatermarks(capturedResult = result, type = "site_image")
-            }
-        }*/
 
     private val meterImageLauncher = registerForActivityResult(CropImageContract()) { cropResult ->
         if (cropResult.isSuccessful) {
@@ -366,7 +349,7 @@ class MeterInstallationFormFragment : Fragment() {
             }
             else -> {
                 if (checkIfAlreadyAskedPermission(
-                        (requireActivity() as MeterInstallationActivity).sharedPreferences,
+                        getParentActivity<MeterInstallationActivity>().sharedPreferences,
                         CAMERA_PERMISSION
                     )
                 ) {
