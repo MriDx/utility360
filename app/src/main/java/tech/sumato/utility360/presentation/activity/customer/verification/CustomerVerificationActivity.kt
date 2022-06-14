@@ -179,10 +179,10 @@ class CustomerVerificationActivity : FragmentHolderActivity() {
 
     private fun showLocationPermissionAlreadyAskedDialog() {
         showDialog(
-            title = getString(R.string.meterReadingLocationPermissionAlreadyAskedTitle),
-            message = getString(R.string.meterReadingLocationPermissionAlreadyAskedMessage),
+            title = getString(R.string.sva_locationPermissionAlreadyAskedTitle),
+            message = getString(R.string.sva_locationPermissionAlreadyAskedMessage),
             positiveBtn = getString(R.string.appSettings),
-            negativeBtn = getString(R.string.meterReadingLocationPermissionAlreadyAskedCancelBtn),
+            negativeBtn = getString(R.string.sva_locationPermissionAlreadyAskedNegativeBtn),
             showNegativeBtn = true,
             cancellable = false
         ) { d, i ->
@@ -200,10 +200,10 @@ class CustomerVerificationActivity : FragmentHolderActivity() {
 
     private fun showLocationServicePermissionDialog() {
         showDialog(
-            title = getString(R.string.meterReadingLocationPermissionTitle),
-            message = getString(R.string.meterReadingLocationPermissionMessage),
-            positiveBtn = getString(R.string.meterReadingLocationPermissionPositiveBtn),
-            negativeBtn = getString(R.string.meterReadingLocationPermissionNegativeBtn),
+            title = getString(R.string.sva_locationPermissionTitle),
+            message = getString(R.string.sva_locationPermissionMessage),
+            positiveBtn = getString(R.string.sva_locationPermissionPositiveBtn),
+            negativeBtn = getString(R.string.sva_locationPermissionNegativeBtn),
             showNegativeBtn = true,
             cancellable = false
         ) { d, i ->

@@ -12,6 +12,7 @@ import javax.inject.Inject
 
 const val LOCATION_PERMISSION = "location_permission"
 const val CAMERA_PERMISSION = "camera_permission"
+const val STORAGE_PERMISSION = "storage_permission"
 
 fun checkIfAlreadyAskedPermission(
     sharedPreferences: SharedPreferences,

@@ -128,7 +128,19 @@ As it is really important to upload Meter image for Meter Reading, you can allow
 
 
     <!-- customer verification activity / site verification activity -->
+    <!-- sva => Site verification activity -->
     <string name="siteVerificationActivityTitle">Site verification</string>
+    <string name="sva_locationPermissionTitle">Allow use of Location Permission usage ?</string>
+    <string name="sva_locationPermissionMessage">Customer\'s Site Verifications process needs to access Field user\'s current location for better tracking and transparency.
+Kindly allow use of Location Service and proceed.</string>
+    <string name="sva_locationPermissionPositiveBtn">Continue</string>
+    <string name="sva_locationPermissionNegativeBtn">Cancel</string>
+
+    <string name="sva_locationPermissionAlreadyAskedTitle">Allow use of Location Permission usage ?</string>
+    <string name="sva_locationPermissionAlreadyAskedMessage">It seems you have been asked to allow Location permission already and you denied.
+As it is mandatory to have Field user\'s current location for Site Verification, you can allow Location permission from App settings and proceed.</string>
+    <string name="sva_locationPermissionAlreadyAskedNegativeBtn">Cancel</string>
+
 
     <!-- site verification fragment -->
     <!-- svf => site verification fragment -->
@@ -144,6 +156,15 @@ As it is really important to upload Meter image for Meter Reading, you can allow
     <string name="svf_siteRecommendationHeading">I recommend this site for connection.</string>
     <string name="svf_submit">Submit</string>
     <string name="retry">Retry</string>
+
+    <string name="svf_permissionsRationalTitle">Allow required permissions</string>
+    <string name="svf_permissionsRationalMessage">It is mandatory to upload customer\'s Site image in order to complete Site Verification. Thus you need to allow Camera and Storage permission to store or retrieve images from storage.</string>
+    <string name="svf_permissionsRationalPositiveBtn">Continue</string>
+    <string name="svf_permissionsRationalNegativeBtn">Cancel</string>
+
+    <string name="svf_permissionsAlreadyAskedTitle">Allow required permissions</string>
+    <string name="svf_permissionsAlreadyAskedMessage">It seems that you have already asked to allow Camera and Storage permission and you denied. Please allow Camera and Storage in order to capture or select image from gallery to complete Customer\'s Site verification.</string>
+    <string name="svf_permissionsAlreadyAskedNegativeBtn">Cancel</string>
 
 
 </resources>
