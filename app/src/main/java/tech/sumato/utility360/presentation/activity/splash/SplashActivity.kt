@@ -32,12 +32,6 @@ class SplashActivity : BaseActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.splash_activity)
 
 
-        val k = "hello/123"
-
-        Log.d("mridx", "onCreate: ${k.encode(charset = Charsets.UTF_8)}")
-
-        Log.d("mridx", "onCreate: ${k.replace("/", "%2F")}  ")
-
 
         lifecycleScope.launch(Dispatchers.Default) {
             delay(SPLASH_DURATION)

@@ -361,7 +361,7 @@ class MeterReadingFragment : Fragment() {
     }
 
     private fun <T> getParentActivity(): T {
-        return (requireActivity() as MeterReadingActivity) as T
+        return requireActivity() as T
     }
 
 
@@ -372,8 +372,7 @@ class MeterReadingFragment : Fragment() {
      */
     /*private fun submitMeterReading() {
         viewModel.submitMeterReading()
-    }
-*/
+    }*/
 
     private fun showSnackbar(message: String) {
         Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
