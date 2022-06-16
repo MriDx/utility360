@@ -35,10 +35,7 @@ import tech.sumato.utility360.data.remote.model.user.UserResource
 import tech.sumato.utility360.data.remote.web_service.services.ApiHelper
 import tech.sumato.utility360.data.remote.web_service.services.ApiHelperImpl
 import tech.sumato.utility360.data.remote.web_service.services.ApiService
-import tech.sumato.utility360.data.utils.HomeFragmentActionData
-import tech.sumato.utility360.data.utils.ProfileActionData
-import tech.sumato.utility360.data.utils.getHomeFragmentActions
-import tech.sumato.utility360.data.utils.getProfileActions
+import tech.sumato.utility360.data.utils.*
 import tech.sumato.utility360.izzy_parser_wrapper.MyIzzy
 import tech.sumato.utility360.izzy_parser_wrapper.MyIzzyConverter
 import tech.sumato.utility360.utils.*
@@ -235,10 +232,13 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideFirebaseStorage() : FirebaseStorage {
+    fun provideFirebaseStorage(): FirebaseStorage {
         return Firebase.storage
     }
 
+
+    @Provides
+    fun provideSettingsItems(): List<SettingsItemData> = settingsItems()
 
 
 }

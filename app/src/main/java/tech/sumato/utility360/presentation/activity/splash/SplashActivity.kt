@@ -5,12 +5,16 @@ import android.os.Bundle
 import android.util.Log
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.ktx.logEvent
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okio.ByteString.Companion.encode
+import org.json.JSONObject
 import tech.sumato.utility360.R
 import tech.sumato.utility360.databinding.SplashActivityBinding
 import tech.sumato.utility360.presentation.activity.base.BaseActivity
@@ -30,8 +34,6 @@ class SplashActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.splash_activity)
-
-
 
         lifecycleScope.launch(Dispatchers.Default) {
             delay(SPLASH_DURATION)

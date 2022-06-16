@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -22,9 +23,11 @@ import tech.sumato.utility360.databinding.ProfileActionItemViewBinding
 import tech.sumato.utility360.databinding.ProfileFragmentBinding
 import tech.sumato.utility360.databinding.ProfileInfoItemViewBinding
 import tech.sumato.utility360.presentation.activity.home.HomeActivityViewModel
+import tech.sumato.utility360.presentation.activity.settings.SettingsActivity
 import tech.sumato.utility360.utils.NEGATIVE_BTN
 import tech.sumato.utility360.utils.POSITIVE_BTN
 import tech.sumato.utility360.utils.showDialog
+import tech.sumato.utility360.utils.startActivity
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -139,6 +142,16 @@ class ProfileFragment : Fragment() {
             "logout" -> {
                 showLogoutConfirmDialog()
             }
+            "settings" -> {
+                startActivity(SettingsActivity::class.java)
+            }
+            "password" -> {
+                startActivity(SettingsActivity::class.java, bundle = {
+                    bundleOf(
+                        "from" to "change_password"
+                    )
+                })
+            }
         }
     }
 
@@ -186,7 +199,13 @@ class ProfileFragment : Fragment() {
             Glide.with(requireContext())
                 .asBitmap()
                 .load(userData.photo)
-                .placeholder(PlaceHolderDrawableHelper.getAvatar(requireContext(), userData.name, 0))
+                .placeholder(
+                    PlaceHolderDrawableHelper.getAvatar(
+                        requireContext(),
+                        userData.name,
+                        0
+                    )
+                )
                 .into(binding.avatarView)
 
 

@@ -15,8 +15,7 @@
         />-->
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="29"
-        />
+        android:maxSdkVersion="29" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
@@ -32,8 +31,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppTemplate"
         android:usesCleartextTraffic="true"
-        tools:ignore="UnusedAttribute"
-        >
+        tools:ignore="UnusedAttribute">
 
         <activity
             android:name=".presentation.activity.splash.SplashActivity"
@@ -48,8 +46,7 @@
         <activity
             android:name=".presentation.activity.login.LoginActivity"
             android:theme="@style/Theme.AppTemplate.NoActionBar"
-            android:windowSoftInputMode="adjustResize"
-            />
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".presentation.activity.home.HomeActivity"
@@ -61,14 +58,17 @@
             android:screenOrientation="sensorLandscape"
             android:theme="@style/Theme.AppTemplate.NoActionBar.NoStatusBar" />
 
-        <activity android:name=".presentation.activity.meter.installation.MeterInstallationActivity"
-            android:windowSoftInputMode="adjustResize|adjustPan"
-            />
+        <activity
+            android:name=".presentation.activity.meter.installation.MeterInstallationActivity"
+            android:windowSoftInputMode="adjustResize|adjustPan" />
 
-        <activity android:name=".presentation.activity.customer.verification.CustomerVerificationActivity"
+        <activity
+            android:name=".presentation.activity.customer.verification.CustomerVerificationActivity"
             android:theme="@style/Theme.AppTemplate"
-            android:windowSoftInputMode="adjustResize"
-            />
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity android:name=".presentation.activity.settings.SettingsActivity" />
+
 
         <provider
             android:name="androidx.core.content.FileProvider"

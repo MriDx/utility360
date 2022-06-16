@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import tech.sumato.utility360.databinding.PostSubmitProgressBinding
 import tech.sumato.utility360.presentation.utils.ParentActivity
@@ -53,10 +54,14 @@ open class PostSubmitProgressFragment : Fragment(), ParentActivity {
     open fun showProgressbar() {
         binding.processingProgressbar.isVisible = true
         hidePrimaryBtn()
+        hideSecondaryBtn()
     }
+
 
     open fun hideProgressbar() {
         binding.processingProgressbar.isVisible = false
+        hidePrimaryBtn()
+        hideSecondaryBtn()
     }
 
     open fun setStatusInfo(infoText: String) {
@@ -70,9 +75,23 @@ open class PostSubmitProgressFragment : Fragment(), ParentActivity {
         }.isVisible = true
     }
 
+    open fun showSecondaryBtn(label: String, onClick: View.OnClickListener) {
+        binding.secondaryBtn.apply {
+            text = label
+            setOnClickListener(onClick)
+        }.isVisible = true
+    }
+
     open fun hidePrimaryBtn() {
         binding.primaryBtn.isVisible = false
     }
 
+    private fun hideSecondaryBtn() {
+        binding.secondaryBtn.isVisible = false
+    }
+
+    open fun showSnackbar(message: String) {
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
+    }
 
 }

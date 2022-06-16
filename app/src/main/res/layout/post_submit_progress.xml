@@ -55,19 +55,49 @@
             app:layout_constraintVertical_bias="0" />
 
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/primaryBtn"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="wrap_content"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="24dp"
-            android:visibility="gone"
+            android:gravity="center"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/processingProgressbar"
             app:layout_constraintVertical_bias="0.8"
-            tools:text="Got it" />
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            >
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/secondaryBtn"
+                style="?attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:layout_marginEnd="16dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/processingProgressbar"
+                app:layout_constraintVertical_bias="0.8"
+                tools:text="Got it" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/primaryBtn"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/processingProgressbar"
+                app:layout_constraintVertical_bias="0.8"
+                tools:text="Retry QR association" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

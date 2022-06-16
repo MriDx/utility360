@@ -7,8 +7,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import tech.sumato.utility360.R
 import tech.sumato.utility360.data.utils.FragmentNavigation
 import tech.sumato.utility360.presentation.activity.base.fragment_holder.FragmentHolderActivity
@@ -41,7 +44,15 @@ class MeterInstallationActivity : FragmentHolderActivity() {
                     handleFragmentNavigation(fragmentNavigation = fragmentNavigation)
                 }
             }
+            /*launch {
+                delay(1000 * 3)
+                viewModel.navigate(
+                    fragment = MeterInstallationSubmissionFragment::class.java
+                )
+                viewModel.emulateMeterInstallationSubmission()
+            }*/
         }
+
 
     }
 

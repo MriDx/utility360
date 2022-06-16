@@ -12,14 +12,20 @@ data class ProfileActionData(
 )
 
 
-fun getProfileActions() : List<ProfileActionData> {
+fun getProfileActions(): List<ProfileActionData> {
     return listOf(
         ProfileActionData(
+            icon = R.drawable.ic_baseline_lock_reset_24,
+            heading = "Change password",
+            actionIdentifier = "password",
+            headingRes = R.string.changePassword,
+        ),
+        /*ProfileActionData(
             icon = R.drawable.ic_settings,
             heading = "Settings",
             actionIdentifier = "settings",
             headingRes = R.string.settings,
-        ),
+        ),*/
         ProfileActionData(
             icon = R.drawable.ic_baseline_help_24,
             heading = "Support",

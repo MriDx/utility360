@@ -6,6 +6,8 @@ sealed class ProcessStatus {
     object INITIAL : ProcessStatus()
     object LOADING : ProcessStatus()
     data class Completed(val status: Status) : ProcessStatus()
+    data class CompletedWithException(val status: Status, val primaryBtn: String? = null) :
+        ProcessStatus()
 }
 
 data class PostSubmitProcessData(
@@ -14,5 +16,6 @@ data class PostSubmitProcessData(
 ) {
 
     fun isLoading(): Boolean = processStatus == ProcessStatus.LOADING
+
 
 }

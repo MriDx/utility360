@@ -8,6 +8,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.journeyapps.barcodescanner.ScanContract
+import com.journeyapps.barcodescanner.ScanIntentResult
+import com.journeyapps.barcodescanner.ScanOptions
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -22,6 +25,37 @@ class MeterInstallationSubmissionFragment : PostSubmitProgressFragment() {
 
 
     private val viewModel by activityViewModels<MeterInstallationActivityViewModel>()
+
+    private val qrScannerOptions
+        get() = ScanOptions()
+            .setPrompt("Scan a Meter QR code")
+            .setBeepEnabled(true)
+
+    private val qrScannerLauncher =
+        registerForActivityResult(ScanContract()) { result: ScanIntentResult ->
+            if (result.contents == null) {
+                showSnackbar(message = "Invalid QR Scanned !")
+            } else {
+                //
+                val qr = result.contents
+                handleQrScanned(qrData = qr)
+            }
+        }
+
+
+    private fun handleQrScanned(qrData: String) {
+        // http://pbg-test.sumato.tech/qrcodes/qrdata
+        //todo domain to be dynamic
+        val qrSplitted = qrData.split("/")
+        if (qrSplitted.size != 5 || !qrSplitted[2].contentEquals("pbg-test.sumato.tech")) {
+            showSnackbar(message = "Invalid QR Scanned !")
+            return
+        }
+        //valid qr, let's submit
+        viewModel.submitMeterQr(qrData = qrSplitted.last())
+        //viewModel.emulateMeterQrSubmit(qrData = qrSplitted.last())
+
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +74,10 @@ class MeterInstallationSubmissionFragment : PostSubmitProgressFragment() {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.postSubmitProcessChannel.collect { postSubmitData ->
+                        Log.d(
+                            "mridx",
+                            "onViewCreated: state collected ${postSubmitData.processStatus}"
+                        )
                         setStatusInfo(infoText = postSubmitData.message)
 
                         when (postSubmitData.processStatus) {
@@ -67,6 +105,48 @@ class MeterInstallationSubmissionFragment : PostSubmitProgressFragment() {
                                         })
                                 }
                             }
+                            is ProcessStatus.CompletedWithException -> {
+                                hideProgressbar()
+                                when (postSubmitData.processStatus.status) {
+                                    Status.SUCCESS -> {
+                                        if (postSubmitData.processStatus.primaryBtn == null) {
+                                            showPrimaryBtn(
+                                                label = getString(R.string.misf_postSuccessBtn),
+                                                onClick = {
+                                                    //
+                                                    requireActivity().onBackPressed()
+                                                }
+                                            )
+                                        } else {
+                                            showPrimaryBtn(
+                                                label = postSubmitData.processStatus.primaryBtn,
+                                                onClick = {
+                                                    //
+                                                    openQrScanner()
+                                                }
+                                            )
+                                            showSecondaryBtn(
+                                                label = getString(R.string.misf_postSuccessBtn),
+                                                onClick = {
+                                                    //
+                                                    requireActivity().onBackPressed()
+                                                }
+                                            )
+
+                                        }
+
+                                    }
+                                    Status.FAILED -> {
+                                        showPrimaryBtn(
+                                            label = getString(R.string.misf_postFailureBtn),
+                                            onClick = {
+                                                //
+                                                requireActivity().onBackPressed()
+                                            }
+                                        )
+                                    }
+                                }
+                            }
                             else -> {
 
                             }
@@ -76,6 +156,11 @@ class MeterInstallationSubmissionFragment : PostSubmitProgressFragment() {
             }
         }
 
+    }
+
+
+    private fun openQrScanner() {
+        qrScannerLauncher.launch(qrScannerOptions)
     }
 
 

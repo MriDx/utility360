@@ -1,5 +1,6 @@
 package tech.sumato.utility360.presentation.utils
 
+import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.Job
@@ -27,8 +28,9 @@ open class PostSubmitProcessViewModel : ViewModel() {
         return false
     }
 
-    fun notifyInProgress() {
-        postSubmitProcessSendChannel.trySend(
+    suspend fun notifyInProgress() {
+        Log.d("mridx", "notifyInProgress: came to notify progress")
+        postSubmitProcessSendChannel.send(
             PostSubmitProcessData(
                 processStatus = ProcessStatus.LOADING,
                 message = "Your request is being processed"
@@ -58,11 +60,35 @@ open class PostSubmitProcessViewModel : ViewModel() {
         postSubmissionStatus.notifyChange()
     }
 
+    fun notifyJobCompletedWithException(
+        status: Status,
+        message: String,
+        primaryBtn: String? = null
+    ) {
+        postSubmitProcessSendChannel.trySend(
+            PostSubmitProcessData(
+                processStatus = ProcessStatus.CompletedWithException(
+                    status = status,
+                    primaryBtn = primaryBtn
+                ),
+                message = message
+            )
+        )
+        postSubmissionStatus.set(
+            postSubmissionStatus.get()
+                ?.copy(
+                    processStatus = ProcessStatus.CompletedWithException(
+                        status = status,
+                        primaryBtn = primaryBtn
+                    )
+                )
+        )
+        postSubmissionStatus.notifyChange()
+    }
+
     fun startJob() {
         getSubmissionJob()?.start()
     }
-
-
 
 
 }

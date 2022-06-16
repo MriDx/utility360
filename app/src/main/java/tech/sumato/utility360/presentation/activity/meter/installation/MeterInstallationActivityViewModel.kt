@@ -8,10 +8,15 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.ktx.logEvent
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import tech.sumato.utility360.data.local.entity.MeterInstallationEntity
 import tech.sumato.utility360.data.remote.model.tasks.MeterInstallationTaskRequest
@@ -28,6 +33,7 @@ import tech.sumato.utility360.presentation.fragments.base.listing.ListingViewMod
 import tech.sumato.utility360.presentation.utils.Navigation
 import tech.sumato.utility360.utils.METER_INSTALLATION_METER_IMAGE
 import tech.sumato.utility360.utils.METER_INSTALLATION_SITE_IMAGE
+import tech.sumato.utility360.utils.parseException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -44,8 +50,6 @@ class MeterInstallationActivityViewModel @Inject constructor(
 
 
     private var pendingJob: Job? = null
-
-    private var retries = 0
 
     var jobSuccess = false
 
@@ -95,6 +99,37 @@ class MeterInstallationActivityViewModel @Inject constructor(
         }
     }
 
+
+    @Deprecated("use  the live one")
+    fun emulateMeterInstallationSubmission() {
+        pendingJob = viewModelScope.launch(Dispatchers.IO) {
+            try {
+                jobInProgress = true
+                jobSuccess = false
+                notifyInProgress()
+                delay(1000 * 3)
+
+                jobInProgress = false
+                jobSuccess = true
+
+                /*notifyJobComplete(
+                    status = Status.FAILED,
+                    message = "Your request has been completed successfully but Meter QR Association is failed.",
+                )*/
+
+                notifyJobCompletedWithException(
+                    status = Status.SUCCESS,
+                    message = "Your request has been completed successfully but Meter QR Association is failed.",
+                    primaryBtn = "Retry QR Association"
+                )
+            } catch (e: Exception) {
+                e.printStackTrace()
+
+            }
+        }
+    }
+
+
     var jobInProgress = false
     private fun submission() {
         pendingJob = viewModelScope.launch(Dispatchers.IO) {
@@ -139,30 +174,25 @@ class MeterInstallationActivityViewModel @Inject constructor(
                     throw Exception("Request failed !")
                 }
 
-                /*var qrAssociationRetries = 0
-                while (qrAssociationRetries < 3) {
-                    val qrAssociationResponse = meterQRAssociationUseCase(
-                        customerUuid = meterInstallationTaskRequest.customerUuid,
-                        params = meterInstallationTaskRequest.getScannedQRJson()
-                    )
-                    if (qrAssociationResponse.isFailed()) {
-                        qrAssociationRetries ++
-                    }
-                }*/
 
                 val qrAssociationResponse = meterQRAssociationUseCase(
                     customerUuid = meterInstallationTaskRequest.customerUuid,
                     params = meterInstallationTaskRequest.getScannedQRJson()
                 )
 
+                //422 Unprocessable Content http://pbg-test.sumato.tech/api/v1/customers/c3aeaa6e-a942-4556-9e79-b66921c3cbbf/qrcode (140ms)
+                //{"message":"The selected qr code is invalid.","errors":{"qr_code":["The selected qr code is invalid."]}}
+
                 if (qrAssociationResponse.isFailed()) {
                     jobInProgress = false
                     jobSuccess = true
 
-                    notifyJobComplete(
+                    notifyJobCompletedWithException(
                         status = Status.SUCCESS,
-                        message = "Your request has been completed successfully but Meter QR Association is failed."
+                        message = "Meter installation has been completed successfully but Meter QR Association is failed ${if (qrAssociationResponse.message != null) " because of ${qrAssociationResponse.message}" else ""}.",
+                        primaryBtn = "Retry QR Association"
                     )
+
                     return@launch
                 } else {
 
@@ -210,20 +240,133 @@ class MeterInstallationActivityViewModel @Inject constructor(
         .cachedIn(viewModelScope)
 
 
-    /*fun testMeterQr() {
+    //region meter qr asscoation emulation
+    fun emulateMeterQrSubmit(qrData: String) {
         viewModelScope.launch(Dispatchers.IO) {
+            emulateMeterQr(qrData)
+        }
+    }
 
-            val qrAssociationResponse = meterQRAssociationUseCase(
-                customerUuid = "9a97b64c-5796-4b12-8c9b-1ff8f941067c",
-                params = JSONObject().apply {
-                    put("qr_code", "UTILITY76535")
+    var emulateRetries = 1
+    fun emulateMeterQr(qrData: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                jobInProgress = true
+                jobSuccess = false
+
+                notifyInProgress()
+
+                val toPost = JSONObject().apply {
+                    put("qr_code", qrData)
                 }
-            )
 
+
+                delay(1000 * 3)
+
+                Log.d("mridx", "emulateMeterQr: $toPost")
+
+
+                if (emulateRetries == 3) {
+                    jobInProgress = false
+                    jobSuccess = true
+
+
+                    notifyJobComplete(
+                        status = Status.SUCCESS,
+                        message = "Your request has been completed successfully "
+                    )
+                } else {
+                    jobInProgress = false
+                    jobSuccess = false
+
+                    notifyJobCompletedWithException(
+                        status = Status.SUCCESS,
+                        message = "Meter QR Association is failed .",
+                        primaryBtn = "Retry QR Association"
+                    )
+                }
+
+                emulateRetries++
+
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+                cancel(e.message.toString())
+                jobInProgress = false
+                jobSuccess = false
+                emulateRetries++
+                notifyJobComplete(
+                    status = Status.FAILED,
+                    message = "Your request failed for ${e.message} "
+                )
+            }
 
 
         }
-    }*/
+    }
+
+    //endregion
+
+    fun submitMeterQr(qrData: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            submitMeterQrImpl(qrData)
+        }
+    }
+
+    fun submitMeterQrImpl(qrData: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                jobInProgress = true
+                jobSuccess = false
+                notifyInProgress()
+
+                val toPost = JSONObject().apply {
+                    put("qr_code", qrData)
+                }
+
+                val meterInstallationTaskRequest = meterInstallationTaskRequestObject!!
+
+                val qrAssociationResponse = meterQRAssociationUseCase(
+                    customerUuid = meterInstallationTaskRequest.customerUuid,
+                    params = toPost
+                )
+
+                if (qrAssociationResponse.isFailed()) {
+                    jobInProgress = false
+                    jobSuccess = false
+
+                    notifyJobCompletedWithException(
+                        status = Status.SUCCESS,
+                        message = "Meter QR Association is failed ${if (qrAssociationResponse.message != null) " because of ${qrAssociationResponse.message}" else ""}.",
+                        primaryBtn = "Retry QR Association"
+                    )
+                } else {
+
+                    jobInProgress = false
+                    jobSuccess = true
+
+
+                    notifyJobComplete(
+                        status = Status.SUCCESS,
+                        message = "Your request has been completed successfully "
+                    )
+                }
+
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+                cancel(e.message.toString())
+                jobInProgress = false
+                jobSuccess = false
+                notifyJobComplete(
+                    status = Status.FAILED,
+                    message = "Your request failed for ${e.message} "
+                )
+            }
+
+
+        }
+    }
 
 
 }

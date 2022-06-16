@@ -167,6 +167,7 @@ class CustomerVerificationActivityViewModel
         pendingJob = viewModelScope.launch(Dispatchers.IO) {
             try {
                 //
+                jobSuccess = false
                 jobInProgress = true
                 notifyInProgress()
                 //delay(1000 *3)
@@ -198,6 +199,7 @@ class CustomerVerificationActivityViewModel
                 }
 
                 jobInProgress = false
+                jobSuccess = true
 
                 notifyJobComplete(
                     status = Status.SUCCESS,
@@ -208,6 +210,7 @@ class CustomerVerificationActivityViewModel
             } catch (e: Exception) {
                 e.printStackTrace()
                 jobInProgress = false
+                jobSuccess = false
                 notifyJobComplete(
                     status = Status.FAILED,
                     message = "Your request failed for ${e.message} "

@@ -1,5 +1,6 @@
 package tech.sumato.utility360.data.repository.tasks
 
+import com.google.gson.Gson
 import com.undabot.izzy.models.JsonDocument
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -8,14 +9,17 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import tech.sumato.utility360.data.remote.model.customer.CustomerResource
+import tech.sumato.utility360.data.remote.model.utils.ErrorResponse
 import tech.sumato.utility360.data.remote.model.utils.SimpleResponse
 import tech.sumato.utility360.data.remote.utils.Resource
 import tech.sumato.utility360.data.remote.web_service.services.ApiHelper
 import tech.sumato.utility360.domain.repository.tasks.TasksRepository
+import tech.sumato.utility360.utils.parseException
 import javax.inject.Inject
 
 class TasksRepositoryImpl @Inject constructor(
-    private val apiHelper: ApiHelper
+    private val apiHelper: ApiHelper,
+    private val gson: Gson
 ) : TasksRepository {
 
 
@@ -204,14 +208,18 @@ class TasksRepositoryImpl @Inject constructor(
                 if (response.code() == 401) {
                     throw Exception("Please re-login and try again !")
                 }
-                throw Exception("Something went wrong !")
+                val errorResponse = gson.fromJson(
+                    response.errorBody()?.charStream(),
+                    ErrorResponse::class.java
+                )
+                throw Exception(errorResponse.message)
             }
             Resource.success(data = response.body()!!)
 
 
         } catch (e: Exception) {
             e.printStackTrace()
-            Resource.error(message = e.message)
+            Resource.error(message = parseException(e))
         }
     }
 

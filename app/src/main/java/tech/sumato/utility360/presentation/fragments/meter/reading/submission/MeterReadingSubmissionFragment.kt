@@ -58,6 +58,7 @@ class MeterReadingSubmissionFragment : PostSubmitProgressFragment() {
                                         })
                                 }
                             }
+
                             else -> {
 
                             }
