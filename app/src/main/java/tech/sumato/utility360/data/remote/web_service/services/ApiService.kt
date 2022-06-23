@@ -80,4 +80,12 @@ interface ApiService {
         @Body requestBody: RequestBody
     ): Response<SimpleResponse>
 
+
+    @GsonInterface
+    @POST("profiles/change-password")
+    suspend fun changePassword(
+        @Body requestBody: RequestBody
+    ) : Response<SimpleResponse>
+
+
 }

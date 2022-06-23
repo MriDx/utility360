@@ -207,7 +207,7 @@ class MeterReadingActivityViewModel @Inject constructor(
 
 
     fun submitMeterReading(meterReadingTaskRequest: MeterReadingTaskRequest) {
-        pendingJob = viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             val tmpCurrentLocation = currentLocation
 
             meterReadingTaskRequestObject = meterReadingTaskRequest

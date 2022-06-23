@@ -59,4 +59,8 @@ class ApiHelperImpl @Inject constructor(private val apiService: ApiService) : Ap
         requestBody: RequestBody
     ): Response<SimpleResponse> = apiService.qrMeterAssociation(uuid, requestBody)
 
+
+    override suspend fun changePassword(requestBody: RequestBody): Response<SimpleResponse> =
+        apiService.changePassword(requestBody)
+
 }

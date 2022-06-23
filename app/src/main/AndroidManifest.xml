@@ -67,7 +67,9 @@
             android:theme="@style/Theme.AppTemplate"
             android:windowSoftInputMode="adjustResize" />
 
-        <activity android:name=".presentation.activity.settings.SettingsActivity" />
+        <activity android:name=".presentation.activity.settings.SettingsActivity"
+            android:windowSoftInputMode="adjustResize"
+            />
 
 
         <provider

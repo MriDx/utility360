@@ -16,6 +16,8 @@ import kotlinx.coroutines.withContext
 import okio.ByteString.Companion.encode
 import org.json.JSONObject
 import tech.sumato.utility360.R
+import tech.sumato.utility360.data.remote.model.user.ChangePasswordRequest
+import tech.sumato.utility360.data.remote.model.user.SettingsRequest
 import tech.sumato.utility360.databinding.SplashActivityBinding
 import tech.sumato.utility360.presentation.activity.base.BaseActivity
 import tech.sumato.utility360.presentation.activity.login.LoginActivity
@@ -34,6 +36,7 @@ class SplashActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.splash_activity)
+
 
         lifecycleScope.launch(Dispatchers.Default) {
             delay(SPLASH_DURATION)

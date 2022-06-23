@@ -52,4 +52,8 @@ interface ApiHelper {
         requestBody: RequestBody
     ): Response<SimpleResponse>
 
+    suspend fun changePassword(
+        requestBody: RequestBody
+    ): Response<SimpleResponse>
+
 }

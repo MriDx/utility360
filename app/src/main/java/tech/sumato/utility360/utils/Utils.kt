@@ -13,6 +13,8 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import tech.sumato.utility360.BuildConfig
 import java.io.File
 import java.io.FileNotFoundException
@@ -139,4 +141,9 @@ fun View.hideKeyboard() {
     val imm: InputMethodManager =
         context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.hideSoftInputFromWindow(windowToken, 0)
+}
+
+
+fun TextInputEditText.parentLayout(): TextInputLayout {
+    return parent.parent as TextInputLayout
 }

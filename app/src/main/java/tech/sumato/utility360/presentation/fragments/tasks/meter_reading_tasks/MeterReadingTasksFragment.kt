@@ -16,8 +16,7 @@ import tech.sumato.utility360.data.remote.model.customer.CustomerResource
 import tech.sumato.utility360.presentation.activity.meter.reading.MeterReadingActivityViewModel
 import tech.sumato.utility360.presentation.adapter.LoadingStateAdapter
 import tech.sumato.utility360.presentation.fragments.base.listing.ListingFragment
-import tech.sumato.utility360.presentation.fragments.customer.verification.SiteVerificationFragment
-import tech.sumato.utility360.presentation.fragments.meter.reading.MeterReadingFragment
+import tech.sumato.utility360.presentation.fragments.meter.reading.form.MeterReadingFragment
 import tech.sumato.utility360.utils.parseException
 import javax.inject.Inject
 

@@ -2,14 +2,19 @@ package tech.sumato.utility360.data.repository.user
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
 import tech.sumato.utility360.data.local.entity.user.UserEntity
 import tech.sumato.utility360.data.remote.model.user.LoginRequest
 import tech.sumato.utility360.data.remote.model.user.LoginResponse
 import tech.sumato.utility360.data.remote.model.user.UserResponse
+import tech.sumato.utility360.data.remote.model.utils.ErrorResponse
+import tech.sumato.utility360.data.remote.model.utils.SimpleResponse
 import tech.sumato.utility360.data.remote.utils.Resource
 import tech.sumato.utility360.data.remote.web_service.services.ApiHelper
 import tech.sumato.utility360.domain.repository.user.UserRepository
@@ -18,7 +23,8 @@ import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
     private val apiHelper: ApiHelper,
-    private val sharedPreferences: SharedPreferences
+    private val sharedPreferences: SharedPreferences,
+    private val gson: Gson,
 ) : UserRepository {
 
 
@@ -107,5 +113,36 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
+
+    override suspend fun changePassword(params: JSONObject): Resource<SimpleResponse> =
+        withContext(Dispatchers.IO) {
+
+            try {
+
+                val requestBody = params.toString().toRequestBody("application/json".toMediaType())
+
+                val response = apiHelper.changePassword(requestBody = requestBody)
+
+                if (!response.isSuccessful) {
+                    //
+                    if (response.code() == 401) {
+                        //un authorised
+                        throw Exception("Your sessions has expired. Please logout and login again to continue !")
+                    }
+                    val errorResponse =
+                        gson.fromJson(response.errorBody()?.charStream(), ErrorResponse::class.java)
+                    throw Exception(errorResponse.message)
+                }
+
+                Resource.success(
+                    data = response.body()!!
+                )
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Resource.error(message = parseException(e))
+            }
+
+        }
 
 }

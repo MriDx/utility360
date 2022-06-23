@@ -15,9 +15,7 @@ import tech.sumato.utility360.data.local.entity.utils.UIError
 import tech.sumato.utility360.data.remote.model.customer.CustomerResource
 import tech.sumato.utility360.presentation.activity.meter.installation.MeterInstallationActivityViewModel
 import tech.sumato.utility360.presentation.adapter.LoadingStateAdapter
-import tech.sumato.utility360.presentation.fragments.base.listing.ChildListingFragment
 import tech.sumato.utility360.presentation.fragments.base.listing.ListingFragment
-import tech.sumato.utility360.presentation.fragments.customer.verification.SiteVerificationFragment
 import tech.sumato.utility360.presentation.fragments.meter.installation.form.MeterInstallationFormFragment
 import tech.sumato.utility360.utils.parseException
 import javax.inject.Inject

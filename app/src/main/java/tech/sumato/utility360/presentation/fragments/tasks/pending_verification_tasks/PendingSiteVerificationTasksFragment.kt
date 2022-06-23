@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -17,7 +16,7 @@ import tech.sumato.utility360.data.remote.model.customer.CustomerResource
 import tech.sumato.utility360.presentation.activity.customer.verification.CustomerVerificationActivityViewModel
 import tech.sumato.utility360.presentation.adapter.LoadingStateAdapter
 import tech.sumato.utility360.presentation.fragments.base.listing.ListingFragment
-import tech.sumato.utility360.presentation.fragments.customer.verification.SiteVerificationFragment
+import tech.sumato.utility360.presentation.fragments.customer.verification.form.SiteVerificationFragment
 import tech.sumato.utility360.utils.parseException
 import javax.inject.Inject
 

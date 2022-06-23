@@ -22,9 +22,7 @@ import kotlinx.coroutines.launch
 import tech.sumato.utility360.R
 import tech.sumato.utility360.data.utils.FragmentNavigation
 import tech.sumato.utility360.presentation.activity.base.fragment_holder.FragmentHolderActivity
-import tech.sumato.utility360.presentation.fragments.customer.verification.SiteVerificationFragment
 import tech.sumato.utility360.presentation.fragments.customer.verification.submission.SiteVerificationSubmissionFragment
-import tech.sumato.utility360.presentation.fragments.progress.post_submit.PostSubmitProgressFragment
 import tech.sumato.utility360.presentation.fragments.tasks.pending_verification_tasks.PendingSiteVerificationTasksFragment
 import tech.sumato.utility360.utils.*
 import javax.inject.Inject

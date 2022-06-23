@@ -20,7 +20,7 @@ import tech.sumato.utility360.R
 import tech.sumato.utility360.databinding.ProfileInfoItemViewBinding
 import tech.sumato.utility360.databinding.UserFinderFragmentBinding
 import tech.sumato.utility360.presentation.activity.meter.reading.MeterReadingActivityViewModel
-import tech.sumato.utility360.presentation.fragments.meter.reading.MeterReadingFragment
+import tech.sumato.utility360.presentation.fragments.meter.reading.form.MeterReadingFragment
 import tech.sumato.utility360.utils.hideKeyboard
 
 @AndroidEntryPoint

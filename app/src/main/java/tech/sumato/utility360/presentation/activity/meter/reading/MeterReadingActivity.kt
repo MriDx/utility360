@@ -6,8 +6,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
-import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
@@ -24,11 +22,9 @@ import kotlinx.coroutines.launch
 import tech.sumato.utility360.R
 import tech.sumato.utility360.data.utils.FragmentNavigation
 import tech.sumato.utility360.presentation.activity.base.fragment_holder.FragmentHolderActivity
-import tech.sumato.utility360.presentation.fragments.customer.find.FindCustomerFragment
 import tech.sumato.utility360.presentation.fragments.customer.find.FindCustomerFragmentV2
-import tech.sumato.utility360.presentation.fragments.meter.reading.MeterReadingFragment
+import tech.sumato.utility360.presentation.fragments.meter.reading.form.MeterReadingFragment
 import tech.sumato.utility360.presentation.fragments.meter.reading.submission.MeterReadingSubmissionFragment
-import tech.sumato.utility360.presentation.fragments.tasks.meter_reading_tasks.MeterReadingTasksFragment
 import tech.sumato.utility360.utils.*
 import javax.inject.Inject
 

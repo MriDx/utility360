@@ -1,11 +1,10 @@
-package tech.sumato.utility360.presentation.fragments.customer.verification
+package tech.sumato.utility360.presentation.fragments.customer.verification.form
 
 import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Environment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,13 +13,11 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.ObservableField
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.canhub.cropper.CropImageContract
-import com.canhub.cropper.CropImageContractOptions
 import com.canhub.cropper.CropImageView
 import com.canhub.cropper.options
 import com.google.android.material.snackbar.Snackbar
@@ -36,15 +33,12 @@ import tech.sumato.utility360.data.remote.model.customer.CustomerResource
 import tech.sumato.utility360.data.remote.model.tasks.SiteVerificationTaskRequest
 import tech.sumato.utility360.databinding.ProfileInfoItemViewBinding
 import tech.sumato.utility360.databinding.SiteVerificationFragmentBinding
-import tech.sumato.utility360.presentation.activity.camera.CaptureOptions
 import tech.sumato.utility360.presentation.activity.camera.CapturedResult
 import tech.sumato.utility360.presentation.activity.camera.CustomCameraContract
 import tech.sumato.utility360.presentation.activity.camera.utils.compressBitmap
 import tech.sumato.utility360.presentation.activity.customer.verification.CustomerVerificationActivity
 import tech.sumato.utility360.presentation.activity.customer.verification.CustomerVerificationActivityViewModel
-import tech.sumato.utility360.presentation.activity.meter.reading.MeterReadingActivity
 import tech.sumato.utility360.presentation.fragments.customer.verification.submission.SiteVerificationSubmissionFragment
-import tech.sumato.utility360.presentation.fragments.meter.installation.submission.MeterInstallationSubmissionFragment
 import tech.sumato.utility360.utils.*
 import java.io.File
 import java.util.*

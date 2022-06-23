@@ -1,4 +1,4 @@
-package tech.sumato.utility360.presentation.fragments.meter.reading
+package tech.sumato.utility360.presentation.fragments.meter.reading.form
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
@@ -19,7 +18,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.lifecycle.withCreated
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.mridx.watermarkdialog.Data
@@ -27,18 +25,15 @@ import com.mridx.watermarkdialog.Processor
 import com.sumato.etrack_agri.ui.utils.PlaceHolderDrawableHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import tech.sumato.utility360.R
 import tech.sumato.utility360.data.remote.model.customer.CustomerResource
-import tech.sumato.utility360.data.remote.model.meter.MeterReadingResource
 import tech.sumato.utility360.data.remote.model.tasks.MeterReadingTaskRequest
 import tech.sumato.utility360.databinding.MeterReadingFragmentBinding
 import tech.sumato.utility360.databinding.ProfileInfoItemViewBinding
 import tech.sumato.utility360.presentation.activity.camera.CaptureOptions
 import tech.sumato.utility360.presentation.activity.camera.CapturedResult
-import tech.sumato.utility360.presentation.activity.camera.CustomCamera
 import tech.sumato.utility360.presentation.activity.camera.CustomCameraContract
 import tech.sumato.utility360.presentation.activity.camera.utils.compressBitmap
 import tech.sumato.utility360.presentation.activity.meter.reading.MeterReadingActivity
@@ -46,8 +41,6 @@ import tech.sumato.utility360.presentation.activity.meter.reading.MeterReadingAc
 import tech.sumato.utility360.presentation.fragments.meter.reading.submission.MeterReadingSubmissionFragment
 import tech.sumato.utility360.utils.*
 import java.io.File
-import java.text.DateFormat
-import java.time.Instant
 import java.util.*
 
 @AndroidEntryPoint
