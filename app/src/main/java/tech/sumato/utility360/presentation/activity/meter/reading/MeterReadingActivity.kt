@@ -12,7 +12,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.LocationSettingsStatusCodes
@@ -22,8 +24,10 @@ import kotlinx.coroutines.launch
 import tech.sumato.utility360.R
 import tech.sumato.utility360.data.utils.FragmentNavigation
 import tech.sumato.utility360.presentation.activity.base.fragment_holder.FragmentHolderActivity
+import tech.sumato.utility360.presentation.fragments.base.instruction.BaseInstructionFragment
 import tech.sumato.utility360.presentation.fragments.customer.find.FindCustomerFragmentV2
 import tech.sumato.utility360.presentation.fragments.meter.reading.form.MeterReadingFragment
+import tech.sumato.utility360.presentation.fragments.meter.reading.instruction.MeterReadingInstructionFragment
 import tech.sumato.utility360.presentation.fragments.meter.reading.submission.MeterReadingSubmissionFragment
 import tech.sumato.utility360.utils.*
 import javax.inject.Inject
@@ -56,32 +60,39 @@ class MeterReadingActivity : FragmentHolderActivity() {
 
         addDefaultFragment()
 
-        super.setActionBarTitle(getString(R.string.meterReadingActivityTitle_FindCustomer))
+        super.setActionBarTitle(getString(R.string.meterReadingActivityTitle_MeterReading))
 
 
         lifecycleScope.launch {
-            launch {
-                viewModel.navigation.collectLatest { fragmentNavigation ->
-                    handleFragmentNavigation(fragmentNavigation)
-                }
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.navigation.collectLatest { fragmentNavigation ->
+                        handleFragmentNavigation(fragmentNavigation)
+                    }
 
-            }
-            launch {
-                viewModel.gpsResultFlow.collectLatest { gpsResult ->
-                    if (gpsResult.exception != null) {
-                        val statusCode = (gpsResult.exception as ApiException).statusCode
-                        when (statusCode) {
-                            LocationSettingsStatusCodes.RESOLUTION_REQUIRED -> {
-                                (gpsResult.exception as? ResolvableApiException)?.startResolutionForResult(
-                                    this@MeterReadingActivity,
-                                    GPS_RESOLUTION_REQUEST
-                                )
-                            }
-                            LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE -> {
-                                //open settings
-                                // TODO: handle by opening settings
+                }
+                launch {
+                    viewModel.gpsResultFlow.collectLatest { gpsResult ->
+                        if (gpsResult.exception != null) {
+                            val statusCode = (gpsResult.exception as ApiException).statusCode
+                            when (statusCode) {
+                                LocationSettingsStatusCodes.RESOLUTION_REQUIRED -> {
+                                    (gpsResult.exception as? ResolvableApiException)?.startResolutionForResult(
+                                        this@MeterReadingActivity,
+                                        GPS_RESOLUTION_REQUEST
+                                    )
+                                }
+                                LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE -> {
+                                    //open settings
+                                    // TODO: handle by opening settings
+                                }
                             }
                         }
+                    }
+                }
+                launch {
+                    viewModel.instructionAccepted.collectLatest { accepted ->
+                        handleInstructionAcceptance(accepted)
                     }
                 }
             }
@@ -90,6 +101,18 @@ class MeterReadingActivity : FragmentHolderActivity() {
         checkLocationPermission()
 
 
+    }
+
+    private fun handleInstructionAcceptance(accepted: Boolean) {
+        if (accepted) return
+        //show instructions fragment
+        navigateToInstructionsFragment()
+    }
+
+    private fun navigateToInstructionsFragment() {
+        viewModel.navigate(
+            fragment = MeterReadingInstructionFragment::class.java
+        )
     }
 
 
@@ -195,9 +218,20 @@ class MeterReadingActivity : FragmentHolderActivity() {
                 arguments = fragmentNavigation.args
             }
         } else fragmentNavigation.fragment
+        val addToBackStack = when (tmpFragment) {
+            is FindCustomerFragmentV2 -> {
+                setActionBarTitle(getString(R.string.meterReadingActivityTitle_FindCustomer))
+                false
+            }
+            is BaseInstructionFragment -> {
+                setActionBarTitle(getString(R.string.meterReadingActivityTitle_MeterReading))
+                false
+            }
+            else -> true
+        }
         addFragment(
             fragment = tmpFragment,
-            addToBackStack = true,
+            addToBackStack = addToBackStack,
             replace = true
         )
     }
@@ -224,6 +258,10 @@ class MeterReadingActivity : FragmentHolderActivity() {
             }
             is MeterReadingSubmissionFragment -> {
                 supportActionBar?.hide()
+            }
+            is MeterReadingInstructionFragment -> {
+                setActionBarTitle("Instructions")
+                supportActionBar?.show()
             }
             else -> {
                 setActionBarTitle(getString(R.string.meterReadingActivityTitle_FindCustomer))

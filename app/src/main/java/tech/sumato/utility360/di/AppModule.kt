@@ -24,8 +24,8 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import tech.sumato.utility360.data.local.AppDao
-import tech.sumato.utility360.data.local.AppDatabase
+import tech.sumato.utility360.data.local.db.AppDao
+import tech.sumato.utility360.data.local.db.AppDatabase
 import tech.sumato.utility360.data.remote.model.customer.CustomerResource
 import tech.sumato.utility360.data.remote.model.grographical.GeographicalAreaResource
 import tech.sumato.utility360.data.remote.model.meter.MeterInstallationResource

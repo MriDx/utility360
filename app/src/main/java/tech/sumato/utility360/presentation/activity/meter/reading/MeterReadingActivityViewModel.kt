@@ -3,17 +3,21 @@ package tech.sumato.utility360.presentation.activity.meter.reading
 import android.location.Location
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import tech.sumato.utility360.data.local.model.instructions.InstructionItemModel
+import tech.sumato.utility360.data.local.model.instructions.InstructionItemsModel
 import tech.sumato.utility360.data.remote.model.customer.CustomerResource
 import tech.sumato.utility360.data.remote.model.tasks.MeterReadingTaskRequest
 import tech.sumato.utility360.data.remote.utils.Status
@@ -22,6 +26,9 @@ import tech.sumato.utility360.data.utils.FragmentNavigation
 import tech.sumato.utility360.domain.use_case.customer.GetCustomerUseCase
 import tech.sumato.utility360.domain.use_case.customer.GetCustomersWithDocumentUseCase
 import tech.sumato.utility360.domain.use_case.firebase.FirebaseImageUploaderUseCase
+import tech.sumato.utility360.domain.use_case.instruction.CheckIfInstructionAcceptedUseCase
+import tech.sumato.utility360.domain.use_case.instruction.GetInstructionsUseCase
+import tech.sumato.utility360.domain.use_case.instruction.UpdateInstructionItemUseCase
 import tech.sumato.utility360.domain.use_case.location.EnableGpsUseCase
 import tech.sumato.utility360.domain.use_case.location.GnssStatusListenerUseCase
 import tech.sumato.utility360.domain.use_case.location.GpsResult
@@ -30,7 +37,6 @@ import tech.sumato.utility360.domain.use_case.tasks.SubmitMeterReadingUseCase
 import tech.sumato.utility360.presentation.fragments.base.listing.ListingViewModel
 import tech.sumato.utility360.presentation.fragments.customer.find.FindCustomerFragment
 import tech.sumato.utility360.presentation.utils.Navigation
-import tech.sumato.utility360.presentation.utils.PostSubmitProcessViewModel
 import tech.sumato.utility360.utils.METER_READING_METER_IMAGE
 import tech.sumato.utility360.utils.NotInUse
 import tech.sumato.utility360.utils.NotWorking
@@ -46,8 +52,10 @@ class MeterReadingActivityViewModel @Inject constructor(
     private val firebaseImageUploaderUseCase: FirebaseImageUploaderUseCase,
     private val submitMeterReadingUseCase: SubmitMeterReadingUseCase,
     private val getCustomerUseCase: GetCustomerUseCase,
-
-    ) : ListingViewModel(), Navigation {
+    private val checkIfInstructionAcceptedUseCase: CheckIfInstructionAcceptedUseCase,
+    private val getInstructionsUseCase: GetInstructionsUseCase,
+    private val updateInstructionItemUseCase: UpdateInstructionItemUseCase,
+) : ListingViewModel(), Navigation {
 
 
     private var navigation_ = MutableSharedFlow<FragmentNavigation>()
@@ -61,12 +69,53 @@ class MeterReadingActivityViewModel @Inject constructor(
     private var lastMeterReadingFlow_ = MutableSharedFlow<CustomerResource>()
     val lastMeterReadingFlow: SharedFlow<CustomerResource> = lastMeterReadingFlow_
 
+    private var instructionAccepted_ = Channel<Boolean>()
+    val instructionAccepted = instructionAccepted_.receiveAsFlow()
+
+    private var instructions_ = Channel<InstructionItemsModel>()
+    val instructions = instructions_.receiveAsFlow()
+
 
     var jobInProgress = false
     var pendingJob: Job? = null
     var jobSuccess: Boolean = false
     var meterReadingTaskRequestObject: MeterReadingTaskRequest? = null
 
+
+    init {
+        checkIfInstructionAccepted()
+        //updateAllUnselect()
+    }
+
+    private fun updateAllUnselect() {
+        viewModelScope.launch(Dispatchers.IO) {
+            updateInstructionItemUseCase.updateAllUnSelect()
+        }
+    }
+
+    private fun checkIfInstructionAccepted() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val accepted = checkIfInstructionAcceptedUseCase(type = "meter_reading")
+            instructionAccepted_.send(accepted)
+        }
+    }
+
+    fun getInstructions() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val instructionItemsModel = getInstructionsUseCase.byType(type = "meter_reading")
+            instructions_.send(instructionItemsModel)
+        }
+    }
+
+    fun updateItemAccepted(item: InstructionItemModel) {
+        viewModelScope.launch(Dispatchers.IO) {
+            withContext(Dispatchers.Default) {
+                updateInstructionItemUseCase.updateItem(
+                    item
+                )
+            }
+        }
+    }
 
     /**
      * checks if gps enable and if not
