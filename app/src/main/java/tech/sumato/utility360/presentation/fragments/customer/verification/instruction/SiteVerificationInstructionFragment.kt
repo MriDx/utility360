@@ -1,4 +1,4 @@
-package tech.sumato.utility360.presentation.fragments.meter.reading.instruction
+package tech.sumato.utility360.presentation.fragments.customer.verification.instruction
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -17,27 +18,19 @@ import tech.sumato.utility360.R
 import tech.sumato.utility360.data.local.model.instructions.InstructionItemModel
 import tech.sumato.utility360.data.local.model.instructions.InstructionItemsModel
 import tech.sumato.utility360.databinding.InstructionItemViewBinding
-import tech.sumato.utility360.presentation.activity.meter.reading.MeterReadingActivityViewModel
+import tech.sumato.utility360.presentation.activity.customer.verification.CustomerVerificationActivityViewModel
 import tech.sumato.utility360.presentation.fragments.base.instruction.BaseInstructionFragment
 import tech.sumato.utility360.presentation.fragments.customer.find.FindCustomerFragmentV2
 import tech.sumato.utility360.presentation.fragments.instruction.instruction_view_dialog.InstructionViewDialogFragment
+import tech.sumato.utility360.presentation.fragments.tasks.pending_verification_tasks.PendingSiteVerificationTasksFragment
 
 @AndroidEntryPoint
-class MeterReadingInstructionFragment : BaseInstructionFragment() {
+class SiteVerificationInstructionFragment : BaseInstructionFragment() {
 
 
     lateinit var instructionItemsModel: InstructionItemsModel
 
-    private val viewModel by activityViewModels<MeterReadingActivityViewModel>()
-
-
-    /* override fun onCreate(savedInstanceState: Bundle?) {
-         super.onCreate(savedInstanceState)
-
-         instructionItemsModel = arguments?.getParcelable<InstructionItemsModel>("data")
-             ?: throw Exception("Instruction data not available ")
-
-     }*/
+    private val viewModel by activityViewModels<CustomerVerificationActivityViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -57,24 +50,12 @@ class MeterReadingInstructionFragment : BaseInstructionFragment() {
 
     }
 
-
     private fun renderInstructions() {
         setTitle(title = instructionItemsModel.instructionModel.title)
         setDescription(description = instructionItemsModel.instructionModel.description)
         setInstructionItemSize(size = instructionItemsModel.items.size)
     }
 
-    /*override fun getTitle(): String {
-        return instructionItemsModel.instructionModel.title
-    }
-
-    override fun getDescription(): String {
-        return instructionItemsModel.instructionModel.description
-    }
-
-    override fun getInstructionItemSize(): Int {
-        return instructionItemsModel.items.size
-    }*/
 
     override fun buildInstructionItemView(parent: ViewGroup, index: Int): View {
         return DataBindingUtil.inflate<InstructionItemViewBinding>(
@@ -98,15 +79,16 @@ class MeterReadingInstructionFragment : BaseInstructionFragment() {
         }
     }
 
+
     private fun showInstructionViewDialog(instructionItem: InstructionItemModel, index: Int) {
         InstructionViewDialogFragment.Builder()
             .setInstructionItem(instructionItem)
-            .showAcceptBtn(show = true)
             .setAcceptListener {
                 instructionAccepted(instructionItem, it, index)
             }.build()
             .show(childFragmentManager, "Instruction view")
     }
+
 
     private fun instructionAccepted(
         instructionItem: InstructionItemModel,
@@ -126,14 +108,6 @@ class MeterReadingInstructionFragment : BaseInstructionFragment() {
 
     }
 
-    private fun handleIfAllAccepted() {
-        val accepted = instructionItemsModel.items.all { it.accepted }
-        if (!accepted) return
-        //all accepted, navigate to meter reading flow
-        viewModel.navigate(
-            fragment = FindCustomerFragmentV2::class.java
-        )
-    }
 
     override fun onContinueClicked() {
         val accepted = instructionItemsModel.items.all { it.accepted }
@@ -141,9 +115,9 @@ class MeterReadingInstructionFragment : BaseInstructionFragment() {
             showSnackbar(message = "Read and accept all instructions/steps before continue !")
             return
         }
-        //all accepted, navigate to meter reading flow
+        //all accepted, navigate to site verification flow
         viewModel.navigate(
-            fragment = FindCustomerFragmentV2::class.java
+            fragment = PendingSiteVerificationTasksFragment::class.java
         )
     }
 

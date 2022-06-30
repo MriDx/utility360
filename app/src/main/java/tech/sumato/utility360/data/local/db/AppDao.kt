@@ -66,5 +66,9 @@ interface AppDao {
     @Query("SELECT * FROM ${InstructionModel.TABLE_NAME} WHERE type = :type")
     fun getInstructionsByType(type: String): InstructionItemsModel
 
+    @Transaction
+    @Query("SELECT * FROM ${InstructionModel.TABLE_NAME}")
+    fun getAllInstructions(): List<InstructionItemsModel>
+
 
 }

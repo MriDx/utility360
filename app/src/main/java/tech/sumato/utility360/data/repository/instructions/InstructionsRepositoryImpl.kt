@@ -106,6 +106,11 @@ class InstructionsRepositoryImpl @Inject constructor(
 
     }
 
+    override suspend fun getInstructions(): List<InstructionItemsModel> {
+        return withContext(Dispatchers.IO) {
+            appDao.getAllInstructions()
+        }
+    }
 
 
 }

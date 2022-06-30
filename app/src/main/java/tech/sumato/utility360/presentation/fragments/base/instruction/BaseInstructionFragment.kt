@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
@@ -86,6 +87,14 @@ abstract class BaseInstructionFragment : Fragment() {
     }
 
     abstract fun onContinueClicked()
+
+    open fun hideContinueBtn() {
+        binding.continueBtn.isVisible = false
+    }
+
+    open fun showContinueBtn() {
+        binding.continueBtn.isVisible = true
+    }
 
     open fun showSnackbar(message: String) {
         Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()

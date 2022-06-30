@@ -27,6 +27,11 @@ class InstructionViewDialogFragment : BottomSheetDialogFragment() {
             return this
         }
 
+        fun showAcceptBtn(show: Boolean = true): Builder {
+            args.putBoolean("accept_btn", show)
+            return this
+        }
+
         fun setAcceptListener(listener: (accepted: Boolean) -> Unit): Builder {
             acceptanceListener = listener
             return this
@@ -73,7 +78,13 @@ class InstructionViewDialogFragment : BottomSheetDialogFragment() {
         binding.titleView.text = instructionItemEntity.title
         binding.descriptionView.text = instructionItemEntity.description
 
-        binding.acceptBtn.isVisible = !instructionItemEntity.accepted
+        val acceptBtn = arguments?.getBoolean("accept_btn")
+
+        if (!acceptBtn!!) {
+            binding.acceptBtn.isVisible = acceptBtn
+        } else {
+            binding.acceptBtn.isVisible = !instructionItemEntity.accepted
+        }
 
         binding.acceptBtn.setOnClickListener {
             acceptanceListener?.invoke(true)

@@ -51,6 +51,7 @@
         <activity
             android:name=".presentation.activity.home.HomeActivity"
             android:theme="@style/Theme.AppTemplate.NoActionBar" />
+
         <activity android:name=".presentation.activity.meter.reading.MeterReadingActivity" />
 
         <activity
@@ -67,10 +68,13 @@
             android:theme="@style/Theme.AppTemplate"
             android:windowSoftInputMode="adjustResize" />
 
-        <activity android:name=".presentation.activity.settings.SettingsActivity"
-            android:windowSoftInputMode="adjustResize"
-            />
+        <activity
+            android:name=".presentation.activity.settings.SettingsActivity"
+            android:windowSoftInputMode="adjustResize" />
 
+        <activity
+            android:name=".presentation.activity.instructions.InstructionActivity"
+            android:windowSoftInputMode="adjustResize" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

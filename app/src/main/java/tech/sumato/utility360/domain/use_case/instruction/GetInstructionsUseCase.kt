@@ -6,11 +6,15 @@ import javax.inject.Inject
 
 class GetInstructionsUseCase @Inject constructor(
     private val instructionsRepository: InstructionsRepository
-){
+) {
 
 
-    suspend fun byType(type: String) : InstructionItemsModel {
+    suspend fun byType(type: String): InstructionItemsModel {
         return instructionsRepository.getByType(type = type)
+    }
+
+    suspend fun getAll(): List<InstructionItemsModel> {
+        return instructionsRepository.getInstructions()
     }
 
 }

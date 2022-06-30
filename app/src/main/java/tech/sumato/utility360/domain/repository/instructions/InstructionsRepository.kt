@@ -24,5 +24,7 @@ interface InstructionsRepository {
 
     suspend fun updateAllUnselect()
 
+    suspend fun getInstructions() : List<InstructionItemsModel>
+
 
 }
