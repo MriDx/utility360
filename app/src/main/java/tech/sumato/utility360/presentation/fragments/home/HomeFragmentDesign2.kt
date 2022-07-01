@@ -114,29 +114,6 @@ class HomeFragmentDesign2 : Fragment() {
         }.render()
 
 
-        /*binding.articleHolder.apply {
-
-            setItemCount(5)
-
-            itemBuilder = { parent, index ->
-                DataBindingUtil.inflate<ArticleItemCardBinding>(
-                    LayoutInflater.from(parent.context),
-                    R.layout.article_item_card,
-                    parent,
-                    false
-                ).root
-            }
-
-            itemBinding { holder, index ->
-                DataBindingUtil.bind<ArticleItemCardBinding>(holder.itemView)?.apply {
-
-                }
-            }
-
-            layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
-
-        }.render()*/
-
 
     }
 

@@ -20,6 +20,7 @@ import androidx.core.app.NotificationManagerCompat
 import com.bumptech.glide.Glide
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import tech.sumato.utility360.R
 
 class FCMService : FirebaseMessagingService() {
 
@@ -60,20 +61,33 @@ class FCMService : FirebaseMessagingService() {
     }
 
     private fun createNotification(message: RemoteMessage): Notification {
+        Log.d("mridx", "createNotification: ${message.data}")
+        Log.d("mridx", "createNotification: ${message.notification?.imageUrl}")
         val notificationBuilder = NotificationCompat.Builder(this, notificationChannelId)
         notificationBuilder
-            //.setSmallIcon(R.drawable.ic_ino_logo_dark)
+            .setSmallIcon(R.drawable.ic_stat_utlity_logo)
             .setContentTitle(message.notification?.title)
             .setContentText(message.notification?.body)
             .setAutoCancel(true)
             .setVibrate(createVibration())
             .setLights(Color.RED, 1, 1)
             .setSound(defaultSoundUri())
-            //.setStyle(NotificationCompat.BigTextStyle().bigText(message.notification?.body))
-            .setStyle(
+        val imageUrl: String? = message.notification?.imageUrl?.toString() ?: message.data["image"]
+        if (imageUrl != null) {
+            notificationBuilder.setStyle(
                 NotificationCompat.BigPictureStyle()
-                    .bigPicture(getBitmap(imageUrl = message.data["image"]))
+                    .bigPicture(getBitmap(imageUrl = imageUrl))
             )
+        } else {
+            notificationBuilder.setStyle(
+                NotificationCompat.BigTextStyle().bigText(message.notification?.body)
+            )
+        }
+        //.setStyle(NotificationCompat.BigTextStyle().bigText(message.notification?.body))
+        /*.setStyle(
+            NotificationCompat.BigPictureStyle()
+                .bigPicture(getBitmap(imageUrl = message.data["image"]))
+        )*/
         //.setContentIntent(createIntent(message))
         return notificationBuilder.build()
     }
