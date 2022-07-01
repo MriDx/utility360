@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -22,14 +23,17 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import tech.sumato.utility360.R
 import tech.sumato.utility360.data.local.entity.user.UserEntity
+import tech.sumato.utility360.data.local.model.instructions.InstructionItemsModel
 import tech.sumato.utility360.data.utils.HomeFragmentActionData
 import tech.sumato.utility360.databinding.ArticleItemCardBinding
 import tech.sumato.utility360.databinding.HomeActionItemViewBinding
 import tech.sumato.utility360.databinding.HomeFragmentDesign2Binding
 import tech.sumato.utility360.presentation.activity.customer.verification.CustomerVerificationActivity
 import tech.sumato.utility360.presentation.activity.home.HomeActivityViewModel
+import tech.sumato.utility360.presentation.activity.instructions.InstructionActivity
 import tech.sumato.utility360.presentation.activity.meter.installation.MeterInstallationActivity
 import tech.sumato.utility360.presentation.activity.meter.reading.MeterReadingActivity
+import tech.sumato.utility360.presentation.fragments.meter.reading.instruction.MeterReadingInstructionFragment
 import tech.sumato.utility360.utils.startActivity
 import javax.inject.Inject
 
@@ -74,6 +78,11 @@ class HomeFragmentDesign2 : Fragment() {
                         populateUserData(userData)
                     }
                 }
+                launch {
+                    viewModel.instructions.collectLatest { instructions ->
+                        populateArticles(instructions)
+                    }
+                }
             }
         }
 
@@ -105,7 +114,7 @@ class HomeFragmentDesign2 : Fragment() {
         }.render()
 
 
-        binding.articleHolder.apply {
+        /*binding.articleHolder.apply {
 
             setItemCount(5)
 
@@ -126,9 +135,45 @@ class HomeFragmentDesign2 : Fragment() {
 
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
 
+        }.render()*/
+
+
+    }
+
+    private fun populateArticles(instructions: List<InstructionItemsModel>) {
+        binding.articleHolder.apply {
+            setItemCount(instructions.size)
+            itemBuilder = { parent, index ->
+                DataBindingUtil.inflate<ArticleItemCardBinding>(
+                    LayoutInflater.from(parent.context),
+                    R.layout.article_item_card,
+                    parent,
+                    false
+                ).root
+            }
+
+            itemBinding { holder, index ->
+                val instruction = instructions[index]
+                DataBindingUtil.bind<ArticleItemCardBinding>(holder.itemView)?.apply {
+                    titleView.text = instruction.instructionModel.title
+                    root.setOnClickListener {
+                        startActivity(
+                            Intent(
+                                requireContext(),
+                                InstructionActivity::class.java
+                            ).apply {
+                                putExtras(
+                                    bundleOf(
+                                        "type" to instruction.instructionModel.type
+                                    )
+                                )
+                            })
+                    }
+                }
+            }
+
+            layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
         }.render()
-
-
     }
 
     private fun populateUserData(userData: UserEntity) {
@@ -139,7 +184,13 @@ class HomeFragmentDesign2 : Fragment() {
             Glide.with(requireContext())
                 .asBitmap()
                 .load(userData.photo)
-                .placeholder(PlaceHolderDrawableHelper.getAvatar(requireContext(), userData.name, 0))
+                .placeholder(
+                    PlaceHolderDrawableHelper.getAvatar(
+                        requireContext(),
+                        userData.name,
+                        0
+                    )
+                )
                 .into(avatar)
 
         }

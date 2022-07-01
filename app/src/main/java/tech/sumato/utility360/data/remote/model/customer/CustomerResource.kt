@@ -6,6 +6,7 @@ import com.undabot.izzy.annotations.Relationship
 import com.undabot.izzy.annotations.Type
 import com.undabot.izzy.models.IzzyResource
 import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 import tech.sumato.utility360.data.remote.model.grographical.GeographicalAreaResource
 import tech.sumato.utility360.data.remote.model.meter.MeterInstallationResource
 import tech.sumato.utility360.data.remote.model.site.SiteVerificationResource

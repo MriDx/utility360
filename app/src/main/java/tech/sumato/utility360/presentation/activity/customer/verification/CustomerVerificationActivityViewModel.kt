@@ -19,6 +19,8 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.receiveAsFlow
 import org.json.JSONObject
+import tech.sumato.utility360.data.local.model.instructions.InstructionItemModel
+import tech.sumato.utility360.data.local.model.instructions.InstructionItemsModel
 import tech.sumato.utility360.data.remote.model.tasks.SiteVerificationTaskRequest
 import tech.sumato.utility360.data.remote.utils.Status
 import tech.sumato.utility360.data.remote.web_service.source.customer.CustomerDataSource
@@ -26,6 +28,9 @@ import tech.sumato.utility360.data.remote.web_service.source.tasks.PendingSiteVe
 import tech.sumato.utility360.data.utils.FragmentNavigation
 import tech.sumato.utility360.domain.use_case.customer.GetCustomersWithDocumentUseCase
 import tech.sumato.utility360.domain.use_case.firebase.FirebaseImageUploadUseCase
+import tech.sumato.utility360.domain.use_case.instruction.CheckIfInstructionAcceptedUseCase
+import tech.sumato.utility360.domain.use_case.instruction.GetInstructionsUseCase
+import tech.sumato.utility360.domain.use_case.instruction.UpdateInstructionItemUseCase
 import tech.sumato.utility360.domain.use_case.location.EnableGpsUseCase
 import tech.sumato.utility360.domain.use_case.location.GpsResult
 import tech.sumato.utility360.domain.use_case.location.LocationUpdatesUseCase
@@ -45,6 +50,9 @@ class CustomerVerificationActivityViewModel
     private val enableGpsUseCase: EnableGpsUseCase,
     private val firebaseImageUploadUseCase: FirebaseImageUploadUseCase,
     private val submitSiteVerificationUseCase: SubmitSiteVerificationUseCase,
+    private val checkIfInstructionAcceptedUseCase: CheckIfInstructionAcceptedUseCase,
+    private val getInstructionsUseCase: GetInstructionsUseCase,
+    private val updateInstructionItemUseCase: UpdateInstructionItemUseCase,
 ) : ListingViewModel(), Navigation {
 
 
@@ -57,17 +65,34 @@ class CustomerVerificationActivityViewModel
 
     private var siteVerificationTaskRequestObject: SiteVerificationTaskRequest? = null
 
+    private var instructionAccepted_ = Channel<Boolean>()
+    val instructionAccepted = instructionAccepted_.receiveAsFlow()
+
+    private var instructions_ = Channel<InstructionItemsModel>()
+    val instructions = instructions_.receiveAsFlow()
+
     var jobInProgress: Boolean = false
     var jobSuccess: Boolean = false
 
+    init {
+        //checkIfInstructionAccepted()
+        //updateAllUnselect()
+    }
 
-    fun getCustomers(query: MutableMap<String, String> = mutableMapOf()) = Pager(
+    private fun updateAllUnselect() {
+        viewModelScope.launch(Dispatchers.IO) {
+            updateInstructionItemUseCase.updateAllUnSelect()
+        }
+    }
+
+
+    /*fun getCustomers(query: MutableMap<String, String> = mutableMapOf()) = Pager(
         config = PagingConfig(pageSize = 2, prefetchDistance = 2),
         pagingSourceFactory = {
             CustomerDataSource(getCustomersWithDocumentUseCase, query = query)
         })
         .flow
-        .cachedIn(viewModelScope)
+        .cachedIn(viewModelScope)*/
 
     fun getPendingSiteVerifications() = Pager(
         config = PagingConfig(pageSize = 2, prefetchDistance = 2),
@@ -120,6 +145,31 @@ class CustomerVerificationActivityViewModel
             submission()
 
 
+        }
+    }
+
+
+    private fun checkIfInstructionAccepted() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val accepted = checkIfInstructionAcceptedUseCase(type = "fire")
+            instructionAccepted_.send(accepted)
+        }
+    }
+
+    fun getInstructions() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val instructionItemsModel = getInstructionsUseCase.byType(type = "fire")
+            instructions_.send(instructionItemsModel)
+        }
+    }
+
+    fun updateItemAccepted(item: InstructionItemModel) {
+        viewModelScope.launch(Dispatchers.IO) {
+            withContext(Dispatchers.Default) {
+                updateInstructionItemUseCase.updateItem(
+                    item
+                )
+            }
         }
     }
 

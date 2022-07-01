@@ -8,7 +8,7 @@
     </data>
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/insCard1"
+        android:id="@+id/insCard"
         android:layout_width="120dp"
         android:layout_height="194dp"
         android:layout_margin="5dp"
@@ -36,7 +36,9 @@
                 android:maxLines="2"
                 android:textColor="@color/secondaryTextColor"
                 android:textSize="12sp"
-                android:text="Read instruction for meter reading" />
+                tools:text="Read instruction for meter reading"
+                android:id="@+id/titleView"
+                />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

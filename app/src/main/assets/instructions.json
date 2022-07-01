@@ -1,0 +1,96 @@
+[
+  {
+    "type": "fire",
+    "title": "Fire safety for natural gas",
+    "desc": "Pipes or appliances powered by natural gas can develop leaks, which can have potentially negative effects. It’s important to be able to identify natural gas leak symptoms and to know what to do if you have a gas leak. If you detect any of the following signs of a natural gas leak in your house or think you have been exposed, contact PBGPL immediately.",
+    "items": [
+      {
+        "title": "The smell of rotten eggs",
+        "desc": "In its natural state, natural gas is odorless and colorless. To make gas leaks easier to detect, gas companies add chemicals called deodorants to create a natural gas smell similar to sulphur or rotting eggs. The stronger this smell, the more likely it is that you have a gas leak. You may get a slight whiff of this smell when turning on an older gas grill, but most energy-efficient grills made in the last 15 years should not produce an odor."
+      },
+      {
+        "title": "Hissing sounds",
+        "desc": "Large gas leaks in pipes or appliances may produce hissing noises, even if the appliance is turned off. Check pipes and appliances regularly, listening for any hissing noises."
+      },
+      {
+        "title": "Air bubbles outside your home",
+        "desc": "Natural gas leaks can also occur in underground piping outside the home. If you see bubbles in standing water—including puddles and mud—it may be a sign of natural gas dispersing through the soil and into the surrounding air."
+      },
+      {
+        "title": "Dead or dying plants",
+        "desc": "Dead, dying or stunted plants inside or outside your home can be a potential sign of a natural gas leak in your home, especially if you’ve been taking proper care of your plants. The presence of natural gas prevents a plant’s roots from absorbing oxygen and can lead to wilting. Natural gas leaks can also cause smaller-than-normal leaves on trees, wilted plants and yellowish patches of grass."
+      },
+      {
+        "title": "Physical symptoms of natural gas poisoning",
+        "desc": "Symptoms of exposure to low levels of natural gas include headaches, dizziness, fatigue, nausea and irregular breathing. High levels of natural gas exposure can cause natural gas poisoning, which is characterized by fatigue, severe headaches, memory problems, loss of concentration, nausea, loss of consciousness, and suffocation. If you believe you’re experiencing natural gas leak symptoms, contact a healthcare professional as soon as possible."
+      },
+      {
+        "title": "Higher-than-normal gas usage",
+        "desc": "An increase in the amount of natural gas your home uses can indicate a natural gas leak. Seasonal increases in natural gas use is to be expected when using a gas furnace, but unexplained increases might suggest a leak somewhere in or around your home."
+      },
+      {
+        "title": "Know how to shut off natural gas in your home",
+        "desc": "Every home that uses natural gas has a gas shutoff valve, usually outside the house. When making a list of what to do in a gas leak, make sure everyone knows where the shutoff valve is and how to use it. Cutting off the supply of gas prevents additional gas from escaping can prevent exposure to natural gas."
+      }
+    ]
+  },
+  {
+    "type": "meter_reading",
+    "title": "Meter Reader Instructions",
+    "desc": "The billing cycle for the client (PNG service provider) is performed bi monthly. Gas bills are sent out to all customers monthly. In order to accomplish this, all gas meters must be read each month. Employees must use hand held mobile units to input information. The Gas meters reading is performed in each Charge Area.",
+    "items": [
+      {
+        "title": "CYCLES AND TIMELINE",
+        "desc": "The monthly billing cycles consists all the assigned customer to the meter reader. Each charge area contains an average of 150 to 250 accounts. Reading of gas meters for a particular charge area begins on the 1 st of each month. The meter readers are given seven working days to complete all meter readings in that section. All readings must be completed by the end of the 7 th working day in order to make any adjustments or entries to area before bills are printed and sent to customers. All work orders received for area must be completed and entered into the billing before gas bills are printed. Gas bills for each section are printed and mailed to customers on the 15 th of each month."
+      },
+      {
+        "title": "METER READING ASSIGNMENTS",
+        "desc": "The PBGPL has allocated man power (in-house / 3 rd party ) whose specific job is reading meters. These employees are identified as Meter Reader. Each meter reader must be assigned to by the local office and must have a valid ID card provided by PBGPL. The meter readers are assigned specific login with assigned consumer to be read in each section. This assignment will rotate and change quarterly."
+      },
+      {
+        "title": "Missed Reading",
+        "desc": "If a meter reader misses a reading in any section, he is to go to the address of the missed reading and read the meter and enter it into the hand held device. If it is not in the handheld device, he is to call the reading to the billing department. If a missed reading is due to no access, go back to the service location; knock on the door to gain access to the meter. If no response from the residence after several attempts, report to the Local PBGPL office to contact the customer by phone for arrangements to gain access. No service order is needed to obtain a missed reading."
+      },
+      {
+        "title": "Tempered Meter",
+        "desc": "When a meter reader discovers an account with tempered meter in place, a notation with photograph will be entered in the hand held device and on the log sheet provided to the meter reader stating the nature of the damage. This information is given to the billing department. The billing department will generate a service order and present it to the meter service person for further investigation."
+      },
+      {
+        "title": "Faulty Meters",
+        "desc": "When a meter reader discovers an account that appears to have a dead meter, a notation will be entered in the hand held device stating the nature of the issue. This information is presented to the billing department. The billing department will generate a service order and present it to the meter service person for further investigation."
+      },
+      {
+        "title": "Meter Discrepancy",
+        "desc": "Once the reading cycle is completed, the billing department will run a consumption report on the section completed. If an account is observed to be out of the high or low range of that account, the meter reader will return to the service address and get a reading and enter the reading into the hand held device. All re-reads must be entered into the hand held unit before the hand held device is unloaded to the billing system."
+      },
+      {
+        "title": "CYCLE COMPLETION",
+        "desc": "Reading cycle for each section must be completed three days prior to the billing cycle. This is to include readings of all meters initially missed including faulty and misread meters. Meters that were flagged for re-read must be completed."
+      },
+      {
+        "title": "INACCESSIBLE METER",
+        "desc": "Each meters are to be read monthly. In the event the meter is in a in accessible location or reading window is covered with paint, or heavy dust, the meter reader will try to reach the meter , try to remove the dart from meter cover or call service team assistance for providing suitable equipment in order to obtain a meter reading. Once the reading is obtained, the meter reader will request service team must inform the case to the service department to resolve the issue before next billing cycle."
+      },
+      {
+        "title": "QUESTIONABLE READING",
+        "desc": "When reviewing hand held data or billing data by the Local PBGPL office and a questionable reading is observed, the billing department will contact the meter reader for a re-read of the service meter. The billing department will provide the meter reader with a service address. The meter reader will re-read the meter and call the reading back to the billing department immediately. No work order will be necessary for re-reads."
+      },
+      {
+        "title": "SERVICE ORDER",
+        "desc": "All service orders are generated from the billing department. It is the responsibility of the local gas service person(site engineer/ technician) to complete all service orders. A service order will be printed for the replacement of dead meters, when an account is to be turned on or shut off, when a service is to be left active and a read out and read in is performed, new accounts added to the billing section, and for shut offs for final billing. The responsibility of the meter readers is to gather accurate information and present that information to the billing department for the purpose of generating work orders for the meter service person to complete."
+      },
+      {
+        "title": "ACTIVE AND INACTIVE READING",
+        "desc": "All Active and Inactive accounts will be read during the reading cycle. Notations will be entered into the hand helpad device stating the status of an inactive account. The account will be flagged for further investigation."
+      },
+      {
+        "title": "METER READING AND MISCONDUCT",
+        "desc": "When a new meter reader is assigned in a particular section, meter reader must show his identity proof to each and every consumer before taking the reader. If the meter is installed in Holy place like Mandir / Masjid / Church or any other such place meter reader has to follow their rules and regulation to avoid any misunderstanding. If the meter is located inside a house meter reader need to take permission before taking the reading. If any misconduct get reported, meter reader has to report to local PBGPL office and give explanation, if any legal case is filed against the meter reader, PBGPL or the employer (3 rd party ) will not take any responsibility against that individual person."
+      },
+      {
+        "title": "CHECK FOR LEAKAGE",
+        "desc": "It is also a advisable to the meter reader to check for any leak in the consumer site and pipeline. If the meter reader notice any leakage in any place meter reader should immediately notify local PBGPL office for action. Also put a service order request through hand held device."
+      }
+    ]
+  }
+]

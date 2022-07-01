@@ -1,4 +1,4 @@
-package tech.sumato.utility360.data.local
+package tech.sumato.utility360.data.local.db
 
 import android.content.Context
 import androidx.room.Database
@@ -6,8 +6,14 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import tech.sumato.utility360.data.local.model.DemoData
 import dagger.hilt.android.qualifiers.ApplicationContext
+import tech.sumato.utility360.data.local.model.instructions.InstructionItemModel
+import tech.sumato.utility360.data.local.model.instructions.InstructionModel
 
-@Database(entities = [DemoData::class], version = 1, exportSchema = false)
+@Database(
+    entities = [DemoData::class, InstructionModel::class, InstructionItemModel::class],
+    version = 2,
+    exportSchema = false
+)
 abstract class AppDatabase : RoomDatabase() {
 
 

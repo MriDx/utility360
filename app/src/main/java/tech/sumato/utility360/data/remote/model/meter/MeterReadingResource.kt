@@ -1,12 +1,14 @@
 package tech.sumato.utility360.data.remote.model.meter
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import com.undabot.izzy.annotations.Type
 import com.undabot.izzy.models.IzzyResource
 import kotlinx.parcelize.Parcelize
 import tech.sumato.utility360.data.remote.model.utils.CreatedResource
 
 @Parcelize
+@Keep
 @Type("meter_readings")
 data class MeterReadingResource(
     val meter_reading: String? = null,
