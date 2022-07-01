@@ -38,7 +38,11 @@ class UserRepositoryImpl @Inject constructor(
 
                 if (!response.isSuccessful) {
                     //
-                    throw Exception("Something went wrong !")
+                    val errorResponse = gson.fromJson<ErrorResponse>(
+                        response.errorBody()?.charStream(),
+                        ErrorResponse::class.java
+                    )
+                    throw Exception(errorResponse.message)
                 }
 
                 saveUser(loginResponse = response.body()!!.data!!)
